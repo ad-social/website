@@ -10,6 +10,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import IconButton from '@material-ui/core/IconButton';
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -30,6 +34,45 @@ const styles = {
 };
 
 class NavBar extends React.Component {
+  state = {
+    anchorEl: null
+  };
+
+  handleChange = event => {
+    this.setState({ auth: event.target.checked });
+  };
+
+  handleMenu = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleClose = callback => () => {
+    this.setState({ anchorEl: null });
+    if (callback) {
+      callback();
+    }
+  };
+
+  /**
+   * Render the menu buttons when the user is signed in
+   */
+  renderMenuButtons() {
+    const { auth, firebase } = this.props;
+
+    // Don't show anything if auth hasn't loaded yet
+    if (!isLoaded(auth)) {
+      return null;
+    }
+
+    return (
+      <div>
+        <Link href="/dashboard">
+          <Button color="inherit">My Dashboard</Button>
+        </Link>
+      </div>
+    );
+  }
+
   /**
    * Renders auth buttons depending on user's auth state.
    * When the user isn't signed in show login and sign up buttons.
@@ -38,7 +81,16 @@ class NavBar extends React.Component {
    */
   renderAuthButtons = () => {
     const { auth, firebase } = this.props;
-    if (!isLoaded(auth) || isEmpty(auth)) {
+    const { anchorEl } = this.state;
+    const open = Boolean(anchorEl);
+
+    // Don't show anything if auth hasn't loaded yet
+    if (!isLoaded(auth)) {
+      return null;
+    }
+
+    // Show login/sign up buttons if auth is loaded but empty
+    if (isEmpty(auth)) {
       return (
         <div>
           <Link href="/auth?action=login">
@@ -51,18 +103,43 @@ class NavBar extends React.Component {
       );
     }
 
+    // Show profile icon if user is authenticated
     return (
-      <Link href="/">
-        <Button color="inherit" onClick={auth.logout}>
-          Logout
-        </Button>
-      </Link>
+      <div>
+        <IconButton
+          aria-owns={open ? 'menu-appbar' : undefined}
+          aria-haspopup="true"
+          onClick={this.handleMenu}
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+
+        <Menu
+          id="menu-appbar"
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right'
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right'
+          }}
+          open={open}
+          onClose={this.handleClose}
+        >
+          <MenuItem onClick={this.handleClose()}>Profile</MenuItem>
+          <MenuItem onClick={this.handleClose(firebase.logout)}>Logout</MenuItem>
+        </Menu>
+      </div>
     );
   };
 
   render() {
     // Styles are passed as props.classes when we export using 'withStyles'
     const { classes, firebase, auth } = this.props;
+
     return (
       <AppBar position="fixed">
         <Toolbar>
@@ -76,7 +153,7 @@ class NavBar extends React.Component {
             <div className={classes.logo}>adsocial</div>
           </Typography>
 
-          {/* Render auth buttons */}
+          {this.renderMenuButtons()}
           {this.renderAuthButtons()}
         </Toolbar>
       </AppBar>

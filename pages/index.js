@@ -1,12 +1,12 @@
 // index.js Page
 import React from 'react';
-import { withStyles } from '@material-ui/core';
+import { withStyles, createStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { compose } from 'redux';
 import withNavBar from '../src/withNavBar';
 
-const styles = {
+const styles = ({ palette }) => ({
   root: {
     flexGrow: 1
   },
@@ -16,6 +16,9 @@ const styles = {
   section: {
     width: '100%',
     textAlign: 'center'
+  },
+  secondaryMain: {
+    backgroundColor: palette.secondary.main
   },
   textLeft: {
     textAlign: 'left',
@@ -38,7 +41,7 @@ const styles = {
   orange: {
     backgroundColor: '#fa8231'
   }
-};
+});
 
 const Index = ({ classes }) => (
   <div>
@@ -47,11 +50,11 @@ const Index = ({ classes }) => (
       direction="column"
       alignItems="center"
       justify="center"
-      className={[classes.section, classes.fillViewHeight, classes.blue]}
+      className={[classes.section, classes.primaryMain, classes.fillViewHeight]}
       spacing={0}
     >
       <Grid item xs={6} className={[classes.textLeft]}>
-        <Typography component="h2" variant="h1" className={classes.whiteText}>
+        <Typography component="h2" variant="h1" color="primary">
           <b>Social</b> <br />
           <b>Advertising</b> <br />
           <b>Simplified</b>
@@ -64,7 +67,7 @@ const Index = ({ classes }) => (
       direction="column"
       alignItems="center"
       // justify="center"
-      className={[classes.section, classes.orange]}
+      className={[classes.section, classes.secondaryMain]}
       spacing={0}
     >
       <Grid item xs={10} className={[classes.mainTitleText]}>
