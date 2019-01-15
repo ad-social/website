@@ -1,15 +1,19 @@
 // navBar.js - Component
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import Link from "next/link";
-import Router from "next/router";
+import Link from 'next/link';
+import Router from 'next/router';
 
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import { withStyles } from "@material-ui/core/styles";
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
+
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { withFirebase, isLoaded, isEmpty } from 'react-redux-firebase';
 
 const styles = {
   grow: {
@@ -20,7 +24,7 @@ const styles = {
     marginRight: 20
   },
   logo: {
-    cursor: "pointer",
+    cursor: 'pointer',
     width: 100
   }
 };
@@ -33,29 +37,39 @@ class NavBar extends React.Component {
    * TODO - add auth state checking logic instead of defaulting to signed out buttons
    */
   renderAuthButtons = () => {
+    const { auth, firebase } = this.props;
+    if (!isLoaded(auth) || isEmpty(auth)) {
+      return (
+        <div>
+          <Link href="/auth?action=login">
+            <Button color="inherit">Login</Button>
+          </Link>
+          <Link href="/auth?action=signup">
+            <Button color="inherit">Sign Up</Button>
+          </Link>
+        </div>
+      );
+    }
+
     return (
-      <div>
-        <Link href="/auth?action=login">
-          <Button color="inherit">Login</Button>
-        </Link>
-        <Link href="/auth?action=signup">
-          <Button color="inherit">Sign Up</Button>
-        </Link>
-      </div>
+      <Link href="/">
+        <Button color="inherit" onClick={firebase.logout}>
+          Logout
+        </Button>
+      </Link>
     );
   };
 
   render() {
     // Styles are passed as props.classes when we export using 'withStyles'
-    const { classes } = this.props;
-
+    const { classes, firebase, auth } = this.props;
     return (
       <div>
         <AppBar position="static">
           <Toolbar>
             {/* Display a logo text element that takes us to the root page on click */}
             <Typography
-              onClick={() => Router.push("/")}
+              onClick={() => Router.push('/')}
               variant="h6"
               color="inherit"
               className={classes.grow}
@@ -73,7 +87,15 @@ class NavBar extends React.Component {
 }
 
 NavBar.propTypes = {
+  firebase: PropTypes.shape({
+    login: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired
+  }),
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(NavBar);
+export default compose(
+  withFirebase,
+  connect(({ firebase: { auth } }) => ({ auth })),
+  withStyles(styles)
+)(NavBar);
