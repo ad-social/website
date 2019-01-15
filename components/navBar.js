@@ -53,7 +53,7 @@ class NavBar extends React.Component {
 
     return (
       <Link href="/">
-        <Button color="inherit" onClick={firebase.logout}>
+        <Button color="inherit" onClick={auth.logout}>
           Logout
         </Button>
       </Link>
@@ -64,24 +64,22 @@ class NavBar extends React.Component {
     // Styles are passed as props.classes when we export using 'withStyles'
     const { classes, firebase, auth } = this.props;
     return (
-      <div>
-        <AppBar position="static">
-          <Toolbar>
-            {/* Display a logo text element that takes us to the root page on click */}
-            <Typography
-              onClick={() => Router.push('/')}
-              variant="h6"
-              color="inherit"
-              className={classes.grow}
-            >
-              <div className={classes.logo}>adsocial</div>
-            </Typography>
+      <AppBar position="fixed">
+        <Toolbar>
+          {/* Display a logo text element that takes us to the root page on click */}
+          <Typography
+            onClick={() => Router.push('/')}
+            variant="h6"
+            color="inherit"
+            className={classes.grow}
+          >
+            <div className={classes.logo}>adsocial</div>
+          </Typography>
 
-            {/* Render auth buttons */}
-            {this.renderAuthButtons()}
-          </Toolbar>
-        </AppBar>
-      </div>
+          {/* Render auth buttons */}
+          {this.renderAuthButtons()}
+        </Toolbar>
+      </AppBar>
     );
   }
 }
