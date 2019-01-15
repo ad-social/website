@@ -20,6 +20,13 @@ const theme = createMuiTheme({
       dark: green[700]
     }
   },
+  overrides: {
+    MuiButton: {
+      raisedSecondary: {
+        color: 'white'
+      }
+    }
+  },
   typography: {
     useNextVariants: true
   }
