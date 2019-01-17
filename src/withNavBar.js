@@ -12,7 +12,7 @@ const styles = {
 };
 
 export default Page =>
-  class PageWithHeader extends React.Component {
+  class PageWithNavBar extends React.Component {
     render() {
       return (
         <div style={styles.root}>
