@@ -7,6 +7,9 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+import SetupForm from './setup';
+import DemographicForm from './demographic';
+
 const styles = theme => ({
   root: {
     width: '100%'
@@ -17,25 +20,23 @@ const styles = theme => ({
   instructions: {
     marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit
+  },
+  stepContent: {
+    backgroundColor: 'white',
+    height: 500
   }
 });
 
 function getSteps() {
-  return [
-    'Setup',
-    'Objective',
-    'Describe the Demographic',
-    'Describe the Audience',
-    'Submit for Review'
-  ];
+  return ['Setup', 'Demographic', 'Pricing'];
 }
 
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return 'Setup';
+      return <SetupForm />;
     case 1:
-      return 'Choose Platforms';
+      return <DemographicForm />;
     case 2:
       return 'Describe the Demographic';
     default:
@@ -45,9 +46,16 @@ function getStepContent(step) {
 
 class NewCampaignStepper extends React.Component {
   state = {
-    activeStep: 0
+    activeStep: 0,
+    name: '',
+    objective: '',
+    dailySpendCap: 0,
+    lifetimeSpendCap: 0
   };
 
+  /**
+   * Move to the next section in the stepper
+   */
   handleNext = () => {
     const { activeStep } = this.state;
     this.setState({
@@ -55,12 +63,18 @@ class NewCampaignStepper extends React.Component {
     });
   };
 
+  /**
+   * Move back a section in the stepper
+   */
   handleBack = () => {
     this.setState(state => ({
       activeStep: state.activeStep - 1
     }));
   };
 
+  /**
+   * Reset the stepper and go back to the beginning
+   */
   handleReset = () => {
     this.setState({
       activeStep: 0
@@ -97,7 +111,11 @@ class NewCampaignStepper extends React.Component {
             </div>
           ) : (
             <div>
-              <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+              <div className={classes.stepContent}>
+                <Typography className={classes.instructions}>
+                  {getStepContent(activeStep)}
+                </Typography>
+              </div>
               <div>
                 <Button
                   disabled={activeStep === 0}
@@ -128,3 +146,15 @@ NewCampaignStepper.propTypes = {
 };
 
 export default withStyles(styles)(NewCampaignStepper);
+
+/**
+ * Setup
+ * - name
+ * - objective
+ * - daily spend cap
+ * - lifetime spend cap
+ * Pricing
+ * - Early stage start up
+ * - Part of founders club
+ * - submit for FREE consultation
+ */
