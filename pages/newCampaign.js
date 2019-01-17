@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 
 import { Grid } from '@material-ui/core';
 import withNavBar from '../src/withNavBar';
-import NewCampaignStepper from '../components/newCampaignStepper';
+import EditCampaignStepper from '../components/editCampaignStepper';
 
 const styles = theme => ({
   root: {
@@ -28,7 +28,7 @@ const styles = theme => ({
 const NewCampaign = ({ classes }) => (
   <Grid container>
     <Grid item xs={12}>
-      <NewCampaignStepper />
+      <EditCampaignStepper />
     </Grid>
   </Grid>
 );

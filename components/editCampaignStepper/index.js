@@ -31,19 +31,6 @@ function getSteps() {
   return ['Setup', 'Demographic', 'Pricing'];
 }
 
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <SetupForm />;
-    case 1:
-      return <DemographicForm />;
-    case 2:
-      return 'Describe the Demographic';
-    default:
-      return 'Describe the Audience';
-  }
-}
-
 class NewCampaignStepper extends React.Component {
   state = {
     activeStep: 0,
@@ -52,6 +39,22 @@ class NewCampaignStepper extends React.Component {
     dailySpendCap: 0,
     lifetimeSpendCap: 0
   };
+
+  /**
+   * Get content for each step
+   */
+  getStepContent(step) {
+    switch (step) {
+      case 0:
+        return <SetupForm {...this.state} handleChange={this.handleChange} />;
+      case 1:
+        return <DemographicForm {...this.state} handleChange={this.handleChange} />;
+      case 2:
+        return 'Describe the Demographic';
+      default:
+        return 'Describe the Audience';
+    }
+  }
 
   /**
    * Move to the next section in the stepper
@@ -79,6 +82,13 @@ class NewCampaignStepper extends React.Component {
     this.setState({
       activeStep: 0
     });
+  };
+
+  /**
+   * Handles any changes to state
+   */
+  handleChange = prop => event => {
+    this.setState({ [prop]: event.target.value });
   };
 
   render() {
@@ -113,7 +123,7 @@ class NewCampaignStepper extends React.Component {
             <div>
               <div className={classes.stepContent}>
                 <Typography className={classes.instructions}>
-                  {getStepContent(activeStep)}
+                  {this.getStepContent(activeStep)}
                 </Typography>
               </div>
               <div>

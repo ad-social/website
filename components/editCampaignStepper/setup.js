@@ -22,7 +22,7 @@ const SetupForm = ({ classes, handleChange, name, objective }) => (
       <Grid item xs={6}>
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="component-simple">Name</InputLabel>
-          <Input id="component-simple" value={name} onChange={handleChange} />
+          <Input id="component-simple" value={name} onChange={handleChange('name')} />
         </FormControl>
       </Grid>
       <Grid item xs={6}>
@@ -31,7 +31,7 @@ const SetupForm = ({ classes, handleChange, name, objective }) => (
 
           <Select
             value={objective}
-            onChange={handleChange}
+            onChange={handleChange('objective')}
             inputProps={{
               name: 'objective',
               id: 'objective-simple'

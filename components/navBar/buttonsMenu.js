@@ -1,10 +1,15 @@
 import React from 'react';
-import Link from 'next/link';
 import Button from '@material-ui/core/Button';
+import Router from 'next/router';
 
 const ButtonsMenu = () => (
   <div>
-    <Button href="/dashboard" color="inherit">
+    <Button
+      onClick={() => {
+        Router.push('/dashboard');
+      }}
+      color="inherit"
+    >
       My Dashboard
     </Button>
   </div>
