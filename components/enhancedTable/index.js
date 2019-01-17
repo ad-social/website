@@ -36,11 +36,6 @@ function getSorting(order, orderBy) {
   return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
 }
 
-const rows = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
-  { id: 'createdAt', numeric: false, disablePadding: true, label: 'Created At' }
-];
-
 const styles = theme => ({
   root: {
     width: '100%',
@@ -118,7 +113,7 @@ class EnhancedTable extends React.Component {
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
   render() {
-    const { classes, data, title, onRowClick } = this.props;
+    const { classes, data, title, onRowClick, rows } = this.props;
     const { order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
@@ -160,6 +155,9 @@ class EnhancedTable extends React.Component {
                       </TableCell>
                       <TableCell align="left" scope="row" padding="none">
                         {'Jan 21 2018, 10:25pm'}
+                      </TableCell>
+                      <TableCell align="left" scope="row" padding="none">
+                        {n.status}
                       </TableCell>
                     </TableRow>
                   );

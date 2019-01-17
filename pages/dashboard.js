@@ -84,7 +84,7 @@ class Dashboard extends React.Component {
           className={classes.root}
           spacing={16}
         >
-          <Grid item xs={12}>
+          <Grid item xs={10}>
             <Button
               variant="contained"
               color="secondary"
@@ -93,8 +93,6 @@ class Dashboard extends React.Component {
             >
               Start A New Campaign
             </Button>
-          </Grid>
-          <Grid item xs={8}>
             <CampaignsTable campaigns={campaigns} />
           </Grid>
         </Grid>
@@ -145,7 +143,8 @@ export default compose(
     auth
   })),
   withHandlers({
-    onNewCampaignSubmit: props => newTodo => props.firestore.add('campaigns', { ...newTodo })
+    onNewCampaignSubmit: props => newTodo =>
+      props.firestore.add('campaigns', { ...newTodo, status: 'incomplete' })
   }),
   firestoreConnect(({ auth }) => [
     { collection: 'campaigns', owner: auth.uid } // or `todos/${props.todoId}`
