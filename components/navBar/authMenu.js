@@ -7,17 +7,16 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-const styles = theme => ({
-  root: {
-    display: 'flex'
-  }
-});
+// const styles = theme => ({
+//   root: {
+//     display: 'flex'
+//   }
+// });
 
 /**
  * Renders auth buttons depending on user's auth state.
  * When the user isn't signed in show login and sign up buttons.
  * When the user is logged in, show a logout button
- * TODO - add auth state checking logic instead of defaulting to signed out buttons
  */
 class AuthMenu extends React.Component {
   state = {
@@ -58,12 +57,12 @@ class AuthMenu extends React.Component {
     if (isEmpty(auth)) {
       return (
         <div>
-          <Link href="/auth?action=login">
-            <Button color="inherit">Login</Button>
-          </Link>
-          <Link href="/auth?action=signup">
-            <Button color="inherit">Sign Up</Button>
-          </Link>
+          <Button href="/auth?action=login" color="inherit">
+            Login
+          </Button>
+          <Button href="/auth?action=signup" color="inherit">
+            Sign Up
+          </Button>
         </div>
       );
     }
@@ -108,6 +107,6 @@ AuthMenu.propTypes = {
 
 export default compose(
   firebaseConnect(),
-  connect(({ firebase: { auth } }) => ({ auth })),
-  withStyles(styles)
+  connect(({ firebase: { auth } }) => ({ auth }))
+  // withStyles(styles)
 )(AuthMenu);

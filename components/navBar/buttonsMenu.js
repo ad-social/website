@@ -4,9 +4,9 @@ import Button from '@material-ui/core/Button';
 
 const ButtonsMenu = () => (
   <div>
-    <Link href="/dashboard">
-      <Button color="inherit">My Dashboard</Button>
-    </Link>
+    <Button href="/dashboard" color="inherit">
+      My Dashboard
+    </Button>
   </div>
 );
 

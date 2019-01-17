@@ -2,19 +2,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Link from 'next/link';
 import Router from 'next/router';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import IconButton from '@material-ui/core/IconButton';
-
+import { IconButton, Menu, MenuItem, Link, Button } from '@material-ui/core';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withFirebase, isLoaded, isEmpty } from 'react-redux-firebase';
@@ -37,15 +31,11 @@ const styles = {
 };
 
 class NavBar extends React.Component {
-  state = {
-    anchorEl: null
-  };
-
   /**
    * Render the menu buttons when the user is signed in
    */
   renderOnlyWhenAuthenticated(component) {
-    const { auth, firebase } = this.props;
+    const { auth } = this.props;
     // Don't show anything if auth hasn't loaded yet
     if (!isLoaded(auth) || isEmpty(auth)) {
       return null;
@@ -54,26 +44,9 @@ class NavBar extends React.Component {
     return component;
   }
 
-  // renderMenuButtons() {
-  //   const { auth, firebase } = this.props;
-
-  //   // Don't show anything if auth hasn't loaded yet
-  //   if (!isLoaded(auth) || isEmpty(auth)) {
-  //     return null;
-  //   }
-
-  //   return (
-  //     <div>
-  //       <Link href="/dashboard">
-  //         <Button color="inherit">My Dashboard</Button>
-  //       </Link>
-  //     </div>
-  //   );
-  // }
-
   render() {
     // Styles are passed as props.classes when we export using 'withStyles'
-    const { classes, firebase, auth } = this.props;
+    const { classes } = this.props;
 
     return (
       <AppBar position="fixed">
