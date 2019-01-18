@@ -12,7 +12,7 @@ app
     const server = express();
 
     if (!dev) {
-      // Enforce SSL & HSTS in production
+      Enforce SSL & HSTS in production
       server.use((req, res, _next) => {
         const proto = req.headers['x-forwarded-proto'];
         if (proto === 'https') {

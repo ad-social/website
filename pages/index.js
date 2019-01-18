@@ -50,10 +50,10 @@ const Index = ({ classes }) => (
       direction="column"
       alignItems="center"
       justify="center"
-      className={[classes.section, classes.fillViewHeight]}
+      className={`${classes.section} ${classes.fillViewHeight}`}
       spacing={0}
     >
-      <Grid item xs={6} className={[classes.textLeft]}>
+      <Grid item xs={6} className={classes.textLeft}>
         <Typography component="h2" variant="h1" color="primary">
           <b>Social</b> <br />
           <b>Advertising</b> <br />
@@ -67,16 +67,16 @@ const Index = ({ classes }) => (
       direction="column"
       alignItems="center"
       // justify="center"
-      className={[classes.section, classes.secondaryMain]}
+      className={`${classes.section} ${classes.secondaryMain}`}
       spacing={0}
     >
-      <Grid item xs={10} className={[classes.mainTitleText]}>
+      <Grid item xs={10} className={classes.mainTitleText}>
         <Typography component="h2" variant="h2" className={classes.whiteText}>
           <b>HERE'S HOW IT WORKS</b>
         </Typography>
       </Grid>
 
-      <Grid item xs={8} className={[classes.textLeft, classes.whiteText]}>
+      <Grid item xs={8} className={`${classes.textLeft} ${classes.whiteText}`}>
         <Typography variant="body1" className={classes.whiteText}>
           <p>
             <b>

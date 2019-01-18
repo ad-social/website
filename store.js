@@ -10,12 +10,12 @@ import 'firebase/firestore'; // <- needed if using firestore
 // import 'firebase/functions' // <- needed if using httpsCallable
 
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  databaseURL: process.env.FIREBASE_DATABASE_URL,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID
+  apiKey: 'AIzaSyDaA3jQkdsCQ8OdBFhAFSHqa9FkaqpdWQI',
+  authDomain: 'adsocial-d7ee0.firebaseapp.com',
+  databaseURL: 'https://adsocial-d7ee0.firebaseio.com',
+  projectId: 'adsocial-d7ee0',
+  storageBucket: '',
+  messagingSenderId: '534262950806'
 };
 
 console.log('ENV VARS: ', firebaseConfig);

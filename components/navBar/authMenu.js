@@ -7,11 +7,11 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-// const styles = theme => ({
-//   root: {
-//     display: 'flex'
-//   }
-// });
+const styles = theme => ({
+  root: {
+    display: 'flex'
+  }
+});
 
 /**
  * Renders auth buttons depending on user's auth state.
@@ -107,6 +107,6 @@ AuthMenu.propTypes = {
 
 export default compose(
   firebaseConnect(),
-  connect(({ firebase: { auth } }) => ({ auth }))
-  // withStyles(styles)
+  connect(({ firebase: { auth } }) => ({ auth })),
+  withStyles(styles)
 )(AuthMenu);
