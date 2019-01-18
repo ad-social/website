@@ -11,6 +11,20 @@ app
   .then(() => {
     const server = express();
 
+    if (!dev) {
+      // Enforce SSL & HSTS in production
+      server.use((req, res, _next) => {
+        const proto = req.headers['x-forwarded-proto'];
+        if (proto === 'https') {
+          res.set({
+            'Strict-Transport-Security': 'max-age=31557600' // one-year
+          });
+          return _next();
+        }
+        res.redirect(`https://${req.headers.host}${req.url}`);
+      });
+    }
+
     server.get('/campaign/:id', (req, res) => {
       const actualPage = '/campaign';
       const queryParams = { id: req.params.id };

@@ -18,6 +18,8 @@ const firebaseConfig = {
   messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID
 };
 
+console.log('ENV VARS: ', firebaseConfig);
+
 // react-redux-firebase config
 const rrfConfig = {
   userProfile: 'users',
