@@ -23,7 +23,6 @@ const rows = [
 ];
 
 const CampaignsTable = ({ classes, campaigns }) => {
-  console.log(campaigns);
   if (!isLoaded(campaigns)) {
     return <CircularProgress className={classes.progress} />;
   }
