@@ -72,8 +72,7 @@ NavBar.propTypes = {
   firebase: PropTypes.shape({
     login: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired
-  }),
-  classes: PropTypes.object.isRequired
+  })
 };
 
 export default compose(

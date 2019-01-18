@@ -50,7 +50,7 @@ const Index = ({ classes }) => (
       direction="column"
       alignItems="center"
       justify="center"
-      className={[classes.section, classes.primaryMain, classes.fillViewHeight]}
+      className={[classes.section, classes.fillViewHeight]}
       spacing={0}
     >
       <Grid item xs={6} className={[classes.textLeft]}>
