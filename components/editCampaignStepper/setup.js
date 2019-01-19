@@ -16,7 +16,7 @@ const styles = theme => ({
 
 const objectiveOptions = ['Awareness', 'Drive Traffic to Website'];
 
-const SetupForm = ({ classes, handleChange, campaign, name, objective }) => (
+const SetupForm = ({ classes, handleChange, campaign }) => (
   <div className={classes.root}>
     <Grid container direction="column" spacing={16}>
       <Grid item xs={6}>

@@ -32,14 +32,6 @@ function getSteps() {
 }
 
 class NewCampaignStepper extends React.Component {
-  state = {
-    activeStep: 0,
-    name: '',
-    objective: '',
-    dailySpendCap: 0,
-    lifetimeSpendCap: 0
-  };
-
   /**
    * Get content for each step
    */
@@ -50,7 +42,7 @@ class NewCampaignStepper extends React.Component {
       case 0:
         return <SetupForm campaign={campaign} handleChange={this.handleChange} />;
       case 1:
-        return <DemographicForm {...this.state} handleChange={this.handleChange} />;
+        return <DemographicForm campaign={campaign} handleChange={this.handleChange} />;
       case 2:
         return 'Describe the Demographic';
       default:
@@ -62,29 +54,22 @@ class NewCampaignStepper extends React.Component {
    * Move to the next section in the stepper
    */
   handleNext = () => {
-    const { activeStep } = this.state;
-    this.setState({
-      activeStep: activeStep + 1
-    });
+    const { campaign, updateCampaign } = this.props;
+    updateCampaign({ activeStep: campaign.activeStep + 1 });
   };
 
   /**
    * Move back a section in the stepper
    */
   handleBack = () => {
-    this.setState(state => ({
-      activeStep: state.activeStep - 1
-    }));
+    const { campaign, updateCampaign } = this.props;
+    updateCampaign({ activeStep: campaign.activeStep - 1 });
   };
 
   /**
    * Reset the stepper and go back to the beginning
    */
-  handleReset = () => {
-    this.setState({
-      activeStep: 0
-    });
-  };
+  handleReset = () => {};
 
   /**
    * Handles any changes to state
@@ -97,9 +82,15 @@ class NewCampaignStepper extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, campaign } = this.props;
     const steps = getSteps();
-    const { activeStep } = this.state;
+    let { activeStep } = campaign;
+
+    // Sanitize active step
+    if (!activeStep) {
+      campaign.activeStep = 0;
+      activeStep = 0;
+    }
 
     return (
       <div className={classes.root}>
