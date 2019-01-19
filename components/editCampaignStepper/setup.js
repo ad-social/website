@@ -16,21 +16,20 @@ const styles = theme => ({
 
 const objectiveOptions = ['Awareness', 'Drive Traffic to Website'];
 
-const SetupForm = ({ classes, handleChange, name, objective }) => (
+const SetupForm = ({ classes, handleChange, campaign, name, objective }) => (
   <div className={classes.root}>
     <Grid container direction="column" spacing={16}>
       <Grid item xs={6}>
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="component-simple">Name</InputLabel>
-          <Input id="component-simple" value={name} onChange={handleChange('name')} />
+          <Input id="component-simple" value={campaign.name} onChange={handleChange('name')} />
         </FormControl>
       </Grid>
       <Grid item xs={6}>
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="component-simple">Objective</InputLabel>
-
           <Select
-            value={objective}
+            value={campaign.objective}
             onChange={handleChange('objective')}
             inputProps={{
               name: 'objective',

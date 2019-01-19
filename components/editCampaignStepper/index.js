@@ -44,9 +44,11 @@ class NewCampaignStepper extends React.Component {
    * Get content for each step
    */
   getStepContent(step) {
+    const { campaign } = this.props;
+
     switch (step) {
       case 0:
-        return <SetupForm {...this.state} handleChange={this.handleChange} />;
+        return <SetupForm campaign={campaign} handleChange={this.handleChange} />;
       case 1:
         return <DemographicForm {...this.state} handleChange={this.handleChange} />;
       case 2:
@@ -88,7 +90,10 @@ class NewCampaignStepper extends React.Component {
    * Handles any changes to state
    */
   handleChange = prop => event => {
-    this.setState({ [prop]: event.target.value });
+    const { updateCampaign } = this.props;
+    updateCampaign({
+      [prop]: event.target.value
+    });
   };
 
   render() {
