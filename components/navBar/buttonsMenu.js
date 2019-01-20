@@ -2,63 +2,86 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Router from 'next/router';
 import Divider from '@material-ui/core/Divider';
+import { Typography, withStyles } from '@material-ui/core';
 
-const ButtonsMenu = () => (
-  <div>
-    <Button
-      onClick={() => {
-        Router.push('/');
-      }}
-      color="inherit"
-    >
-      Home
-    </Button>
+const styles = {
+  button: {
+    borderRight: '0.05em solid white',
+    float: 'left'
+  },
+  buttonStart: {
+    borderLeft: '0.05em solid white'
+  }
+};
 
-    <Button
-      onClick={() => {
-        Router.push('/whatWeDo');
-      }}
-      color="inherit"
-    >
-      What We Do
-    </Button>
+const ButtonsMenu = ({ classes }) => (
+  <div style={{ display: 'inline-block' }}>
+    <div className={`${classes.button} ${classes.buttonStart}`}>
+      <Button
+        onClick={() => {
+          Router.push('/');
+        }}
+        color="inherit"
+      >
+        Home
+      </Button>
+    </div>
 
-    <Button
-      onClick={() => {
-        Router.push('/work');
-      }}
-      color="inherit"
-    >
-      Work
-    </Button>
+    <div className={classes.button}>
+      <Button
+        onClick={() => {
+          Router.push('/whatWeDo');
+        }}
+        color="inherit"
+      >
+        What We Do
+      </Button>
+    </div>
 
-    <Button
-      onClick={() => {
-        Router.push('/information');
-      }}
-      color="inherit"
-    >
-      Information
-    </Button>
+    <div className={classes.button}>
+      <Button
+        onClick={() => {
+          Router.push('/work');
+        }}
+        color="inherit"
+      >
+        Work
+      </Button>
+    </div>
 
-    <Button
-      onClick={() => {
-        Router.push('/contact');
-      }}
-      color="inherit"
-    >
-      Contact Us
-    </Button>
+    <div className={classes.button}>
+      <Button
+        onClick={() => {
+          Router.push('/information');
+        }}
+        color="inherit"
+      >
+        Information
+      </Button>
+    </div>
 
-    <Button
-      onClick={() => {
-        Router.push('/dashboard');
-      }}
-      color="inherit"
-    >
-      My Dashboard
-    </Button>
+    <div className={classes.button}>
+      <Button
+        onClick={() => {
+          Router.push('/contact');
+        }}
+        color="inherit"
+      >
+        Contact Us
+      </Button>
+    </div>
+
+    <div className={classes.button}>
+      <Button
+        onClick={() => {
+          Router.push('/dashboard');
+        }}
+        color="inherit"
+      >
+        My Dashboard
+      </Button>
+    </div>
   </div>
 );
 
-export default ButtonsMenu;
+export default withStyles(styles)(ButtonsMenu);

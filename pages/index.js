@@ -40,6 +40,9 @@ const styles = ({ palette }) => ({
   },
   orange: {
     backgroundColor: '#fa8231'
+  },
+  notAllowed: {
+    fontSize: 10
   }
 });
 
