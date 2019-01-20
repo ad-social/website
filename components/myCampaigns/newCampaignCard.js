@@ -49,7 +49,7 @@ function NewCampaignCard(props) {
             >
               <Grid item className={classes.centerText}>
                 <Add className={classes.icon} />
-                <Typography gutterBottom variant="title" color="inherit">
+                <Typography gutterBottom variant="h5" color="inherit">
                   New Campaign
                 </Typography>
               </Grid>

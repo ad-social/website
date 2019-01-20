@@ -24,7 +24,7 @@ const MyCampaigns = ({ classes, campaigns, handleNewCampaignDialogOpen }) => {
       </Grid>
       <NewCampaignCard onClick={handleNewCampaignDialogOpen} />
       {campaigns.map(campaign => (
-        <CampaignCard campaign={campaign} />
+        <CampaignCard key={campaign.id} campaign={campaign} />
       ))}
     </Grid>
   );
