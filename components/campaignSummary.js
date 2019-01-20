@@ -12,16 +12,16 @@ const CampaignSummary = ({ classes, campaign }) => (
   <div className={classes.root}>
     <Grid container spacing={16}>
       <Grid item xs={12}>
-        <Typography variant="title">Objective</Typography>
+        <Typography variant="h5">Objective</Typography>
         <Typography variant="subtitle1">{campaign.objective}</Typography>
 
-        <Typography variant="title">Platforms</Typography>
+        <Typography variant="h5">Platforms</Typography>
         <Typography variant="subtitle1">
           {campaign.facebook ? 'Facebook' : ''}
           {campaign.instagram ? ', Instagram' : ''}
         </Typography>
 
-        <Typography variant="title">Target</Typography>
+        <Typography variant="h5">Target</Typography>
         <Typography variant="subtitle1">{`Gender: ${campaign.gender}`}</Typography>
         <Typography variant="subtitle1">
           {`Age: ${campaign.ageMin} - ${campaign.ageMax}`}
