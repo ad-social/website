@@ -16,7 +16,7 @@ const styles = styles => ({
 const CampaignHeader = ({ classes, campaign }) => (
   <div>
     <Typography className={classes.header} color="inherit" variant="h3">
-      <u>{campaign.name}</u>
+      {campaign.name}
     </Typography>
   </div>
 );

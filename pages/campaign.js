@@ -6,7 +6,16 @@ import { compose, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 
 import { firestoreConnect, isLoaded } from 'react-redux-firebase';
-import { CircularProgress, Typography, Grid } from '@material-ui/core';
+import {
+  CircularProgress,
+  Typography,
+  Grid,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails
+} from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 import withNavBar from '../src/withNavBar';
 import EditCampaignStepper from '../components/editCampaignStepper';
 import CampaignHeader from '../components/campaignHeader';
@@ -37,10 +46,12 @@ class Campaign extends React.Component {
     const {
       classes,
       campaign,
+      updateCampaign,
       router: {
         query: { id }
       }
     } = this.props;
+    const { status } = campaign;
 
     if (!isLoaded(campaign)) {
       return <CircularProgress className={classes.progress} />;
@@ -54,7 +65,41 @@ class Campaign extends React.Component {
               <CampaignHeader campaign={campaign} />
             </Grid>
             <Grid item xs={12}>
-              {this.renderCampaignBody()}
+              {/* {this.renderCampaignBody()} */}
+              <ExpansionPanel>
+                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography className={classes.heading}>Campaign Details</Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  {status === 'incomplete' ? (
+                    <EditCampaignStepper {...{ campaign, updateCampaign }} />
+                  ) : (
+                    <CampaignSummary {...{ campaign, updateCampaign }} />
+                  )}
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+              <ExpansionPanel disabled={status !== 'review'}>
+                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography className={classes.heading}>Review</Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <Typography>
+                    We're reviewing your campaign now! We'll get back to you within 48 hours with
+                    free consultation advice.
+                  </Typography>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+              <ExpansionPanel disabled>
+                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography className={classes.heading}>Pick Your Ad</Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <Typography>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
+                    lacus ex, sit amet blandit leo lobortis eget.
+                  </Typography>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
             </Grid>
           </Grid>
         </Grid>

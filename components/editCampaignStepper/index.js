@@ -7,6 +7,7 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+import { Grid } from '@material-ui/core';
 import NextButton from './nextButton';
 import SetupForm from './setup';
 import TargetingForm from './targeting';
@@ -151,30 +152,32 @@ class NewCampaignStepper extends React.Component {
               </Button>
             </div>
           ) : (
-            <div>
-              <div className={classes.stepContent}>
-                <Typography className={classes.instructions}>
-                  {this.getStepContent(activeStep)}
-                </Typography>
-              </div>
-              <div>
-                <Button
-                  disabled={activeStep === 0}
-                  onClick={this.handleBack}
-                  className={classes.button}
-                >
-                  Back
-                </Button>
-                <NextButton
-                  {...{
-                    activeStep,
-                    steps,
-                    handleNext: this.handleNext,
-                    handleSubmit: this.handleSubmit
-                  }}
-                />
-              </div>
-            </div>
+            <Grid container spacing={16}>
+              <Grid item xs={12} className={classes.stepContent}>
+                {this.getStepContent(activeStep)}
+              </Grid>
+              <Grid container justify="space-between" spacing={16}>
+                <Grid item>
+                  <Button
+                    disabled={activeStep === 0}
+                    onClick={this.handleBack}
+                    className={classes.button}
+                  >
+                    Back
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <NextButton
+                    {...{
+                      activeStep,
+                      steps,
+                      handleNext: this.handleNext,
+                      handleSubmit: this.handleSubmit
+                    }}
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
           )}
         </div>
       </div>
