@@ -40,9 +40,21 @@ class NewCampaignStepper extends React.Component {
 
     switch (step) {
       case 0:
-        return <SetupForm campaign={campaign} handleChange={this.handleChange} />;
+        return (
+          <SetupForm
+            campaign={campaign}
+            handleTextChange={this.handleTextChange}
+            handleCheckboxChange={this.handleCheckboxChange}
+          />
+        );
       case 1:
-        return <DemographicForm campaign={campaign} handleChange={this.handleChange} />;
+        return (
+          <DemographicForm
+            campaign={campaign}
+            handleTextChange={this.handleTextChange}
+            handleCheckboxChange={this.handleCheckboxChange}
+          />
+        );
       case 2:
         return 'Describe the Demographic';
       default:
@@ -74,10 +86,17 @@ class NewCampaignStepper extends React.Component {
   /**
    * Handles any changes to state
    */
-  handleChange = prop => event => {
+  handleTextChange = prop => event => {
     const { updateCampaign } = this.props;
     updateCampaign({
       [prop]: event.target.value
+    });
+  };
+
+  handleCheckboxChange = prop => event => {
+    const { updateCampaign } = this.props;
+    updateCampaign({
+      [prop]: event.target.checked
     });
   };
 
@@ -155,10 +174,9 @@ export default withStyles(styles)(NewCampaignStepper);
 
 /**
  * Setup
- * - name
- * - objective
- * - daily spend cap
- * - lifetime spend cap
+ * - Platform
+ * - Objective (relative to the platform)
+ * - Ad Scheduiling (run all the time or on a schedule)
  * Pricing
  * - Early stage start up
  * - Part of founders club

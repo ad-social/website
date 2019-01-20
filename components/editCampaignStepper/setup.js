@@ -1,7 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { FormControl, Input, InputLabel, Grid, Select, MenuItem } from '@material-ui/core';
+import {
+  FormControl,
+  Input,
+  InputLabel,
+  Grid,
+  Select,
+  MenuItem,
+  FormLabel,
+  FormGroup,
+  FormControlLabel,
+  Checkbox
+} from '@material-ui/core';
 
 const styles = theme => ({
   root: {
@@ -16,13 +27,49 @@ const styles = theme => ({
 
 const objectiveOptions = ['Awareness', 'Drive Traffic to Website'];
 
-const SetupForm = ({ classes, handleChange, campaign }) => (
+const SetupForm = ({ classes, handleTextChange, handleCheckboxChange, campaign }) => (
   <div className={classes.root}>
-    <Grid container direction="column" spacing={16}>
-      <Grid item xs={6}>
-        <FormControl className={classes.formControl}>
+    <Grid container direction="row" spacing={16}>
+      <Grid item xs={7}>
+        {/* <FormControl className={classes.formControl}>
           <InputLabel htmlFor="component-simple">Name</InputLabel>
           <Input id="component-simple" value={campaign.name} onChange={handleChange('name')} />
+        </FormControl> */}
+
+        <FormControl component="fieldset" className={classes.formControl}>
+          <FormLabel component="legend">Platform</FormLabel>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+  checked={campaign.facebook}
+  onChange={handleCheckboxChange('facebook')}
+  value="facebook"
+/>
+              }
+              label="Facebook"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+  checked={campaign.instagram}
+  onChange={handleCheckboxChange('instagram')}
+  value="instagram"
+/>
+              }
+              label="Instagram"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+  checked={campaign.snapchat}
+  onChange={handleCheckboxChange('snapchat')}
+  value="snapchat"
+/>
+              }
+              label="Snapchat"
+            />
+          </FormGroup>
         </FormControl>
       </Grid>
       <Grid item xs={6}>
@@ -30,7 +77,7 @@ const SetupForm = ({ classes, handleChange, campaign }) => (
           <InputLabel htmlFor="component-simple">Objective</InputLabel>
           <Select
             value={campaign.objective}
-            onChange={handleChange('objective')}
+            onChange={handleTextChange('objective')}
             inputProps={{
               name: 'objective',
               id: 'objective-simple'

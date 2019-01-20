@@ -14,7 +14,7 @@ const styles = theme => ({
   }
 });
 
-const DemographicForm = ({ classes, handleChange, ageMin, ageMax, gender }) => (
+const DemographicForm = ({ classes, handleTextChange, ageMin, ageMax, gender }) => (
   <div className={classes.root}>
     <Grid container direction="row" justify="flex-start" spacing={16}>
       <Grid item xs={12}>
@@ -22,7 +22,12 @@ const DemographicForm = ({ classes, handleChange, ageMin, ageMax, gender }) => (
           <Grid item xs={6}>
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="component-simple">Age Minimum</InputLabel>
-              <Input id="component-simple" type="number" value={ageMin} onChange={handleChange} />
+              <Input
+                id="component-simple"
+                type="number"
+                value={ageMin}
+                onChange={handleTextChange}
+              />
             </FormControl>
           </Grid>
         </Grid>
@@ -33,7 +38,12 @@ const DemographicForm = ({ classes, handleChange, ageMin, ageMax, gender }) => (
           <Grid item xs={6}>
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="component-simple">Age Maximum</InputLabel>
-              <Input id="component-simple" type="number" value={ageMax} onChange={handleChange} />
+              <Input
+                id="component-simple"
+                type="number"
+                value={ageMax}
+                onChange={handleTextChange}
+              />
             </FormControl>
           </Grid>
         </Grid>

@@ -14,7 +14,7 @@ const styles = theme => ({
   }
 });
 
-const DemographicForm = ({ classes, handleChange, campaign }) => (
+const DemographicForm = ({ classes, handleTextChange, campaign }) => (
   <div className={classes.root}>
     <Grid container direction="row" justify="flex-start" spacing={16}>
       <Grid item xs={12}>
@@ -26,7 +26,7 @@ const DemographicForm = ({ classes, handleChange, campaign }) => (
                 id="component-simple"
                 type="number"
                 value={campaign.ageMin}
-                onChange={handleChange('ageMin')}
+                onChange={handleTextChange('ageMin')}
               />
             </FormControl>
           </Grid>
@@ -42,7 +42,7 @@ const DemographicForm = ({ classes, handleChange, campaign }) => (
                 id="component-simple"
                 type="number"
                 value={campaign.ageMax}
-                onChange={handleChange('ageMax')}
+                onChange={handleTextChange('ageMax')}
               />
             </FormControl>
           </Grid>
@@ -57,7 +57,7 @@ const DemographicForm = ({ classes, handleChange, campaign }) => (
 
               <Select
                 value={campaign.gender}
-                onChange={handleChange('gender')}
+                onChange={handleTextChange('gender')}
                 inputProps={{
                   name: 'objective',
                   id: 'objective-simple'
