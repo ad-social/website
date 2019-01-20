@@ -140,12 +140,12 @@ export default compose(
     campaigns: ordered.campaigns,
     auth
   })),
+  firestoreConnect(({ auth }) => [
+    { collection: 'campaigns', where: ['owner', '==', auth.uid || ''] }
+  ]),
   withHandlers({
     onNewCampaignSubmit: props => newTodo =>
       props.firestore.add('campaigns', { ...newTodo, status: 'incomplete' })
   }),
-  firestoreConnect(({ auth }) => [
-    { collection: 'campaigns', owner: auth.uid } // or `todos/${props.todoId}`
-  ]),
   withStyles(styles)
 )(Dashboard);
