@@ -26,7 +26,8 @@ const styles = {
   },
   logo: {
     cursor: 'pointer',
-    width: 100
+    width: 100,
+    fontFamily: 'Comfortaa'
   }
 };
 
@@ -58,7 +59,7 @@ class NavBar extends React.Component {
             color="inherit"
             className={classes.grow}
           >
-            <div className={classes.logo}>adsocial</div>
+            <div className={classes.logo}>ad social</div>
           </Typography>
           {this.renderOnlyWhenAuthenticated(<ButtonsMenu />)}
           {<AuthMenu />}

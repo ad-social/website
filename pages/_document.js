@@ -9,6 +9,14 @@ class MyDocument extends Document {
 
     return (
       <html lang="en" dir="ltr">
+        <style jsx>
+          {`
+            @font-face {
+              font-family: Comfortaa;
+              src: url(/static/Comfortaa-Bold.ttf);
+            }
+          `}
+        </style>
         <Head>
           <meta charSet="utf-8" />
           {/* Use minimum-scale=1 to enable GPU rasterization */}
@@ -64,7 +72,7 @@ MyDocument.getInitialProps = ctx => {
     };
 
     WrappedComponent.propTypes = {
-      pageContext: PropTypes.object.isRequired,
+      pageContext: PropTypes.object.isRequired
     };
 
     return WrappedComponent;
@@ -83,7 +91,7 @@ MyDocument.getInitialProps = ctx => {
         />
         {flush() || null}
       </React.Fragment>
-    ),
+    )
   };
 };
 
