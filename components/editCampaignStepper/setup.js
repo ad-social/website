@@ -38,9 +38,6 @@ const objectiveOptions = [
   'Traffic',
   'Engagement',
   'App installs',
-  'Video views',
-  'Lead generation',
-  'Messaging',
   'Conversions',
   'Store visits'
 ];
