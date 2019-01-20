@@ -25,7 +25,18 @@ const styles = theme => ({
   }
 });
 
-const objectiveOptions = ['Awareness', 'Drive Traffic to Website'];
+const objectiveOptions = [
+  'Brand awareness',
+  'Reach',
+  'Traffic',
+  'Engagement',
+  'App installs',
+  'Video views',
+  'Lead generation',
+  'Messaging',
+  'Conversions',
+  'Store visits'
+];
 
 const SetupForm = ({ classes, handleTextChange, handleCheckboxChange, campaign }) => (
   <div className={classes.root}>
@@ -58,16 +69,6 @@ const SetupForm = ({ classes, handleTextChange, handleCheckboxChange, campaign }
 />
               }
               label="Instagram"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-  checked={campaign.snapchat}
-  onChange={handleCheckboxChange('snapchat')}
-  value="snapchat"
-/>
-              }
-              label="Snapchat"
             />
           </FormGroup>
         </FormControl>
