@@ -18,13 +18,16 @@ import Grid from '@material-ui/core/Grid';
 
 import { withFirestore, firestoreConnect, isLoaded } from 'react-redux-firebase';
 import withNavBar from '../src/withNavBar';
-import CampaignsTable from '../components/campaignsTable';
+import MyCampaigns from '../components/myCampaigns';
 import { validate } from '../src/utils';
 
 const styles = {
   root: {
     flexGrow: 1,
     paddingTop: 30
+  },
+  button: {
+    marginBottom: 30
   }
 };
 
@@ -93,7 +96,7 @@ class Dashboard extends React.Component {
             >
               Start A New Campaign
             </Button>
-            <CampaignsTable campaigns={campaigns} />
+            <MyCampaigns campaigns={campaigns} />
           </Grid>
         </Grid>
 
