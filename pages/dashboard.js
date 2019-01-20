@@ -70,8 +70,13 @@ class Dashboard extends React.Component {
       return;
     }
 
+    // Close the dialog menu
     this.handleNewCampaignDialogClose();
-    onNewCampaignSubmit({ name, owner, createdAt: new Date() });
+
+    // Create the new campaign, and callback goes to the page for that campaign
+    onNewCampaignSubmit({ name, owner, createdAt: new Date() }, doc => {
+      Router.push(`/campaign?id=${doc.id}`, `campaign/${doc.id}`);
+    });
   };
 
   render() {
@@ -144,8 +149,12 @@ export default compose(
     { collection: 'campaigns', where: ['owner', '==', auth.uid || ''] }
   ]),
   withHandlers({
-    onNewCampaignSubmit: props => newTodo =>
-      props.firestore.add('campaigns', { ...newTodo, status: 'incomplete' })
+    onNewCampaignSubmit: props => (newTodo, callback) =>
+      props.firestore.add('campaigns', { ...newTodo, status: 'incomplete' }).then(doc => {
+        if (callback) {
+          callback(doc);
+        }
+      })
   }),
   withStyles(styles)
 )(Dashboard);
