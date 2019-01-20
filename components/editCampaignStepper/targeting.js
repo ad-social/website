@@ -1,7 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { FormControl, Input, InputLabel, Grid, Select, MenuItem } from '@material-ui/core';
+import {
+  FormControl,
+  Input,
+  InputLabel,
+  Grid,
+  Select,
+  MenuItem,
+  TextField
+} from '@material-ui/core';
 
 const styles = theme => ({
   root: {
@@ -14,7 +22,7 @@ const styles = theme => ({
   }
 });
 
-const DemographicForm = ({ classes, handleChange, ageMin, ageMax, gender }) => (
+const TargetingForm = ({ classes, handleTextChange, campaign }) => (
   <div className={classes.root}>
     <Grid container direction="row" justify="flex-start" spacing={16}>
       <Grid item xs={12}>
@@ -22,7 +30,12 @@ const DemographicForm = ({ classes, handleChange, ageMin, ageMax, gender }) => (
           <Grid item xs={6}>
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="component-simple">Age Minimum</InputLabel>
-              <Input id="component-simple" type="number" value={ageMin} onChange={handleChange} />
+              <Input
+                id="component-simple"
+                type="number"
+                value={campaign.ageMin}
+                onChange={handleTextChange('ageMin')}
+              />
             </FormControl>
           </Grid>
         </Grid>
@@ -33,7 +46,12 @@ const DemographicForm = ({ classes, handleChange, ageMin, ageMax, gender }) => (
           <Grid item xs={6}>
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="component-simple">Age Maximum</InputLabel>
-              <Input id="component-simple" type="number" value={ageMax} onChange={handleChange} />
+              <Input
+                id="component-simple"
+                type="number"
+                value={campaign.ageMax}
+                onChange={handleTextChange('ageMax')}
+              />
             </FormControl>
           </Grid>
         </Grid>
@@ -46,8 +64,8 @@ const DemographicForm = ({ classes, handleChange, ageMin, ageMax, gender }) => (
               <InputLabel htmlFor="component-simple">Gender</InputLabel>
 
               <Select
-                value={gender}
-                onChange={handleChange}
+                value={campaign.gender}
+                onChange={handleTextChange('gender')}
                 inputProps={{
                   name: 'objective',
                   id: 'objective-simple'
@@ -61,12 +79,27 @@ const DemographicForm = ({ classes, handleChange, ageMin, ageMax, gender }) => (
           </Grid>
         </Grid>
       </Grid>
+
+      <Grid item xs={7}>
+        <TextField
+          id="outlined-multiline-flexible"
+          label="Describe your target audience (Be specific!)"
+          multiline
+          fullWidth
+          rowsMax="4"
+          value={campaign.targetingDescription}
+          onChange={handleTextChange('targetingDescription')}
+          className={classes.textField}
+          margin="normal"
+          variant="outlined"
+        />
+      </Grid>
     </Grid>
   </div>
 );
 
-DemographicForm.propTypes = {
+TargetingForm.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(DemographicForm);
+export default withStyles(styles)(TargetingForm);

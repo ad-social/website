@@ -18,8 +18,6 @@ const firebaseConfig = {
   messagingSenderId: '534262950806'
 };
 
-console.log('ENV VARS: ', firebaseConfig);
-
 // react-redux-firebase config
 const rrfConfig = {
   userProfile: 'users',

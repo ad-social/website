@@ -6,9 +6,11 @@ import { compose, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 
 import { firestoreConnect, isLoaded } from 'react-redux-firebase';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress, Typography, Grid } from '@material-ui/core';
 import withNavBar from '../src/withNavBar';
 import EditCampaignStepper from '../components/editCampaignStepper';
+import CampaignHeader from '../components/campaignHeader';
+import CampaignSummary from '../components/campaignSummary';
 
 const styles = theme => ({
   root: {
@@ -18,6 +20,18 @@ const styles = theme => ({
 
 class Campaign extends React.Component {
   state = {};
+
+  renderCampaignBody = () => {
+    const { campaign, updateCampaign } = this.props;
+    switch (campaign.status) {
+      case 'incomplete':
+        return <EditCampaignStepper {...{ campaign, updateCampaign }} />;
+      case 'review':
+        return <CampaignSummary {...{ campaign, updateCampaign }} />;
+      default:
+        return null;
+    }
+  };
 
   render() {
     const {
@@ -32,12 +46,20 @@ class Campaign extends React.Component {
       return <CircularProgress className={classes.progress} />;
     }
 
-    if (campaign.status == 'incomplete') {
-      return <EditCampaignStepper />
-    }
-
-    return <div className={classes.root}>
-Hello World:{id}</div>;
+    return (
+      <div className={classes.root}>
+        <Grid container justify="center" alignItems="center" spacing={16}>
+          <Grid item xs={12} sm={10}>
+            <Grid item xs={12}>
+              <CampaignHeader campaign={campaign} />
+            </Grid>
+            <Grid item xs={12}>
+              {this.renderCampaignBody()}
+            </Grid>
+          </Grid>
+        </Grid>
+      </div>
+    );
   }
 }
 

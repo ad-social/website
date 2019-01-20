@@ -7,8 +7,10 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+import NextButton from './nextButton';
 import SetupForm from './setup';
-import DemographicForm from './demographic';
+import TargetingForm from './targeting';
+import PricingForm from './pricing';
 
 const styles = theme => ({
   root: {
@@ -28,29 +30,41 @@ const styles = theme => ({
 });
 
 function getSteps() {
-  return ['Setup', 'Demographic', 'Pricing'];
+  return ['Setup', 'Targeting', 'Pricing'];
 }
 
 class NewCampaignStepper extends React.Component {
-  state = {
-    activeStep: 0,
-    name: '',
-    objective: '',
-    dailySpendCap: 0,
-    lifetimeSpendCap: 0
-  };
-
   /**
    * Get content for each step
    */
   getStepContent(step) {
+    const { campaign } = this.props;
+
     switch (step) {
       case 0:
-        return <SetupForm {...this.state} handleChange={this.handleChange} />;
+        return (
+          <SetupForm
+            campaign={campaign}
+            handleTextChange={this.handleTextChange}
+            handleCheckboxChange={this.handleCheckboxChange}
+          />
+        );
       case 1:
-        return <DemographicForm {...this.state} handleChange={this.handleChange} />;
+        return (
+          <TargetingForm
+            campaign={campaign}
+            handleTextChange={this.handleTextChange}
+            handleCheckboxChange={this.handleCheckboxChange}
+          />
+        );
       case 2:
-        return 'Describe the Demographic';
+        return (
+          <PricingForm
+            campaign={campaign}
+            handleTextChange={this.handleTextChange}
+            handleCheckboxChange={this.handleCheckboxChange}
+          />
+        );
       default:
         return 'Describe the Audience';
     }
@@ -60,41 +74,58 @@ class NewCampaignStepper extends React.Component {
    * Move to the next section in the stepper
    */
   handleNext = () => {
-    const { activeStep } = this.state;
-    this.setState({
-      activeStep: activeStep + 1
-    });
+    const { campaign, updateCampaign } = this.props;
+    updateCampaign({ activeStep: campaign.activeStep + 1 });
   };
 
   /**
    * Move back a section in the stepper
    */
   handleBack = () => {
-    this.setState(state => ({
-      activeStep: state.activeStep - 1
-    }));
+    const { campaign, updateCampaign } = this.props;
+    updateCampaign({ activeStep: campaign.activeStep - 1 });
+  };
+
+  /**
+   * Move campaign into review status
+   */
+  handleSubmit = () => {
+    const { campaign, updateCampaign } = this.props;
+    updateCampaign({ status: 'review' });
   };
 
   /**
    * Reset the stepper and go back to the beginning
    */
-  handleReset = () => {
-    this.setState({
-      activeStep: 0
-    });
-  };
+  handleReset = () => {};
 
   /**
    * Handles any changes to state
    */
-  handleChange = prop => event => {
-    this.setState({ [prop]: event.target.value });
+  handleTextChange = prop => event => {
+    const { updateCampaign } = this.props;
+    updateCampaign({
+      [prop]: event.target.value
+    });
+  };
+
+  handleCheckboxChange = prop => event => {
+    const { updateCampaign } = this.props;
+    updateCampaign({
+      [prop]: event.target.checked
+    });
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, campaign } = this.props;
     const steps = getSteps();
-    const { activeStep } = this.state;
+    let { activeStep } = campaign;
+
+    // Sanitize active step
+    if (!activeStep) {
+      campaign.activeStep = 0;
+      activeStep = 0;
+    }
 
     return (
       <div className={classes.root}>
@@ -134,14 +165,14 @@ class NewCampaignStepper extends React.Component {
                 >
                   Back
                 </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.handleNext}
-                  className={classes.button}
-                >
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                </Button>
+                <NextButton
+                  {...{
+                    activeStep,
+                    steps,
+                    handleNext: this.handleNext,
+                    handleSubmit: this.handleSubmit
+                  }}
+                />
               </div>
             </div>
           )}
@@ -159,10 +190,9 @@ export default withStyles(styles)(NewCampaignStepper);
 
 /**
  * Setup
- * - name
- * - objective
- * - daily spend cap
- * - lifetime spend cap
+ * - Platform
+ * - Objective (relative to the platform)
+ * - Ad Scheduiling (run all the time or on a schedule)
  * Pricing
  * - Early stage start up
  * - Part of founders club
