@@ -11,7 +11,8 @@ import {
   FormLabel,
   FormGroup,
   FormControlLabel,
-  Checkbox
+  Checkbox,
+  TextField
 } from '@material-ui/core';
 
 const styles = theme => ({
@@ -22,6 +23,10 @@ const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit,
     width: '100%'
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit
   }
 });
 
@@ -73,7 +78,7 @@ const SetupForm = ({ classes, handleTextChange, handleCheckboxChange, campaign }
           </FormGroup>
         </FormControl>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={7}>
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="component-simple">Objective</InputLabel>
           <Select

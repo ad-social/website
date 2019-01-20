@@ -1,7 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { FormControl, Input, InputLabel, Grid, Select, MenuItem } from '@material-ui/core';
+import {
+  FormControl,
+  Input,
+  InputLabel,
+  Grid,
+  Select,
+  MenuItem,
+  TextField
+} from '@material-ui/core';
 
 const styles = theme => ({
   root: {
@@ -70,6 +78,21 @@ const DemographicForm = ({ classes, handleTextChange, campaign }) => (
             </FormControl>
           </Grid>
         </Grid>
+      </Grid>
+
+      <Grid item xs={7}>
+        <TextField
+          id="outlined-multiline-flexible"
+          label="Describe your target audience (Be specific!)"
+          multiline
+          fullWidth
+          rowsMax="4"
+          value={campaign.targetingDescription}
+          onChange={handleTextChange('targetingDescription')}
+          className={classes.textField}
+          margin="normal"
+          variant="outlined"
+        />
       </Grid>
     </Grid>
   </div>
