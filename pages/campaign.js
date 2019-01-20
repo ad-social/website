@@ -10,6 +10,7 @@ import { CircularProgress, Typography, Grid } from '@material-ui/core';
 import withNavBar from '../src/withNavBar';
 import EditCampaignStepper from '../components/editCampaignStepper';
 import CampaignHeader from '../components/campaignHeader';
+import CampaignSummary from '../components/campaignSummary';
 
 const styles = theme => ({
   root: {
@@ -22,8 +23,13 @@ class Campaign extends React.Component {
 
   renderCampaignBody = () => {
     const { campaign, updateCampaign } = this.props;
-    if (campaign.status === 'incomplete') {
-      return <EditCampaignStepper {...{ campaign, updateCampaign }} />;
+    switch (campaign.status) {
+      case 'incomplete':
+        return <EditCampaignStepper {...{ campaign, updateCampaign }} />;
+      case 'review':
+        return <CampaignSummary {...{ campaign, updateCampaign }} />;
+      default:
+        return null;
     }
   };
 

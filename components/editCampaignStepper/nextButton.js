@@ -10,9 +10,9 @@ const styles = theme => ({
   }
 });
 
-const NextButton = ({ classes, activeStep, steps, handleNext }) => {
+const NextButton = ({ classes, activeStep, steps, handleNext, handleSubmit }) => {
   if (activeStep === steps.length - 1) {
-    return <SpecialButton>Submit For Review</SpecialButton>;
+    return <SpecialButton onClick={handleSubmit}>Submit For Review</SpecialButton>;
   }
 
   return (

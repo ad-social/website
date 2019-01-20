@@ -87,6 +87,14 @@ class NewCampaignStepper extends React.Component {
   };
 
   /**
+   * Move campaign into review status
+   */
+  handleSubmit = () => {
+    const { campaign, updateCampaign } = this.props;
+    updateCampaign({ status: 'review' });
+  };
+
+  /**
    * Reset the stepper and go back to the beginning
    */
   handleReset = () => {};
@@ -157,7 +165,14 @@ class NewCampaignStepper extends React.Component {
                 >
                   Back
                 </Button>
-                <NextButton {...{ activeStep, steps, handleNext: this.handleNext }} />
+                <NextButton
+                  {...{
+                    activeStep,
+                    steps,
+                    handleNext: this.handleNext,
+                    handleSubmit: this.handleSubmit
+                  }}
+                />
               </div>
             </div>
           )}
