@@ -88,15 +88,10 @@ class Dashboard extends React.Component {
           spacing={16}
         >
           <Grid item xs={10}>
-            <Button
-              variant="contained"
-              color="secondary"
-              className={classes.button}
-              onClick={this.handleNewCampaignDialogOpen}
-            >
-              Start A New Campaign
-            </Button>
-            <MyCampaigns campaigns={campaigns} />
+            <MyCampaigns
+              campaigns={campaigns}
+              handleNewCampaignDialogOpen={this.handleNewCampaignDialogOpen}
+            />
           </Grid>
         </Grid>
 

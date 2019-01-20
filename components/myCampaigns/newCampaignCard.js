@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import { Card, CardActionArea } from '@material-ui/core';
+import Add from '@material-ui/icons/Add';
 import Router from 'next/router';
 
 const styles = theme => ({
@@ -16,60 +17,41 @@ const styles = theme => ({
     borderRadius: 8,
     backgroundColor: theme.palette.background.paper
   },
+  icon: {
+    width: 50,
+    height: 50
+  },
+  centerText: {
+    textAlign: 'center',
+    color: theme.palette.secondary.main
+  },
   cardContainer: {
     minHeight: 200
   },
-  // actionArea: {
-  //   minHeight: 300
-  // },
-  chip: {
-    marginRight: theme.spacing.unit
-  },
   section1: {
     margin: `${theme.spacing.unit * 3}px ${theme.spacing.unit * 2}px`
-  },
-  section2: {
-    margin: theme.spacing.unit * 2,
-    minHeight: 100
-  },
-  section3: {
-    margin: `${theme.spacing.unit * 6}px ${theme.spacing.unit * 2}px ${theme.spacing.unit * 2}px`
   }
 });
 
-function formatStatus(status) {
-  switch (status) {
-    case 'incomplete':
-      return 'Incomplete Details';
-    case 'review':
-      return 'Review in progress';
-    default:
-      return '';
-  }
-}
-
-const onClick = campaign => {
-  Router.push(`/campaign?id=${campaign.id}`, `campaign/${campaign.id}`);
-};
-
-function CampaignCard(props) {
-  const { classes, campaign } = props;
+function NewCampaignCard(props) {
+  const { classes, onClick } = props;
   return (
     <Grid item xs={12} sm={4}>
       <Card className={classes.root}>
-        <CardActionArea className={classes.actionArea} onClick={() => onClick(campaign)}>
+        <CardActionArea className={classes.actionArea} onClick={onClick}>
           <div className={classes.section1}>
             <Grid
               container
               className={classes.cardContainer}
               direction="column"
-              alignItems="flex-start"
+              alignItems="center"
+              justify="center"
             >
-              <Grid item>
-                <Typography gutterBottom variant="h5">
-                  {campaign.name}
+              <Grid item className={classes.centerText}>
+                <Add className={classes.icon} />
+                <Typography gutterBottom variant="title" color="inherit">
+                  New Campaign
                 </Typography>
-                <Typography color="textSecondary">{formatStatus(campaign.status)}</Typography>
               </Grid>
             </Grid>
           </div>
@@ -79,8 +61,8 @@ function CampaignCard(props) {
   );
 }
 
-CampaignCard.propTypes = {
+NewCampaignCard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(CampaignCard);
+export default withStyles(styles)(NewCampaignCard);

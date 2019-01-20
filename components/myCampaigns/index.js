@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Grid, Typography, Divider } from '@material-ui/core';
 import { isLoaded } from 'react-redux-firebase';
 import CampaignCard from './campaignCard';
+import NewCampaignCard from './newCampaignCard';
 
 const styles = theme => ({
   root: {
@@ -11,19 +12,20 @@ const styles = theme => ({
   }
 });
 
-const MyCampaigns = ({ classes, campaigns }) => {
+const MyCampaigns = ({ classes, campaigns, handleNewCampaignDialogOpen }) => {
   if (!isLoaded(campaigns)) {
     return null;
   }
 
   return (
-    <Grid container>
+    <Grid container spacing={16}>
       <Grid item xs={12}>
         <Typography variant="subtitle1">Campaigns</Typography>
-        {campaigns.map(campaign => (
-          <CampaignCard campaign={campaign} />
-        ))}
       </Grid>
+      <NewCampaignCard onClick={handleNewCampaignDialogOpen} />
+      {campaigns.map(campaign => (
+        <CampaignCard campaign={campaign} />
+      ))}
     </Grid>
   );
 };
