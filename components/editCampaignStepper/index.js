@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import SetupForm from './setup';
-import DemographicForm from './demographic';
+import TargetingForm from './targeting';
 
 const styles = theme => ({
   root: {
@@ -28,7 +28,7 @@ const styles = theme => ({
 });
 
 function getSteps() {
-  return ['Setup', 'Demographic', 'Pricing'];
+  return ['Setup', 'Targeting', 'Pricing'];
 }
 
 class NewCampaignStepper extends React.Component {
@@ -49,7 +49,7 @@ class NewCampaignStepper extends React.Component {
         );
       case 1:
         return (
-          <DemographicForm
+          <TargetingForm
             campaign={campaign}
             handleTextChange={this.handleTextChange}
             handleCheckboxChange={this.handleCheckboxChange}

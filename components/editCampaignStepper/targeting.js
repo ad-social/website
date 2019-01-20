@@ -22,7 +22,7 @@ const styles = theme => ({
   }
 });
 
-const DemographicForm = ({ classes, handleTextChange, campaign }) => (
+const TargetingForm = ({ classes, handleTextChange, campaign }) => (
   <div className={classes.root}>
     <Grid container direction="row" justify="flex-start" spacing={16}>
       <Grid item xs={12}>
@@ -98,8 +98,8 @@ const DemographicForm = ({ classes, handleTextChange, campaign }) => (
   </div>
 );
 
-DemographicForm.propTypes = {
+TargetingForm.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(DemographicForm);
+export default withStyles(styles)(TargetingForm);
