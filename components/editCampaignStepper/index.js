@@ -7,8 +7,10 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+import NextButton from './nextButton';
 import SetupForm from './setup';
 import TargetingForm from './targeting';
+import PricingForm from './pricing';
 
 const styles = theme => ({
   root: {
@@ -56,7 +58,13 @@ class NewCampaignStepper extends React.Component {
           />
         );
       case 2:
-        return 'Describe the Demographic';
+        return (
+          <PricingForm
+            campaign={campaign}
+            handleTextChange={this.handleTextChange}
+            handleCheckboxChange={this.handleCheckboxChange}
+          />
+        );
       default:
         return 'Describe the Audience';
     }
@@ -149,14 +157,7 @@ class NewCampaignStepper extends React.Component {
                 >
                   Back
                 </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.handleNext}
-                  className={classes.button}
-                >
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                </Button>
+                <NextButton {...{ activeStep, steps, handleNext: this.handleNext }} />
               </div>
             </div>
           )}

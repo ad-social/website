@@ -1,12 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { FormControl, Input, InputLabel, Grid, Select, MenuItem } from '@material-ui/core';
+import {
+  FormControl,
+  Input,
+  InputLabel,
+  Grid,
+  Select,
+  MenuItem,
+  Typography
+} from '@material-ui/core';
 
 const styles = theme => ({
   root: {
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    padding: 20
   },
   formControl: {
     margin: theme.spacing.unit,
@@ -18,58 +27,11 @@ const DemographicForm = ({ classes, handleTextChange, ageMin, ageMax, gender }) 
   <div className={classes.root}>
     <Grid container direction="row" justify="flex-start" spacing={16}>
       <Grid item xs={12}>
-        <Grid container>
-          <Grid item xs={6}>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="component-simple">Age Minimum</InputLabel>
-              <Input
-                id="component-simple"
-                type="number"
-                value={ageMin}
-                onChange={handleTextChange}
-              />
-            </FormControl>
-          </Grid>
-        </Grid>
-      </Grid>
-
-      <Grid item xs={12}>
-        <Grid container>
-          <Grid item xs={6}>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="component-simple">Age Maximum</InputLabel>
-              <Input
-                id="component-simple"
-                type="number"
-                value={ageMax}
-                onChange={handleTextChange}
-              />
-            </FormControl>
-          </Grid>
-        </Grid>
-      </Grid>
-
-      <Grid item xs={12}>
-        <Grid container>
-          <Grid item xs={6}>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="component-simple">Gender</InputLabel>
-
-              <Select
-                value={gender}
-                onChange={handleChange}
-                inputProps={{
-                  name: 'objective',
-                  id: 'objective-simple'
-                }}
-              >
-                <MenuItem value="any">Any</MenuItem>
-                <MenuItem value="male">Male</MenuItem>
-                <MenuItem value="female">Female</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
+        <Typography variant="h4">You're part of the Founders Club!</Typography>
+        <Typography variant="subtitle1">
+          You don't have to worry about pricing. These ads are on us! We appreciate the early
+          support.
+        </Typography>
       </Grid>
     </Grid>
   </div>

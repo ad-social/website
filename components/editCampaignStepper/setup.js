@@ -12,7 +12,9 @@ import {
   FormGroup,
   FormControlLabel,
   Checkbox,
-  TextField
+  TextField,
+  RadioGroup,
+  Radio
 } from '@material-ui/core';
 
 const styles = theme => ({
@@ -53,8 +55,8 @@ const SetupForm = ({ classes, handleTextChange, handleCheckboxChange, campaign }
         </FormControl> */}
 
         <FormControl component="fieldset" className={classes.formControl}>
-          <FormLabel component="legend">Platform</FormLabel>
-          <FormGroup>
+          <FormLabel component="legend">Platform(s)</FormLabel>
+          <FormGroup row>
             <FormControlLabel
               control={
                 <Checkbox
@@ -96,6 +98,31 @@ const SetupForm = ({ classes, handleTextChange, handleCheckboxChange, campaign }
               <MenuItem value={objectiveOption}>{objectiveOption}</MenuItem>
             ))}
           </Select>
+        </FormControl>
+      </Grid>
+      <Grid item xs={7}>
+        <FormControl component="fieldset" className={classes.formControl}>
+          <FormLabel component="legend">Ad Scheduling</FormLabel>
+          <RadioGroup
+            aria-label="position"
+            name="position"
+            value={campaign.scheduling}
+            onChange={handleTextChange('scheduling')}
+            row
+          >
+            <FormControlLabel
+              value="continuous"
+              control={<Radio color="secondary" />}
+              label="Continuous"
+              labelPlacement="end"
+            />
+            <FormControlLabel
+              value="specificSchedule"
+              control={<Radio color="secondary" />}
+              label="Specific Schedule"
+              labelPlacement="end"
+            />
+          </RadioGroup>
         </FormControl>
       </Grid>
     </Grid>
