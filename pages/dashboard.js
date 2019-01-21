@@ -7,7 +7,8 @@ import {
   DialogContent,
   DialogContentText,
   TextField,
-  DialogActions
+  DialogActions,
+  Typography
 } from '@material-ui/core';
 import { connect } from 'react-redux';
 import Router from 'next/router';
@@ -15,21 +16,28 @@ import { compose, withHandlers } from 'recompose';
 
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-
+import Error from '@material-ui/icons/ErrorOutline';
 import { withFirestore, firestoreConnect, isLoaded } from 'react-redux-firebase';
 import withNavBar from '../src/withNavBar';
 import MyCampaigns from '../components/myCampaigns';
-import { validate } from '../src/utils';
+import { validate, canUserCreateCampaigns } from '../src/utils';
+import SwitchComponent from '../components/switchComponent';
 
-const styles = {
+const styles = theme => ({
   root: {
     flexGrow: 1,
     paddingTop: 30
   },
   button: {
     marginBottom: 30
+  },
+  error: {
+    color: theme.palette.error.main
+  },
+  icon: {
+    marginBottom: '-0.18em'
   }
-};
+});
 
 class Dashboard extends React.Component {
   state = {
@@ -80,7 +88,7 @@ class Dashboard extends React.Component {
   };
 
   render() {
-    const { classes, campaigns } = this.props;
+    const { classes, campaigns, profile } = this.props;
     const { newCampaignDialogOpen } = this.state;
     return (
       <div>
@@ -92,6 +100,15 @@ class Dashboard extends React.Component {
           className={classes.root}
           spacing={16}
         >
+          <SwitchComponent show={!canUserCreateCampaigns(profile)}>
+            <Grid item xs={10}>
+              <Typography variant="subtitle1" className={classes.error}>
+                <Error className={classes.icon} />
+                Only users in our Founders Club can create campaigns right now
+              </Typography>
+            </Grid>
+          </SwitchComponent>
+
           <Grid item xs={10}>
             <MyCampaigns
               campaigns={campaigns}
@@ -141,16 +158,17 @@ Dashboard.propTypes = {
 export default compose(
   withNavBar,
   withFirestore,
-  connect(({ firestore: { ordered }, firebase: { auth } }) => ({
+  connect(({ firestore: { ordered }, firebase: { auth, profile } }) => ({
     campaigns: ordered.campaigns,
-    auth
+    auth,
+    profile
   })),
   firestoreConnect(({ auth }) => [
     { collection: 'campaigns', where: ['owner', '==', auth.uid || ''] }
   ]),
   withHandlers({
-    onNewCampaignSubmit: props => (newTodo, callback) =>
-      props.firestore.add('campaigns', { ...newTodo, status: 'incomplete' }).then(doc => {
+    onNewCampaignSubmit: props => (newCampaign, callback) =>
+      props.firestore.add('campaigns', { ...newCampaign, status: 'incomplete' }).then(doc => {
         if (callback) {
           callback(doc);
         }

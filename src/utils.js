@@ -17,4 +17,8 @@ export function validate(location, params) {
   return true;
 }
 
-export default { validate };
+export function canUserCreateCampaigns(profile) {
+  return profile.isFounder !== null && profile.isFounder === true;
+}
+
+export default { validate, canUserCreateCampaigns };

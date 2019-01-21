@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid, Typography, Divider } from '@material-ui/core';
 import { isLoaded } from 'react-redux-firebase';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import CampaignCard from './campaignCard';
 import NewCampaignCard from './newCampaignCard';
+import { canUserCreateCampaigns } from '../../src/utils';
 
 const styles = theme => ({
   root: {
@@ -12,7 +15,7 @@ const styles = theme => ({
   }
 });
 
-const MyCampaigns = ({ classes, campaigns, handleNewCampaignDialogOpen }) => {
+const MyCampaigns = ({ classes, campaigns, handleNewCampaignDialogOpen, profile }) => {
   if (!isLoaded(campaigns)) {
     return null;
   }
@@ -22,7 +25,10 @@ const MyCampaigns = ({ classes, campaigns, handleNewCampaignDialogOpen }) => {
       <Grid item xs={12}>
         <Typography variant="subtitle1">Campaigns</Typography>
       </Grid>
-      <NewCampaignCard onClick={handleNewCampaignDialogOpen} />
+      <NewCampaignCard
+        onClick={handleNewCampaignDialogOpen}
+        disabled={!canUserCreateCampaigns(profile)}
+      />
       {campaigns.map(campaign => (
         <CampaignCard key={campaign.id} campaign={campaign} />
       ))}
@@ -34,4 +40,9 @@ MyCampaigns.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(MyCampaigns);
+export default compose(
+  withStyles(styles),
+  connect(({ firebase: { profile } }) => ({
+    profile
+  }))
+)(MyCampaigns);

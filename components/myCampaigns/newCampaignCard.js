@@ -28,17 +28,25 @@ const styles = theme => ({
   cardContainer: {
     minHeight: 200
   },
+  cardDisabled: {
+    backgroundColor: 'lightgray',
+    color: 'white'
+  },
   section1: {
     margin: `${theme.spacing.unit * 3}px ${theme.spacing.unit * 2}px`
   }
 });
 
 function NewCampaignCard(props) {
-  const { classes, onClick } = props;
+  const { classes, onClick, disabled } = props;
   return (
     <Grid item xs={12} sm={4}>
       <Card className={classes.root}>
-        <CardActionArea className={classes.actionArea} onClick={onClick}>
+        <CardActionArea
+          disabled={disabled}
+          className={disabled ? classes.cardDisabled : ''}
+          onClick={onClick}
+        >
           <div className={classes.section1}>
             <Grid
               container
