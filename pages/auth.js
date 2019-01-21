@@ -10,8 +10,11 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import { withFirebase } from 'react-redux-firebase';
+import { withFirebase, withFirestore } from 'react-redux-firebase';
 import withNavBar from '../src/withNavBar';
+import LoginForm from '../components/loginForm';
+import SignupForm from '../components/signupForm';
+import SwitchComponent from '../components/switchComponent';
 
 const styles = {
   root: {
@@ -37,19 +40,40 @@ class Auth extends React.Component {
     });
   };
 
-  // Validate that the data entered is okay
-  validateData = () => {
+  // Validate that the data entered for logging in is okay
+  validateLoginData = () => {
     const { email, password } = this.state;
     return email !== null && email !== '' && password !== null && password !== '';
-    // const {
-    //   businessName, businessStreetAddress, businessCity, businessState, businessAreaCode, businessType,
-    //   email, password
-    // } = this.state;
+  };
 
-    // if (!businessName || !businessStreetAddress || !businessCity || !businessState || !businessAreaCode || !businessType ||
-    //   !email || !password) {
-    //     return false
-    //   }
+  // Validate the data entered for signing up is okay
+  validateSignupData = () => {
+    const { businessName, businessAddress } = this.state;
+    if (!this.validateLoginData()) {
+      return false;
+    }
+    return (
+      businessName !== null &&
+      businessName !== '' &&
+      businessAddress !== null &&
+      businessAddress !== ''
+    );
+  };
+
+  // Create user's business in their business list
+  addBusinessInfoToUserProfile = () => {
+    const { firebase, firestore } = this.props;
+    const { businessAddress, businessName } = this.state;
+    // Add business info to their profile
+    const { uid } = firebase.auth().currentUser;
+    firestore
+      .collection('users')
+      .doc(uid)
+      .collection('businesses')
+      .add({
+        name: businessName,
+        address: businessAddress
+      });
   };
 
   onSubmit = async () => {
@@ -58,11 +82,21 @@ class Auth extends React.Component {
         query: { action }
       },
       router,
-      firebase
+      firebase,
+      firestore
     } = this.props;
-    const { email, password } = this.state;
+    const { email, password, businessName, businessAddress } = this.state;
 
     if (action === 'login') {
+      // Validate the fields before trying to submit them
+      if (!this.validateLoginData()) {
+        this.setState({
+          error: 'Please enter an email and password.'
+        });
+        return;
+      }
+
+      // Attempt to login
       try {
         // Attempt to login, throws error if unsuccesful
         await firebase.login({
@@ -78,14 +112,22 @@ class Auth extends React.Component {
         });
       }
     } else if (action === 'signup') {
-      if (!this.validateData()) {
+      // Validate fields before trying to signup
+      if (!this.validateSignupData()) {
         this.setState({
-          error: 'Please enter a valid email and password.'
+          error: 'Please enter correct Account and Business details.'
         });
         return;
       }
 
-      firebase.createUser({ email, password });
+      // Create user
+      firebase.createUser({ email, password }).then(ref => {
+        // Add business info to their profile
+        this.addBusinessInfoToUserProfile();
+      });
+
+      // Succesful login go back to home screen
+      router.push('/');
     }
   };
 
@@ -107,34 +149,16 @@ class Auth extends React.Component {
 
     return (
       <div className={classes.root}>
-        <FormControl className={classes.formControl} error={error !== null}>
-          <TextField
-            id="standard-name"
-            label="Email"
-            className={classes.textField}
-            value={email}
-            onChange={this.handleChange('email')}
-            margin="normal"
+        <SwitchComponent show={action === 'login'}>
+          <LoginForm
+            {...{ state: this.state, handleChange: this.handleChange, onSubmit: this.onSubmit }}
           />
-          <br />
-          <TextField
-            id="standard-name"
-            label="Password"
-            type="password"
-            className={classes.textField}
-            value={password}
-            onChange={this.handleChange('password')}
-            margin="normal"
+        </SwitchComponent>
+        <SwitchComponent show={action === 'signup'}>
+          <SignupForm
+            {...{ state: this.state, handleChange: this.handleChange, onSubmit: this.onSubmit }}
           />
-
-          <br />
-          <FormHelperText id="component-error-text">{error}</FormHelperText>
-          <br />
-
-          <Button onClick={this.onSubmit} variant="contained" color="primary">
-            {action}
-          </Button>
-        </FormControl>
+        </SwitchComponent>
       </div>
     );
   }
@@ -151,5 +175,6 @@ export default compose(
   withNavBar,
   withRouter,
   withFirebase,
+  withFirestore,
   withStyles(styles)
 )(Auth);
