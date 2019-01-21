@@ -115,7 +115,7 @@ class WhatWeDo extends React.Component {
         <Grid item xs={10}>
           <SpecialButton
             onClick={() => {
-              this.pushPage('/dashboard');
+              this.pushPage('/work');
             }}
           >
             See more of our work
