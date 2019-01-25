@@ -66,13 +66,13 @@ class Dashboard extends React.Component {
   };
 
   createNewCampaign = () => {
-    const { onNewCampaignSubmit, auth } = this.props;
+    const { onNewCampaignSubmit, auth, profile } = this.props;
     const { newCampaignName } = this.state;
 
     // // get all data needed to create new campaign
-    const owner = auth.uid;
+    const ownerId = auth.uid;
     const name = newCampaignName;
-    if (!validate('dashboard.createNewCampaign', { owner, name })) {
+    if (!validate('dashboard.createNewCampaign', { ownerId, profile, name })) {
       console.error('COULD NOT CREATE NEW CAMPAIGN');
       // TODO - CREATE VISUAL ERROR IN UI
       return;
@@ -82,9 +82,16 @@ class Dashboard extends React.Component {
     this.handleNewCampaignDialogClose();
 
     // Create the new campaign, and callback goes to the page for that campaign
-    onNewCampaignSubmit({ name, owner, createdAt: new Date() }, doc => {
-      Router.push(`/campaign?id=${doc.id}`, `campaign/${doc.id}`);
-    });
+    onNewCampaignSubmit(
+      {
+        owner: { id: ownerId, profile: { name: profile.name, email: profile.email } },
+        name,
+        createdAt: new Date()
+      },
+      doc => {
+        Router.push(`/campaign?id=${doc.id}`, `campaign/${doc.id}`);
+      }
+    );
   };
 
   render() {
@@ -164,7 +171,7 @@ export default compose(
     profile
   })),
   firestoreConnect(({ auth }) => [
-    { collection: 'campaigns', where: ['owner', '==', auth.uid || ''] }
+    { collection: 'campaigns', where: ['owner.id', '==', auth.uid || ''] }
   ]),
   withHandlers({
     onNewCampaignSubmit: props => (newCampaign, callback) =>

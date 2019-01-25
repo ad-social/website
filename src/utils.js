@@ -21,4 +21,17 @@ export function canUserCreateCampaigns(profile) {
   return profile.isFounder !== null && profile.isFounder === true;
 }
 
+export function parseStatus(status) {
+  switch (status) {
+    case 0:
+      return 'incomplete';
+    case 1:
+      return 'review';
+    case 2:
+      return 'pickAd';
+    default:
+      return 'incomplete';
+  }
+}
+
 export default { validate, canUserCreateCampaigns };
