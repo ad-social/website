@@ -29,6 +29,16 @@ const SignupForm = ({ classes, state, handleChange, onSubmit }) => (
     <TextField
       id="standard-name"
       variant="outlined"
+      label="Full Name"
+      className={classes.textField}
+      value={state.name}
+      onChange={handleChange('name')}
+      margin="normal"
+    />
+    <br />
+    <TextField
+      id="standard-name"
+      variant="outlined"
       label="Email"
       className={classes.textField}
       value={state.email}

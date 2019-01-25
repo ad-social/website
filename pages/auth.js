@@ -42,8 +42,15 @@ class Auth extends React.Component {
 
   // Validate that the data entered for logging in is okay
   validateLoginData = () => {
-    const { email, password } = this.state;
-    return email !== null && email !== '' && password !== null && password !== '';
+    const { name, email, password } = this.state;
+    return (
+      name !== null &&
+      name !== '' &&
+      email !== null &&
+      email !== '' &&
+      password !== null &&
+      password !== ''
+    );
   };
 
   // Validate the data entered for signing up is okay
@@ -85,7 +92,7 @@ class Auth extends React.Component {
       firebase,
       firestore
     } = this.props;
-    const { email, password, businessName, businessAddress } = this.state;
+    const { name, email, password } = this.state;
 
     if (action === 'login') {
       // Validate the fields before trying to submit them
@@ -121,7 +128,7 @@ class Auth extends React.Component {
       }
 
       // Create user
-      firebase.createUser({ email, password }).then(ref => {
+      firebase.createUser({ email, password }, { email, name }).then(ref => {
         // Add business info to their profile
         this.addBusinessInfoToUserProfile();
       });
@@ -140,7 +147,7 @@ class Auth extends React.Component {
       },
       classes
     } = this.props;
-    const { email, password, error } = this.state;
+    const { name, email, password, error } = this.state;
 
     // Make sure users can't just enter whatever action they want
     if (action !== 'login' && action !== 'signup') {
