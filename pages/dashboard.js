@@ -18,7 +18,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Error from '@material-ui/icons/ErrorOutline';
 import { withFirestore, firestoreConnect, isLoaded } from 'react-redux-firebase';
-import withNavBar from '../src/withNavBar';
+import withResponsiveDrawerNavbar from '../src/withResponsiveDrawerNavbar';
 import MyCampaigns from '../components/myCampaigns';
 import { validate, canUserCreateCampaigns } from '../src/utils';
 import SwitchComponent from '../components/switchComponent';
@@ -163,7 +163,6 @@ Dashboard.propTypes = {
 };
 
 export default compose(
-  withNavBar,
   withFirestore,
   connect(({ firestore: { ordered }, firebase: { auth, profile } }) => ({
     campaigns: ordered.campaigns,
@@ -181,5 +180,6 @@ export default compose(
         }
       })
   }),
+  withResponsiveDrawerNavbar,
   withStyles(styles)
 )(Dashboard);
