@@ -19,6 +19,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import { parseStatus } from '../src/utils';
 import withNavBar from '../src/withNavBar';
+import withResponsiveDrawerNavbar from '../src/withResponsiveDrawerNavbar';
 import EditCampaignStepper from '../components/editCampaignStepper';
 import CampaignHeader from '../components/campaignHeader';
 import CampaignSummary from '../components/campaignSummary';
@@ -143,7 +144,7 @@ Campaign.propTypes = {
 
 export default compose(
   withRouter,
-  withNavBar,
+  withResponsiveDrawerNavbar,
   firestoreConnect(props => [{ collection: 'campaigns', doc: props.router.query.id }]),
   connect(({ firestore: { data }, firebase: { profile } }, { router: { query: { id } } }) => ({
     campaign: data.campaigns && data.campaigns[id],
