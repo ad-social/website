@@ -53,16 +53,28 @@ const styles = theme => ({
 
 class ResponsiveDrawer extends React.Component {
   state = {
-    mobileOpen: false
+    mobileOpen: false,
+    page: 'setup'
   };
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
 
+  changePage = newPage => {
+    this.setState({
+      page: newPage
+    });
+  };
+
   render() {
-    const { classes, theme, campaign } = this.props;
-    console.log(this.props.router.query.campaignId);
+    const { classes, children, theme, campaign } = this.props;
+    const { page } = this.state;
+
+    // Recreate the children so we can add the 'page' prop
+    const childrenWithProps = React.Children.map(children, child =>
+      React.cloneElement(child, { page })
+    );
 
     return (
       <div className={classes.root}>
@@ -106,13 +118,13 @@ class ResponsiveDrawer extends React.Component {
               variant="permanent"
               open
             >
-              <DrawerContent />
+              <DrawerContent page={page} changePage={this.changePage} />
             </Drawer>
           </Hidden>
         </nav>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          {this.props.children}
+          {childrenWithProps}
         </main>
       </div>
     );

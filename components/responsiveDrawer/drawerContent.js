@@ -15,6 +15,7 @@ import Divider from '@material-ui/core/Divider';
 import { withStyles } from '@material-ui/core/styles';
 import { Collapse } from '@material-ui/core';
 import { compose } from 'redux';
+import Router from 'next/router';
 
 const styles = theme => ({
   root: {
@@ -36,33 +37,43 @@ class DrawerContent extends React.Component {
   };
 
   render() {
-    const {
-      classes,
-      router: {
-        query: { page }
-      }
-    } = this.props;
+    const { classes, page, changePage } = this.props;
 
     return (
       <div>
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          <ListItem selected={page === 'setup'} button key="Setup">
+          <ListItem
+            onClick={() => changePage('setup')}
+            selected={page === 'setup'}
+            button
+            key="Setup"
+          >
             <ListItemIcon>
               <SettingsIcon />
             </ListItemIcon>
             <ListItemText primary="Setup" />
           </ListItem>
 
-          <ListItem selected={page === 'Dashboard'} button key="Dashboard">
+          <ListItem
+            onClick={() => changePage('dashboard')}
+            selected={page === 'dashboard'}
+            button
+            key="Dashboard"
+          >
             <ListItemIcon>
               <BarChartIcon />
             </ListItemIcon>
             <ListItemText primary="Dashboard" secondary="Overview of your campaign" />
           </ListItem>
 
-          <ListItem selected={page === 'Analytics'} button key="Analytics">
+          <ListItem
+            onClick={() => changePage('analytics')}
+            selected={page === 'analytics'}
+            button
+            key="Analytics"
+          >
             <ListItemIcon>
               <BarChartIcon />
             </ListItemIcon>

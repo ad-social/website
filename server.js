@@ -25,9 +25,9 @@ app
       });
     }
 
-    server.get('/campaign/:campaignId/setup', (req, res) => {
-      const actualPage = '/campaignSetup';
-      const queryParams = { campaignId: req.params.campaignId, page: 'setup' };
+    server.get('/campaign/:campaignId', (req, res) => {
+      const actualPage = '/campaign';
+      const queryParams = { campaignId: req.params.campaignId };
       app.render(req, res, actualPage, queryParams);
     });
 

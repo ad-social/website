@@ -20,11 +20,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { parseStatus } from '../src/utils';
 import withNavBar from '../src/withNavBar';
 import withResponsiveDrawerNavbar from '../src/withResponsiveDrawerNavbar';
-import EditCampaignStepper from '../components/editCampaignStepper';
-import CampaignHeader from '../components/campaignHeader';
-import CampaignSummary from '../components/campaignSummary';
-import SwitchComponent from '../components/switchComponent';
-import SpecialButton from '../components/specialButton';
+import EditCampaignStepper from './editCampaignStepper';
+import CampaignHeader from './campaignHeader';
+import CampaignSummary from './campaignSummary';
+import SwitchComponent from './switchComponent';
+import SpecialButton from './specialButton';
 
 const styles = theme => ({
   root: {
@@ -48,15 +48,7 @@ class CampaignSetup extends React.Component {
   };
 
   render() {
-    const {
-      classes,
-      campaign,
-      updateCampaign,
-      profile,
-      router: {
-        query: { id }
-      }
-    } = this.props;
+    const { classes, campaign, updateCampaign, profile } = this.props;
 
     // Make sure the campaign is loaded
     if (!isLoaded(campaign)) {
@@ -80,7 +72,7 @@ class CampaignSetup extends React.Component {
           <Grid item xs={12} sm={10}>
             <Grid item xs={12}>
               <Typography color="inherit" variant="h3">
-                Overview
+                Setup
               </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -141,32 +133,13 @@ class CampaignSetup extends React.Component {
 }
 
 CampaignSetup.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  campaign: PropTypes.object.isRequired,
+  updateCampaign: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired
 };
 
 export default compose(
   withRouter,
-  firestoreConnect(props => [{ collection: 'campaigns', doc: props.router.query.campaignId }]),
-  connect(
-    (
-      { firestore: { data }, firebase: { profile } },
-      {
-        router: {
-          query: { campaignId }
-        }
-      }
-    ) => ({
-      campaign: data.campaigns && data.campaigns[campaignId],
-      profile
-    })
-  ),
-  withHandlers({
-    updateCampaign: props => updates =>
-      props.firestore.update(
-        { collection: 'campaigns', doc: props.router.query.campaignId },
-        updates
-      )
-  }),
-  withResponsiveDrawerNavbar,
   withStyles(styles)
 )(CampaignSetup);
