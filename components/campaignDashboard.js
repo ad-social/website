@@ -5,7 +5,7 @@ import { withRouter } from 'next/router';
 import { compose, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 
-import { firestoreConnect, isLoaded } from 'react-redux-firebase';
+import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import {
   CircularProgress,
   Typography,
@@ -39,6 +39,7 @@ class CampaignDashboard extends React.Component {
     const {
       classes,
       campaign,
+      adsets,
       updateCampaign,
       profile,
       router: {
@@ -47,17 +48,31 @@ class CampaignDashboard extends React.Component {
     } = this.props;
 
     // Make sure the campaign is loaded
-    if (!isLoaded(campaign)) {
+    if (!isLoaded(campaign) || !isLoaded(adsets)) {
       return <CircularProgress className={classes.progress} />;
     }
-
-    // const status = parseStatus(campaign.status);
-    const { status } = campaign;
 
     return (
       <div className={classes.root}>
         <Grid container justify="center" alignItems="center" spacing={16}>
-          Dashboard
+          <Grid item xs={12} sm={10}>
+            <Grid item xs={12}>
+              <Typography color="inherit" variant="h3">
+                Dashboard
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <SwitchComponent show={isEmpty(adsets)}>
+                <Typography>
+                  You don't have any adsets! One will be created for you shortly
+                </Typography>
+              </SwitchComponent>
+
+              <SwitchComponent show={!isEmpty(adsets)}>
+                <Typography>[TODO SHOW ADSET DATA]</Typography>
+              </SwitchComponent>
+            </Grid>
+          </Grid>
         </Grid>
       </div>
     );

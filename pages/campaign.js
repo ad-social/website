@@ -60,6 +60,8 @@ class Campaign extends React.Component {
       return <CircularProgress className={classes.progress} />;
     }
 
+    console.log(this.props);
+
     // const status = parseStatus(campaign.status);
     const { status } = campaign;
 
@@ -71,13 +73,7 @@ class Campaign extends React.Component {
       updateCampaign({ passedReview: true, status: 2 });
     };
 
-    return (
-      <div className={classes.root}>
-        <Grid container justify="center" alignItems="center" spacing={16}>
-          {this.renderContent()}
-        </Grid>
-      </div>
-    );
+    return <div className={classes.root}>{this.renderContent()}</div>;
   }
 }
 
@@ -87,7 +83,19 @@ Campaign.propTypes = {
 
 export default compose(
   withRouter,
-  firestoreConnect(props => [{ collection: 'campaigns', doc: props.router.query.campaignId }]),
+  firestoreConnect(props => [
+    {
+      collection: 'campaigns',
+      doc: props.router.query.campaignId,
+      storeAs: 'campaign'
+    },
+    {
+      collection: 'campaigns',
+      doc: props.router.query.campaignId,
+      subcollections: [{ collection: 'adsets' }],
+      storeAs: 'adsets'
+    }
+  ]),
   connect(
     (
       { firestore: { data }, firebase: { profile } },
@@ -97,7 +105,8 @@ export default compose(
         }
       }
     ) => ({
-      campaign: data.campaigns && data.campaigns[campaignId],
+      campaign: data.campaign,
+      adsets: data.adsets,
       profile
     })
   ),
@@ -106,7 +115,17 @@ export default compose(
       props.firestore.update(
         { collection: 'campaigns', doc: props.router.query.campaignId },
         updates
-      )
+      ),
+    createNewAdset: props => adset => {
+      props.firestore.add(
+        {
+          collection: 'campaigns',
+          doc: props.router.query.campaignId,
+          subcollections: [{ collection: 'adsets' }]
+        },
+        adset
+      );
+    }
   }),
   withResponsiveDrawerNavbar,
   withStyles(styles)

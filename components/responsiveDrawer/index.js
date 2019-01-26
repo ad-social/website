@@ -63,7 +63,8 @@ class ResponsiveDrawer extends React.Component {
 
   changePage = newPage => {
     this.setState({
-      page: newPage
+      page: newPage,
+      mobileOpen: false
     });
   };
 
@@ -107,7 +108,7 @@ class ResponsiveDrawer extends React.Component {
                 paper: classes.drawerPaper
               }}
             >
-              <DrawerContent />
+              <DrawerContent page={page} changePage={this.changePage} />
             </Drawer>
           </Hidden>
           <Hidden smDown implementation="css">

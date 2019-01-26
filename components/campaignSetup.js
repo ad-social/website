@@ -47,6 +47,16 @@ class CampaignSetup extends React.Component {
     }
   };
 
+  /**
+   * ADMIN CONTROL
+   * Puts campaign past the review stage
+   */
+  passCampaignReview = () => {
+    const { updateCampaign, createNewAdset } = this.props;
+    updateCampaign({ passedReview: true, status: 2 });
+    createNewAdset({ status: 'creating' });
+  };
+
   render() {
     const { classes, campaign, updateCampaign, profile } = this.props;
 
@@ -57,14 +67,6 @@ class CampaignSetup extends React.Component {
 
     // const status = parseStatus(campaign.status);
     const { status } = campaign;
-
-    /**
-     * ADMIN CONTROL
-     * Puts campaign past the review stage
-     */
-    const passCampaignReview = () => {
-      updateCampaign({ passedReview: true, status: 2 });
-    };
 
     return (
       <div className={classes.root}>
@@ -109,19 +111,8 @@ class CampaignSetup extends React.Component {
                   <SwitchComponent
                     show={profile.isAdmin === true && campaign.passedReview === false}
                   >
-                    <SpecialButton onPress={this.passCampaignReview}>Pass</SpecialButton>
+                    <SpecialButton onClick={this.passCampaignReview}>Pass</SpecialButton>
                   </SwitchComponent>
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-              <ExpansionPanel disabled={status < 2}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>Craft Your Ad</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                  <Typography>
-                    Your ad is in the works! We'll get it to you within 72 hours. If you don't like
-                    it you will be able to make 2 free revisions.
-                  </Typography>
                 </ExpansionPanelDetails>
               </ExpansionPanel>
             </Grid>
