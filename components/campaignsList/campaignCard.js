@@ -49,7 +49,7 @@ function formatStatus(status) {
 }
 
 const onClick = campaign => {
-  Router.push(`/campaign?id=${campaign.id}/setup`, `campaign/${campaign.id}/setup`);
+  Router.push(`/campaign?campaignId=${campaign.id}`, `campaign/${campaign.id}`);
 };
 
 function CampaignCard(props) {

@@ -55,8 +55,6 @@ class Campaign extends React.Component {
   render() {
     const { classes, campaign, updateCampaign, profile, page } = this.props;
 
-    console.log('Page: ', page);
-
     // Make sure the campaign is loaded
     if (!isLoaded(campaign)) {
       return <CircularProgress className={classes.progress} />;
