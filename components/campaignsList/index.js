@@ -15,7 +15,7 @@ const styles = theme => ({
   }
 });
 
-const MyCampaigns = ({ classes, campaigns, handleNewCampaignDialogOpen, profile }) => {
+const CampaignsList = ({ classes, campaigns, handleNewCampaignDialogOpen, profile }) => {
   if (!isLoaded(campaigns)) {
     return null;
   }
@@ -36,7 +36,7 @@ const MyCampaigns = ({ classes, campaigns, handleNewCampaignDialogOpen, profile 
   );
 };
 
-MyCampaigns.propTypes = {
+CampaignsList.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
@@ -45,4 +45,4 @@ export default compose(
   connect(({ firebase: { profile } }) => ({
     profile
   }))
-)(MyCampaigns);
+)(CampaignsList);

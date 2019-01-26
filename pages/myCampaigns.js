@@ -17,11 +17,11 @@ import { compose, withHandlers } from 'recompose';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Error from '@material-ui/icons/ErrorOutline';
-import { withFirestore, firestoreConnect, isLoaded } from 'react-redux-firebase';
-import withResponsiveDrawerNavbar from '../src/withResponsiveDrawerNavbar';
-import MyCampaigns from '../components/myCampaigns';
+import { withFirestore, firestoreConnect } from 'react-redux-firebase';
+import CampaignsList from '../components/campaignsList';
 import { validate, canUserCreateCampaigns } from '../src/utils';
 import SwitchComponent from '../components/switchComponent';
+import withNavBar from '../src/withNavBar';
 
 const styles = theme => ({
   root: {
@@ -39,7 +39,7 @@ const styles = theme => ({
   }
 });
 
-class Dashboard extends React.Component {
+class MyCampaigns extends React.Component {
   state = {
     newCampaignDialogOpen: false
   };
@@ -117,7 +117,7 @@ class Dashboard extends React.Component {
           </SwitchComponent>
 
           <Grid item xs={10}>
-            <MyCampaigns
+            <CampaignsList
               campaigns={campaigns}
               handleNewCampaignDialogOpen={this.handleNewCampaignDialogOpen}
             />
@@ -158,7 +158,7 @@ class Dashboard extends React.Component {
   }
 }
 
-Dashboard.propTypes = {
+MyCampaigns.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
@@ -180,6 +180,6 @@ export default compose(
         }
       })
   }),
-  withResponsiveDrawerNavbar,
+  withNavBar,
   withStyles(styles)
-)(Dashboard);
+)(MyCampaigns);

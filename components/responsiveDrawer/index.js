@@ -2,28 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
+
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
+
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import {
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
-  Collapse
-} from '@material-ui/core';
+import { withRouter } from 'next/router';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import DrawerContent from './drawerContent';
 
 const drawerWidth = 240;
 
@@ -56,20 +48,12 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing.unit * 3
-  },
-  nested: {
-    paddingLeft: theme.spacing.unit * 4
   }
 });
 
 class ResponsiveDrawer extends React.Component {
   state = {
-    mobileOpen: false,
-    open: false
-  };
-
-  handleClick = () => {
-    this.setState(state => ({ open: !state.open }));
+    mobileOpen: false
   };
 
   handleDrawerToggle = () => {
@@ -77,51 +61,8 @@ class ResponsiveDrawer extends React.Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
-
-    const drawer = (
-      <div>
-        <div className={classes.toolbar} />
-        <Divider />
-        <List>
-          {['Settings'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-
-          <ListItem button onClick={this.handleClick}>
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText inset primary="Inbox" />
-            {this.state.open ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem button className={classes.nested}>
-                <ListItemIcon>
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText inset primary="Starred" />
-              </ListItem>
-            </List>
-          </Collapse>
-        </List>
-        {/* <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List> */}
-      </div>
-    );
+    const { classes, theme, campaign } = this.props;
+    console.log(this.props.router.query.campaignId);
 
     return (
       <div className={classes.root}>
@@ -137,7 +78,7 @@ class ResponsiveDrawer extends React.Component {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap>
-              Dashboard
+              {campaign && campaign.name}
             </Typography>
           </Toolbar>
         </AppBar>
@@ -154,7 +95,7 @@ class ResponsiveDrawer extends React.Component {
                 paper: classes.drawerPaper
               }}
             >
-              {drawer}
+              <DrawerContent />
             </Drawer>
           </Hidden>
           <Hidden smDown implementation="css">
@@ -165,7 +106,7 @@ class ResponsiveDrawer extends React.Component {
               variant="permanent"
               open
             >
-              {drawer}
+              <DrawerContent />
             </Drawer>
           </Hidden>
         </nav>
@@ -186,4 +127,11 @@ ResponsiveDrawer.propTypes = {
   theme: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, { withTheme: true })(ResponsiveDrawer);
+export default compose(
+  withStyles(styles, { withTheme: true }),
+  withRouter,
+  firestoreConnect(props => [{ collection: 'campaigns', doc: props.router.query.campaignId }]),
+  connect(({ firestore: { data } }, { router: { query: { campaignId } } }) => ({
+    campaign: data.campaigns && data.campaigns[campaignId]
+  }))
+)(ResponsiveDrawer);

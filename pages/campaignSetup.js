@@ -32,7 +32,7 @@ const styles = theme => ({
   }
 });
 
-class Campaign extends React.Component {
+class CampaignSetup extends React.Component {
   state = {};
 
   renderCampaignBody = () => {
@@ -79,7 +79,9 @@ class Campaign extends React.Component {
         <Grid container justify="center" alignItems="center" spacing={16}>
           <Grid item xs={12} sm={10}>
             <Grid item xs={12}>
-              <CampaignHeader campaign={campaign} />
+              <Typography color="inherit" variant="h3">
+                Overview
+              </Typography>
             </Grid>
             <Grid item xs={12}>
               {/* {this.renderCampaignBody()} */}
@@ -138,21 +140,33 @@ class Campaign extends React.Component {
   }
 }
 
-Campaign.propTypes = {
+CampaignSetup.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
 export default compose(
   withRouter,
-  withResponsiveDrawerNavbar,
-  firestoreConnect(props => [{ collection: 'campaigns', doc: props.router.query.id }]),
-  connect(({ firestore: { data }, firebase: { profile } }, { router: { query: { id } } }) => ({
-    campaign: data.campaigns && data.campaigns[id],
-    profile
-  })),
+  firestoreConnect(props => [{ collection: 'campaigns', doc: props.router.query.campaignId }]),
+  connect(
+    (
+      { firestore: { data }, firebase: { profile } },
+      {
+        router: {
+          query: { campaignId }
+        }
+      }
+    ) => ({
+      campaign: data.campaigns && data.campaigns[campaignId],
+      profile
+    })
+  ),
   withHandlers({
     updateCampaign: props => updates =>
-      props.firestore.update({ collection: 'campaigns', doc: props.router.query.id }, updates)
+      props.firestore.update(
+        { collection: 'campaigns', doc: props.router.query.campaignId },
+        updates
+      )
   }),
+  withResponsiveDrawerNavbar,
   withStyles(styles)
-)(Campaign);
+)(CampaignSetup);

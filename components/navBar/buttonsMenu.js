@@ -78,7 +78,7 @@ const ButtonsMenu = ({ classes }) => (
         }}
         color="inherit"
       >
-        My Dashboard
+        My Campaigns
       </Button>
     </div>
   </div>
