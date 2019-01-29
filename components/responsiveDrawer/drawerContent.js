@@ -42,7 +42,8 @@ const styles = theme => ({
 
 class DrawerContent extends React.Component {
   render() {
-    const { classes, page, changePage, handleDrawerClose } = this.props;
+    const { classes, page, campaign, changePage, handleDrawerClose } = this.props;
+    const isIncomplete = (campaign && campaign.status === 'incomplete') || true;
 
     return (
       <div>
@@ -71,6 +72,7 @@ class DrawerContent extends React.Component {
             button
             key="Dashboard"
             className={classes.listItem}
+            disabled={isIncomplete}
           >
             <ListItemIcon>
               <DashboardIcon />
@@ -84,6 +86,7 @@ class DrawerContent extends React.Component {
             button
             key="Analytics"
             className={classes.listItem}
+            disabled={isIncomplete}
           >
             <ListItemIcon>
               <BarChartIcon />

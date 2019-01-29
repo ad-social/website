@@ -121,9 +121,9 @@ class CampaignSetup extends React.Component {
               <Typography color="inherit" variant="h3">
                 Setup
               </Typography>
-              <Typography color="inherit" variant="subtitle2" gutterBottom>
-                Tell us about your campaign. We'll review the information and make sure everything
-                is good to go!
+              <Typography color="inherit" variant="subtitle1" gutterBottom>
+                Tell us about your campaign, what you'd like to acheive, how much you'd like to
+                spend, etc. We'll review the information and make sure everything is good to go!
               </Typography>
             </Grid>
 
@@ -172,46 +172,12 @@ class CampaignSetup extends React.Component {
               </Paper>
             </Grid>
 
-            {/* <ExpansionPanel>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>Campaign Details</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                  {status === 0 ? (
-                    <EditCampaignStepper {...{ campaign, updateCampaign }} />
-                  ) : (
-                    <CampaignSummary {...{ campaign, updateCampaign }} />
-                  )}
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-              <ExpansionPanel disabled={status < 1}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>Review</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                  {status === 1 ? (
-                    <Typography>
-                      We're reviewing your campaign now! We'll get back to you within 48 hours with
-                      free consultation advice.
-                    </Typography>
-                  ) : (
-                    <Typography>
-                      We've looked over your campaign and it looks great! You're ready to pick your
-                      ad!
-                    </Typography>
-                  )}
-
-                  <SwitchComponent
-                    show={profile.isAdmin === true && campaign.passedReview === false}
-                  >
-                    <SpecialButton onClick={this.passCampaignReview}>Pass</SpecialButton>
-                  </SwitchComponent>
-                </ExpansionPanelDetails>
-              </ExpansionPanel> */}
-
+            {/* Only non-admins can submit for review */}
             <SwitchComponent show={profile.isAdmin === false}>
               <SpecialButton onClick={this.submitForReview}>Submit For Review</SpecialButton>
             </SwitchComponent>
+
+            {/* Only admins can pass the review */}
             <SwitchComponent show={profile.isAdmin === true && campaign.passedReview === false}>
               <SpecialButton onClick={this.passCampaignReview}>Pass Review</SpecialButton>
             </SwitchComponent>

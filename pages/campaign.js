@@ -113,6 +113,5 @@ export default compose(
       );
     }
   }),
-  withResponsiveDrawerNavbar,
   withStyles(styles)
-)(Campaign);
+)(withResponsiveDrawerNavbar(Campaign));

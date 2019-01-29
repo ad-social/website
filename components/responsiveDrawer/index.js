@@ -130,6 +130,7 @@ class ResponsiveDrawer extends React.Component {
     return (
       <div className={classes.root}>
         <CssBaseline />
+
         <AppBar
           position="fixed"
           className={classNames(classes.appBar, isDrawerOpen && classes.appBarShift)}
@@ -148,6 +149,7 @@ class ResponsiveDrawer extends React.Component {
             </Typography>
           </Toolbar>
         </AppBar>
+
         <nav className={classes.drawer}>
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
           <Hidden implementation="css">
@@ -166,6 +168,7 @@ class ResponsiveDrawer extends React.Component {
               }}
             >
               <DrawerContent
+                campaign={this.props.campaign}
                 page={page}
                 changePage={this.changePage}
                 handleDrawerClose={this.handleDrawerClose}
@@ -173,11 +176,14 @@ class ResponsiveDrawer extends React.Component {
             </Drawer>
           </Hidden>
         </nav>
+
         <main className={classNames(classes.content)}>
+          {/* Vertical padding to compensate for navbar */}
           <div className={classes.toolbar} />
 
+          {/* Side by side so we can do horizontal compensation */}
           <div className={classes.sideBySide}>
-            {/* Compensation width div for drawer opening and closing */}
+            {/* Horizontal (Animated) width padding to compensate for drawer opening and closing */}
             <div
               className={classNames(
                 classes.test,
@@ -185,6 +191,8 @@ class ResponsiveDrawer extends React.Component {
                 !isDrawerOpen && classes.drawerWidthClosed
               )}
             />
+
+            {/* Display the children */}
             {childrenWithProps}
           </div>
         </main>
@@ -203,9 +211,5 @@ ResponsiveDrawer.propTypes = {
 
 export default compose(
   withStyles(styles, { withTheme: true }),
-  withRouter,
-  firestoreConnect(props => [{ collection: 'campaigns', doc: props.router.query.campaignId }]),
-  connect(({ firestore: { data } }, { router: { query: { campaignId } } }) => ({
-    campaign: data.campaigns && data.campaigns[campaignId]
-  }))
+  withRouter
 )(ResponsiveDrawer);
