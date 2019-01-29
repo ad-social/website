@@ -16,6 +16,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import classNames from 'classnames';
+import { Grid } from '@material-ui/core';
 import DrawerContent from './drawerContent';
 
 const drawerWidth = 240;
@@ -26,18 +27,23 @@ const styles = theme => ({
     height: '100vh'
   },
 
+  // Class specific to just the drawer
   drawerPaper: {
-    position: 'relative',
-    whiteSpace: 'nowrap',
+    position: 'fixed',
+    whiteSpace: 'nowrap'
+  },
+
+  // Drawer width transitions between closed and open
+  // Note: this only affects width and can be (is) used as compensation for other
+  // elements to move with the drawer as it opens and closes.
+  drawerWidthOpen: {
     width: drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen
-    }),
-    height: '100vh'
+    })
   },
-  drawerPaperClose: {
-    overflowX: 'hidden',
+  drawerWidthClosed: {
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
@@ -48,6 +54,7 @@ const styles = theme => ({
     }
   },
 
+  // App bar transition with drawer open and close
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     marginLeft: drawerWidth,
@@ -82,6 +89,11 @@ const styles = theme => ({
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
     height: '100vh'
+  },
+
+  sideBySide: {
+    display: 'flex',
+    flexDirection: 'row'
   }
 });
 
@@ -146,7 +158,11 @@ class ResponsiveDrawer extends React.Component {
               open={isDrawerOpen}
               onClose={this.handleDrawerClose}
               classes={{
-                paper: classNames(classes.drawerPaper, !isDrawerOpen && classes.drawerPaperClose)
+                paper: classNames(
+                  classes.drawerPaper,
+                  classes.drawerWidthOpen,
+                  !isDrawerOpen && classes.drawerWidthClosed
+                )
               }}
             >
               <DrawerContent
@@ -157,9 +173,20 @@ class ResponsiveDrawer extends React.Component {
             </Drawer>
           </Hidden>
         </nav>
-        <main className={classes.content}>
+        <main className={classNames(classes.content)}>
           <div className={classes.toolbar} />
-          {childrenWithProps}
+
+          <div className={classes.sideBySide}>
+            {/* Compensation width div for drawer opening and closing */}
+            <div
+              className={classNames(
+                classes.test,
+                classes.drawerWidthOpen,
+                !isDrawerOpen && classes.drawerWidthClosed
+              )}
+            />
+            {childrenWithProps}
+          </div>
         </main>
       </div>
     );

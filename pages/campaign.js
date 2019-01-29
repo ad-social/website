@@ -20,7 +20,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { parseStatus } from '../src/utils';
 import withNavBar from '../src/withNavBar';
 import withResponsiveDrawerNavbar from '../src/withResponsiveDrawerNavbar';
-import EditCampaignStepper from '../components/editCampaignStepper';
 import CampaignHeader from '../components/campaignHeader';
 import CampaignSummary from '../components/campaignSummary';
 import SwitchComponent from '../components/switchComponent';
@@ -59,19 +58,6 @@ class Campaign extends React.Component {
     if (!isLoaded(campaign)) {
       return <CircularProgress className={classes.progress} />;
     }
-
-    console.log(this.props);
-
-    // const status = parseStatus(campaign.status);
-    const { status } = campaign;
-
-    /**
-     * ADMIN CONTROL
-     * Puts campaign past the review stage
-     */
-    const passCampaignReview = () => {
-      updateCampaign({ passedReview: true, status: 2 });
-    };
 
     return <div className={classes.root}>{this.renderContent()}</div>;
   }

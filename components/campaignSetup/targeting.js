@@ -22,7 +22,7 @@ const styles = theme => ({
   }
 });
 
-const TargetingForm = ({ classes, handleTextChange, campaign }) => (
+const TargetingForm = ({ classes, disabled, handleTextChange, campaign }) => (
   <div className={classes.root}>
     <Grid container direction="row" justify="flex-start" spacing={16}>
       <Grid item xs={12}>
@@ -35,6 +35,7 @@ const TargetingForm = ({ classes, handleTextChange, campaign }) => (
                 type="number"
                 value={campaign.ageMin}
                 onChange={handleTextChange('ageMin')}
+                disabled={disabled}
               />
             </FormControl>
           </Grid>
@@ -51,6 +52,7 @@ const TargetingForm = ({ classes, handleTextChange, campaign }) => (
                 type="number"
                 value={campaign.ageMax}
                 onChange={handleTextChange('ageMax')}
+                disabled={disabled}
               />
             </FormControl>
           </Grid>
@@ -70,6 +72,7 @@ const TargetingForm = ({ classes, handleTextChange, campaign }) => (
                   name: 'objective',
                   id: 'objective-simple'
                 }}
+                disabled={disabled}
               >
                 <MenuItem value="any">Any</MenuItem>
                 <MenuItem value="male">Male</MenuItem>
@@ -80,7 +83,7 @@ const TargetingForm = ({ classes, handleTextChange, campaign }) => (
         </Grid>
       </Grid>
 
-      <Grid item xs={7}>
+      <Grid item xs={12}>
         <TextField
           id="outlined-multiline-flexible"
           label="Describe your target audience (Be specific!)"
@@ -92,6 +95,7 @@ const TargetingForm = ({ classes, handleTextChange, campaign }) => (
           className={classes.textField}
           margin="normal"
           variant="outlined"
+          disabled={disabled}
         />
       </Grid>
     </Grid>

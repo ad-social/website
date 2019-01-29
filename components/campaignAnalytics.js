@@ -20,7 +20,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { parseStatus } from '../src/utils';
 import withNavBar from '../src/withNavBar';
 import withResponsiveDrawerNavbar from '../src/withResponsiveDrawerNavbar';
-import EditCampaignStepper from './editCampaignStepper';
 import CampaignHeader from './campaignHeader';
 import CampaignSummary from './campaignSummary';
 import SwitchComponent from './switchComponent';

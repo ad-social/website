@@ -13,22 +13,39 @@ import {
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
-  Button
+  Button,
+  Paper,
+  FormControl,
+  FormLabel,
+  FormGroup,
+  FormControlLabel,
+  Checkbox
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import { parseStatus } from '../src/utils';
-import withNavBar from '../src/withNavBar';
-import withResponsiveDrawerNavbar from '../src/withResponsiveDrawerNavbar';
-import EditCampaignStepper from './editCampaignStepper';
-import CampaignHeader from './campaignHeader';
-import CampaignSummary from './campaignSummary';
-import SwitchComponent from './switchComponent';
-import SpecialButton from './specialButton';
+import { parseStatus } from '../../src/utils';
+import withNavBar from '../../src/withNavBar';
+import withResponsiveDrawerNavbar from '../../src/withResponsiveDrawerNavbar';
+import CampaignHeader from '../campaignHeader';
+import CampaignSummary from '../campaignSummary';
+import SwitchComponent from '../switchComponent';
+import SpecialButton from '../specialButton';
+import Setup from './setup';
+import Targeting from './targeting';
+import Pricing from './pricing';
 
 const styles = theme => ({
   root: {
     display: 'flex'
+  },
+  titleContainer: {
+    marginBottom: theme.spacing.unit * 4
+  },
+  paper: {
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+    marginBottom: theme.spacing.unit * 4
   }
 });
 
@@ -39,7 +56,7 @@ class CampaignSetup extends React.Component {
     const { campaign, updateCampaign } = this.props;
     switch (campaign.status) {
       case 'incomplete':
-        return <EditCampaignStepper {...{ campaign, updateCampaign }} />;
+        return null;
       case 'review':
         return <CampaignSummary {...{ campaign, updateCampaign }} />;
       default:
@@ -57,6 +74,35 @@ class CampaignSetup extends React.Component {
     createNewAdset({ status: 'creating' });
   };
 
+  /**
+   * Submit the campaign for review
+   */
+
+  submitForReview = () => {
+    const { updateCampaign } = this.props;
+    updateCampaign({ status: 'inReview' });
+  };
+
+  /**
+   * Handles any changes to state from a text value
+   */
+  handleTextChange = prop => event => {
+    const { updateCampaign } = this.props;
+    updateCampaign({
+      [prop]: event.target.value
+    });
+  };
+
+  /**
+   * Handles changes from a checkbox
+   */
+  handleCheckboxChange = prop => event => {
+    const { updateCampaign } = this.props;
+    updateCampaign({
+      [prop]: event.target.checked
+    });
+  };
+
   render() {
     const { classes, campaign, updateCampaign, profile } = this.props;
 
@@ -71,14 +117,62 @@ class CampaignSetup extends React.Component {
       <div className={classes.root}>
         <Grid container justify="center" alignItems="center" spacing={16}>
           <Grid item xs={12} sm={10}>
-            <Grid item xs={12}>
+            <Grid item xs={12} className={classes.titleContainer}>
               <Typography color="inherit" variant="h3">
                 Setup
               </Typography>
+              <Typography color="inherit" variant="subtitle2" gutterBottom>
+                Tell us about your campaign. We'll review the information and make sure everything
+                is good to go!
+              </Typography>
             </Grid>
+
             <Grid item xs={12}>
-              {/* {this.renderCampaignBody()} */}
-              <ExpansionPanel>
+              <Paper className={classes.paper}>
+                <Typography variant="h5" component="h3">
+                  Platforms, Objective and Scheduling
+                </Typography>
+
+                <Setup
+                  campaign={campaign}
+                  handleTextChange={this.handleTextChange}
+                  handleCheckboxChange={this.handleCheckboxChange}
+                  disabled={!(status === 'incomplete')}
+                />
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Typography variant="h5" component="h3">
+                  Targeting
+                </Typography>
+
+                <Targeting
+                  campaign={campaign}
+                  handleTextChange={this.handleTextChange}
+                  handleCheckboxChange={this.handleCheckboxChange}
+                  disabled={!(status === 'incomplete')}
+                />
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Typography variant="h5" component="h3">
+                  Pricing
+                </Typography>
+
+                <Pricing
+                  campaign={campaign}
+                  handleTextChange={this.handleTextChange}
+                  handleCheckboxChange={this.handleCheckboxChange}
+                  disabled={!(status === 'incomplete')}
+                />
+              </Paper>
+            </Grid>
+
+            {/* <ExpansionPanel>
                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                   <Typography className={classes.heading}>Campaign Details</Typography>
                 </ExpansionPanelSummary>
@@ -113,8 +207,14 @@ class CampaignSetup extends React.Component {
                     <SpecialButton onClick={this.passCampaignReview}>Pass</SpecialButton>
                   </SwitchComponent>
                 </ExpansionPanelDetails>
-              </ExpansionPanel>
-            </Grid>
+              </ExpansionPanel> */}
+
+            <SwitchComponent show={profile.isAdmin === false}>
+              <SpecialButton onClick={this.submitForReview}>Submit For Review</SpecialButton>
+            </SwitchComponent>
+            <SwitchComponent show={profile.isAdmin === true && campaign.passedReview === false}>
+              <SpecialButton onClick={this.passCampaignReview}>Pass Review</SpecialButton>
+            </SwitchComponent>
           </Grid>
         </Grid>
       </div>

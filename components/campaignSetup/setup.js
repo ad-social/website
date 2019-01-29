@@ -42,14 +42,10 @@ const objectiveOptions = [
   'Store visits'
 ];
 
-const SetupForm = ({ classes, handleTextChange, handleCheckboxChange, campaign }) => (
+const SetupForm = ({ classes, disabled, handleTextChange, handleCheckboxChange, campaign }) => (
   <div className={classes.root}>
     <Grid container direction="row" spacing={16}>
       <Grid item xs={7}>
-        {/* <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="component-simple">Name</InputLabel>
-          <Input id="component-simple" value={campaign.name} onChange={handleChange('name')} />
-        </FormControl> */}
 
         <FormControl component="fieldset" className={classes.formControl}>
           <FormLabel component="legend">Platform(s)</FormLabel>
@@ -57,22 +53,24 @@ const SetupForm = ({ classes, handleTextChange, handleCheckboxChange, campaign }
             <FormControlLabel
               control={
                 <Checkbox
-  checked={campaign.facebook}
-  onChange={handleCheckboxChange('facebook')}
-  value="facebook"
-/>
+                  checked={campaign.facebook}
+                  onChange={handleCheckboxChange('facebook')}
+                  value="facebook"
+                />
               }
               label="Facebook"
+              disabled={disabled}
             />
             <FormControlLabel
               control={
                 <Checkbox
-  checked={campaign.instagram}
-  onChange={handleCheckboxChange('instagram')}
-  value="instagram"
-/>
+                  checked={campaign.instagram}
+                  onChange={handleCheckboxChange('instagram')}
+                  value="instagram"
+                />
               }
               label="Instagram"
+              disabled={disabled}
             />
           </FormGroup>
         </FormControl>
@@ -87,6 +85,7 @@ const SetupForm = ({ classes, handleTextChange, handleCheckboxChange, campaign }
               name: 'objective',
               id: 'objective-simple'
             }}
+            disabled={disabled}
           >
             <MenuItem value="">
               <em>None</em>
@@ -106,18 +105,21 @@ const SetupForm = ({ classes, handleTextChange, handleCheckboxChange, campaign }
             value={campaign.scheduling}
             onChange={handleTextChange('scheduling')}
             row
+            disabled={disabled}
           >
             <FormControlLabel
               value="continuous"
               control={<Radio color="secondary" />}
               label="Continuous"
               labelPlacement="end"
+              disabled={disabled}
             />
             <FormControlLabel
               value="specificSchedule"
               control={<Radio color="secondary" />}
               label="Specific Schedule"
               labelPlacement="end"
+              disabled={disabled}
             />
           </RadioGroup>
         </FormControl>
