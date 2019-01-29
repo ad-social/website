@@ -65,10 +65,6 @@ const styles = theme => ({
     })
   },
 
-  toolbar: {
-    paddingRight: 24 // keep right padding when drawer closed
-  },
-
   menuButton: {
     marginLeft: 12,
     marginRight: 36
@@ -77,7 +73,11 @@ const styles = theme => ({
     display: 'none'
   },
 
-  toolbar: theme.mixins.toolbar,
+  toolbar: {
+    ...theme.mixins.toolbar,
+    paddingRight: 24
+  },
+
   content: {
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
@@ -87,28 +87,28 @@ const styles = theme => ({
 
 class ResponsiveDrawer extends React.Component {
   state = {
-    drawerOpen: false,
+    isDrawerOpen: false,
     page: 'setup'
   };
 
   handleDrawerOpen = () => {
-    this.setState(() => ({ drawerOpen: true }));
+    this.setState(() => ({ isDrawerOpen: true }));
   };
 
   handleDrawerClose = () => {
-    this.setState(() => ({ drawerOpen: false }));
+    this.setState(() => ({ isDrawerOpen: false }));
   };
 
   changePage = newPage => {
     this.setState({
       page: newPage,
-      drawerOpen: false
+      isDrawerOpen: false
     });
   };
 
   render() {
     const { classes, children, theme, campaign } = this.props;
-    const { page } = this.state;
+    const { page, isDrawerOpen } = this.state;
 
     // Recreate the children so we can add the 'page' prop
     const childrenWithProps = React.Children.map(children, child =>
@@ -120,17 +120,14 @@ class ResponsiveDrawer extends React.Component {
         <CssBaseline />
         <AppBar
           position="fixed"
-          className={classNames(classes.appBar, this.state.drawerOpen && classes.appBarShift)}
+          className={classNames(classes.appBar, isDrawerOpen && classes.appBarShift)}
         >
-          <Toolbar disableGutters={!this.state.drawerOpen}>
+          <Toolbar disableGutters={!isDrawerOpen}>
             <IconButton
               color="inherit"
               aria-label="Open drawer"
               onClick={this.handleDrawerOpen}
-              className={classNames(
-                classes.menuButton,
-                this.state.drawerOpen && classes.menuButtonHidden
-              )}
+              className={classNames(classes.menuButton, isDrawerOpen && classes.menuButtonHidden)}
             >
               <MenuIcon />
             </IconButton>
@@ -146,13 +143,10 @@ class ResponsiveDrawer extends React.Component {
               container={this.props.container}
               variant="permanent"
               anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-              open={this.state.drawerOpen}
+              open={isDrawerOpen}
               onClose={this.handleDrawerClose}
               classes={{
-                paper: classNames(
-                  classes.drawerPaper,
-                  !this.state.drawerOpen && classes.drawerPaperClose
-                )
+                paper: classNames(classes.drawerPaper, !isDrawerOpen && classes.drawerPaperClose)
               }}
             >
               <DrawerContent

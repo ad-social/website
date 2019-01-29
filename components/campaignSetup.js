@@ -65,7 +65,6 @@ class CampaignSetup extends React.Component {
       return <CircularProgress className={classes.progress} />;
     }
 
-    // const status = parseStatus(campaign.status);
     const { status } = campaign;
 
     return (
