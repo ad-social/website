@@ -10,7 +10,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import SettingsIcon from '@material-ui/icons/Settings';
-import CollectionsIcon from '@material-ui/icons/Collections';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 import Divider from '@material-ui/core/Divider';
 import { withStyles } from '@material-ui/core/styles';
 import { Collapse, IconButton } from '@material-ui/core';
@@ -73,7 +73,7 @@ class DrawerContent extends React.Component {
             className={classes.listItem}
           >
             <ListItemIcon>
-              <BarChartIcon />
+              <DashboardIcon />
             </ListItemIcon>
             <ListItemText primary="Dashboard" />
           </ListItem>
