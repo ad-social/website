@@ -156,17 +156,6 @@ class ResponsiveDrawer extends React.Component {
               />
             </Drawer>
           </Hidden>
-          <Hidden smDown implementation="css">
-            <Drawer
-              classes={{
-                paper: classes.drawerPaper
-              }}
-              variant="permanent"
-              open
-            >
-              <DrawerContent page={page} changePage={this.changePage} />
-            </Drawer>
-          </Hidden>
         </nav>
         <main className={classes.content}>
           <div className={classes.toolbar} />
