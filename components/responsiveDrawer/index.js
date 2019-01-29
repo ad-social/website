@@ -15,56 +15,94 @@ import { withRouter } from 'next/router';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
+import classNames from 'classnames';
 import DrawerContent from './drawerContent';
 
 const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
-    display: 'flex'
+    display: 'flex',
+    height: '100vh'
   },
-  drawer: {
-    [theme.breakpoints.up('md')]: {
-      width: drawerWidth,
-      flexShrink: 0
-    }
-  },
-  appBar: {
-    marginLeft: drawerWidth,
-    [theme.breakpoints.up('md')]: {
-      width: `calc(100% - ${drawerWidth}px)`
-    }
-  },
-  menuButton: {
-    marginRight: 20,
-    [theme.breakpoints.up('md')]: {
-      display: 'none'
-    }
-  },
-  toolbar: theme.mixins.toolbar,
+
   drawerPaper: {
-    width: drawerWidth
+    position: 'relative',
+    whiteSpace: 'nowrap',
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen
+    }),
+    height: '100vh'
   },
+  drawerPaperClose: {
+    overflowX: 'hidden',
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    }),
+    width: theme.spacing.unit * 7,
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing.unit * 9
+    }
+  },
+
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    })
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen
+    })
+  },
+
+  toolbar: {
+    paddingRight: 24 // keep right padding when drawer closed
+  },
+
+  menuButton: {
+    marginLeft: 12,
+    marginRight: 36
+  },
+  menuButtonHidden: {
+    display: 'none'
+  },
+
+  toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3
+    padding: theme.spacing.unit * 3,
+    height: '100vh'
   }
 });
 
 class ResponsiveDrawer extends React.Component {
   state = {
-    mobileOpen: false,
+    drawerOpen: false,
     page: 'setup'
   };
 
-  handleDrawerToggle = () => {
-    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+  handleDrawerOpen = () => {
+    this.setState(() => ({ drawerOpen: true }));
+  };
+
+  handleDrawerClose = () => {
+    this.setState(() => ({ drawerOpen: false }));
   };
 
   changePage = newPage => {
     this.setState({
       page: newPage,
-      mobileOpen: false
+      drawerOpen: false
     });
   };
 
@@ -80,13 +118,19 @@ class ResponsiveDrawer extends React.Component {
     return (
       <div className={classes.root}>
         <CssBaseline />
-        <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar>
+        <AppBar
+          position="fixed"
+          className={classNames(classes.appBar, this.state.drawerOpen && classes.appBarShift)}
+        >
+          <Toolbar disableGutters={!this.state.drawerOpen}>
             <IconButton
               color="inherit"
               aria-label="Open drawer"
-              onClick={this.handleDrawerToggle}
-              className={classes.menuButton}
+              onClick={this.handleDrawerOpen}
+              className={classNames(
+                classes.menuButton,
+                this.state.drawerOpen && classes.menuButtonHidden
+              )}
             >
               <MenuIcon />
             </IconButton>
@@ -97,18 +141,25 @@ class ResponsiveDrawer extends React.Component {
         </AppBar>
         <nav className={classes.drawer}>
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-          <Hidden mdUp implementation="css">
+          <Hidden implementation="css">
             <Drawer
               container={this.props.container}
-              variant="temporary"
+              variant="permanent"
               anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-              open={this.state.mobileOpen}
-              onClose={this.handleDrawerToggle}
+              open={this.state.drawerOpen}
+              onClose={this.handleDrawerClose}
               classes={{
-                paper: classes.drawerPaper
+                paper: classNames(
+                  classes.drawerPaper,
+                  !this.state.drawerOpen && classes.drawerPaperClose
+                )
               }}
             >
-              <DrawerContent page={page} changePage={this.changePage} />
+              <DrawerContent
+                page={page}
+                changePage={this.changePage}
+                handleDrawerClose={this.handleDrawerClose}
+              />
             </Drawer>
           </Hidden>
           <Hidden smDown implementation="css">

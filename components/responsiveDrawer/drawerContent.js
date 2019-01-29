@@ -13,42 +13,51 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import CollectionsIcon from '@material-ui/icons/Collections';
 import Divider from '@material-ui/core/Divider';
 import { withStyles } from '@material-ui/core/styles';
-import { Collapse } from '@material-ui/core';
+import { Collapse, IconButton } from '@material-ui/core';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { compose } from 'redux';
 import Router from 'next/router';
+
+const listItemHeight = 60;
 
 const styles = theme => ({
   root: {
     display: 'flex'
   },
+  toolbarIcon: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar
+  },
   nested: {
     paddingLeft: theme.spacing.unit * 4
+  },
+  listItem: {
+    height: listItemHeight
   },
   toolbar: theme.mixins.toolbar
 });
 
 class DrawerContent extends React.Component {
-  state = {
-    open: false
-  };
-
-  handleClick = () => {
-    this.setState(state => ({ open: !state.open }));
-  };
-
   render() {
-    const { classes, page, changePage } = this.props;
+    const { classes, page, changePage, handleDrawerClose } = this.props;
 
     return (
       <div>
-        <div className={classes.toolbar} />
-        <Divider />
+        <div className={classes.toolbarIcon}>
+          <IconButton onClick={handleDrawerClose}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </div>
         <List>
           <ListItem
             onClick={() => changePage('setup')}
             selected={page === 'setup'}
             button
             key="Setup"
+            className={classes.listItem}
           >
             <ListItemIcon>
               <SettingsIcon />
@@ -61,11 +70,12 @@ class DrawerContent extends React.Component {
             selected={page === 'dashboard'}
             button
             key="Dashboard"
+            className={classes.listItem}
           >
             <ListItemIcon>
               <BarChartIcon />
             </ListItemIcon>
-            <ListItemText primary="Dashboard" secondary="Overview of your campaign" />
+            <ListItemText primary="Dashboard" />
           </ListItem>
 
           <ListItem
@@ -73,11 +83,12 @@ class DrawerContent extends React.Component {
             selected={page === 'analytics'}
             button
             key="Analytics"
+            className={classes.listItem}
           >
             <ListItemIcon>
               <BarChartIcon />
             </ListItemIcon>
-            <ListItemText primary="Analytics" secondary="See how all of your Ad Sets are doing" />
+            <ListItemText primary="Analytics" />
           </ListItem>
 
           {/* <ListItem button onClick={this.handleClick}>
