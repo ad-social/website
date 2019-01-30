@@ -34,7 +34,6 @@ class AdminDashboard extends React.Component {
    * Go to the campaign page
    */
   onCampaignRowClick = campaign => {
-    console.log(campaign);
     Router.push(`/campaign?id=${campaign.id}`, `campaign/${campaign.id}`);
   };
 
@@ -59,7 +58,6 @@ class AdminDashboard extends React.Component {
 
   render() {
     const { classes, campaigns } = this.props;
-    console.log(campaigns);
     if (!isLoaded(campaigns) || isEmpty(campaigns)) {
       return null;
     }

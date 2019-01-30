@@ -19,11 +19,14 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import { parseStatus } from '../src/utils';
 import withNavBar from '../src/withNavBar';
-import EditCampaignStepper from '../components/editCampaignStepper';
+import withResponsiveDrawerNavbar from '../src/withResponsiveDrawerNavbar';
 import CampaignHeader from '../components/campaignHeader';
 import CampaignSummary from '../components/campaignSummary';
 import SwitchComponent from '../components/switchComponent';
 import SpecialButton from '../components/specialButton';
+import CampaignSetup from '../components/campaignSetup';
+import CampaignDashboard from '../components/campaignDashboard';
+import CampaignAnalytics from '../components/campaignAnalytics';
 
 const styles = theme => ({
   root: {
@@ -34,106 +37,29 @@ const styles = theme => ({
 class Campaign extends React.Component {
   state = {};
 
-  renderCampaignBody = () => {
-    const { campaign, updateCampaign } = this.props;
-    switch (campaign.status) {
-      case 'incomplete':
-        return <EditCampaignStepper {...{ campaign, updateCampaign }} />;
-      case 'review':
-        return <CampaignSummary {...{ campaign, updateCampaign }} />;
+  renderContent = () => {
+    const { page } = this.props;
+    switch (page) {
+      case 'setup':
+        return <CampaignSetup {...this.props} />;
+      case 'dashboard':
+        return <CampaignDashboard {...this.props} />;
+      case 'analytics':
+        return <CampaignAnalytics {...this.props} />;
       default:
         return null;
     }
   };
 
   render() {
-    const {
-      classes,
-      campaign,
-      updateCampaign,
-      profile,
-      router: {
-        query: { id }
-      }
-    } = this.props;
+    const { classes, campaign, updateCampaign, profile, page } = this.props;
 
     // Make sure the campaign is loaded
     if (!isLoaded(campaign)) {
       return <CircularProgress className={classes.progress} />;
     }
 
-    // const status = parseStatus(campaign.status);
-    const { status } = campaign;
-
-    /**
-     * ADMIN CONTROL
-     * Puts campaign past the review stage
-     */
-    const passCampaignReview = () => {
-      updateCampaign({ passedReview: true, status: 2 });
-    };
-
-    return (
-      <div className={classes.root}>
-        <Grid container justify="center" alignItems="center" spacing={16}>
-          <Grid item xs={12} sm={10}>
-            <Grid item xs={12}>
-              <CampaignHeader campaign={campaign} />
-            </Grid>
-            <Grid item xs={12}>
-              {/* {this.renderCampaignBody()} */}
-              <ExpansionPanel>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>Campaign Details</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                  {status === 0 ? (
-                    <EditCampaignStepper {...{ campaign, updateCampaign }} />
-                  ) : (
-                    <CampaignSummary {...{ campaign, updateCampaign }} />
-                  )}
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-              <ExpansionPanel disabled={status < 1}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>Review</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                  {status === 1 ? (
-                    <Typography>
-                      We're reviewing your campaign now! We'll get back to you within 48 hours with
-                      free consultation advice.
-                    </Typography>
-                  ) : (
-                    <Typography>
-                      We've looked over your campaign and it looks great! You're ready to pick your
-                      ad!
-                    </Typography>
-                  )}
-
-                  <SwitchComponent
-                    show={profile.isAdmin === true && campaign.passedReview === false}
-                  >
-                    <SpecialButton onPress={this.passCampaignReview}>Pass</SpecialButton>
-                  </SwitchComponent>
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-              <ExpansionPanel disabled={status < 2}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>Craft Your Ad</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                  <Typography>
-                    Your ad is in the works! We'll get it to you within 72 hours. If you don't like
-                    it you will be able to make 2 free revisions.
-                  </Typography>
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-            </Grid>
-          </Grid>
-        </Grid>
-      </div>
-    );
+    return <div className={classes.root}>{this.renderContent()}</div>;
   }
 }
 
@@ -143,15 +69,50 @@ Campaign.propTypes = {
 
 export default compose(
   withRouter,
-  withNavBar,
-  firestoreConnect(props => [{ collection: 'campaigns', doc: props.router.query.id }]),
-  connect(({ firestore: { data }, firebase: { profile } }, { router: { query: { id } } }) => ({
-    campaign: data.campaigns && data.campaigns[id],
-    profile
-  })),
+  firestoreConnect(props => [
+    {
+      collection: 'campaigns',
+      doc: props.router.query.campaignId,
+      storeAs: 'campaign'
+    },
+    {
+      collection: 'campaigns',
+      doc: props.router.query.campaignId,
+      subcollections: [{ collection: 'adsets' }],
+      storeAs: 'adsets'
+    }
+  ]),
+  connect(
+    (
+      { firestore: { data }, firebase: { profile } },
+      {
+        router: {
+          query: { campaignId }
+        }
+      }
+    ) => ({
+      campaign: data.campaign,
+      adsets: data.adsets,
+      profile
+    })
+  ),
   withHandlers({
     updateCampaign: props => updates =>
-      props.firestore.update({ collection: 'campaigns', doc: props.router.query.id }, updates)
+      props.firestore.update(
+        { collection: 'campaigns', doc: props.router.query.campaignId },
+        updates
+      ),
+    createNewAdset: props => adset => {
+      props.firestore.add(
+        {
+          collection: 'campaigns',
+          doc: props.router.query.campaignId,
+          subcollections: [{ collection: 'adsets' }]
+        },
+        adset
+      );
+    }
   }),
-  withStyles(styles)
+  withStyles(styles),
+  withResponsiveDrawerNavbar
 )(Campaign);

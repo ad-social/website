@@ -74,11 +74,11 @@ const ButtonsMenu = ({ classes }) => (
     <div className={classes.button}>
       <Button
         onClick={() => {
-          Router.push('/dashboard');
+          Router.push('/myCampaigns');
         }}
         color="inherit"
       >
-        My Dashboard
+        My Campaigns
       </Button>
     </div>
   </div>
