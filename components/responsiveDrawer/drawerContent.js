@@ -17,6 +17,7 @@ import { Collapse, IconButton } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { compose } from 'redux';
 import Router from 'next/router';
+import { isLoaded } from 'react-redux-firebase';
 
 const listItemHeight = 60;
 
@@ -43,7 +44,7 @@ const styles = theme => ({
 class DrawerContent extends React.Component {
   render() {
     const { classes, page, campaign, changePage, handleDrawerClose } = this.props;
-    const isIncomplete = (campaign && campaign.status === 'incomplete') || true;
+    const isIncomplete = campaign && campaign.status !== 'ready';
 
     return (
       <div>

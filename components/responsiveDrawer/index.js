@@ -168,7 +168,7 @@ class ResponsiveDrawer extends React.Component {
               }}
             >
               <DrawerContent
-                campaign={this.props.campaign}
+                campaign={campaign}
                 page={page}
                 changePage={this.changePage}
                 handleDrawerClose={this.handleDrawerClose}
