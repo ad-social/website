@@ -15,15 +15,9 @@ import {
   ExpansionPanelDetails,
   Button
 } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import { parseStatus } from '../src/utils';
-import withNavBar from '../src/withNavBar';
-import withResponsiveDrawerNavbar from '../src/withResponsiveDrawerNavbar';
-import CampaignHeader from './campaignHeader';
-import CampaignSummary from './campaignSummary';
-import SwitchComponent from './switchComponent';
-import SpecialButton from './specialButton';
+import AdSet from './adSet';
+import SwitchComponent from '../switchComponent';
 
 const styles = theme => ({
   root: {
@@ -62,13 +56,14 @@ class CampaignDashboard extends React.Component {
             </Grid>
             <Grid item xs={12}>
               <SwitchComponent show={isEmpty(adsets)}>
-                <Typography>
+                <Typography variant="subtitle1">
                   You don't have any adsets! One will be created for you shortly
                 </Typography>
               </SwitchComponent>
 
               <SwitchComponent show={!isEmpty(adsets)}>
-                <Typography>[TODO SHOW ADSET DATA]</Typography>
+                {/* FOR MVP ONLY SHOW 1 (FIRST) ADSET */}
+                <AdSet adset={adsets[Object.keys(adsets)[0]]} />
               </SwitchComponent>
             </Grid>
           </Grid>
