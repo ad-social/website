@@ -107,7 +107,7 @@ class AdminAdsetControls extends React.Component {
       const adImagesStorageRef = await firebase
         .storage()
         .ref()
-        .child(`${adImagesPath}/ad-${id}`);
+        .child(`${adImagesPathV1}/ad-${id}`);
 
       const snapshot = await adImagesStorageRef.put(files[0]);
       console.log('Uploaded a blob or file!');

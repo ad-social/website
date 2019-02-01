@@ -71,7 +71,7 @@ class CampaignSetup extends React.Component {
   passCampaignReview = () => {
     const { updateCampaign, createNewAdset } = this.props;
     updateCampaign({ passedReview: true, status: 'ready' });
-    createNewAdset({ status: 'creating' });
+    createNewAdset({ status: 'incomplete' });
   };
 
   /**
@@ -182,7 +182,12 @@ class CampaignSetup extends React.Component {
             </SwitchComponent>
 
             {/* Only admins can pass the review */}
-            <SwitchComponent show={profile.isAdmin === true && campaign.passedReview === false}>
+            <SwitchComponent
+              show={
+                profile.isAdmin === true &&
+                (!campaign.passedReview || campaign.passedReview === false)
+              }
+            >
               <SpecialButton onClick={this.passCampaignReview}>Pass Review</SpecialButton>
             </SwitchComponent>
           </Grid>
