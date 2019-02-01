@@ -10,14 +10,17 @@ import green from '@material-ui/core/colors/green';
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: purple[300],
-      main: purple[500],
-      dark: purple[700]
+      // light: purple[300],
+      // main: purple[500],
+      // dark: purple[700]
+      main: '#fff',
+      contrastText: '#333'
     },
     secondary: {
-      light: green[300],
-      main: green[500],
-      dark: green[700]
+      // light: green[300],
+      // main: green[500],
+      // dark: green[700]
+      main: '#6f23fe'
     }
   },
   overrides: {

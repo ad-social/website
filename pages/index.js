@@ -1,10 +1,13 @@
 // index.js Page
 import React from 'react';
 import { withStyles, createStyles } from '@material-ui/core';
+import classNames from 'classnames';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { compose } from 'redux';
 import withNavBar from '../src/withNavBar';
+
+// import dashboardImg from '/static/dashboard.png';
 
 const styles = ({ palette }) => ({
   root: {
@@ -33,8 +36,14 @@ const styles = ({ palette }) => ({
   },
   mainTitleText: {
     paddingTop: 75,
-    paddingBottom: 25
+    paddingBottom: 75
   },
+
+  howItWorksSection: {
+    paddingTop: 50,
+    paddingBottom: 50
+  },
+
   blue: {
     backgroundColor: '#45aaf2'
   },
@@ -53,7 +62,7 @@ const Index = ({ classes }) => (
       direction="column"
       alignItems="center"
       justify="center"
-      className={`${classes.section} ${classes.fillViewHeight}`}
+      className={classNames(classes.section, classes.fillViewHeight, classes.secondaryMain)}
       spacing={0}
     >
       <Grid item xs={6} className={classes.textLeft}>
@@ -70,17 +79,17 @@ const Index = ({ classes }) => (
       direction="column"
       alignItems="center"
       // justify="center"
-      className={`${classes.section} ${classes.secondaryMain}`}
+      className={`${classes.section}`}
       spacing={0}
     >
       <Grid item xs={10} className={classes.mainTitleText}>
-        <Typography component="h2" variant="h2" className={classes.whiteText}>
+        <Typography component="h2" variant="h2">
           <b>HERE'S HOW IT WORKS</b>
         </Typography>
       </Grid>
 
-      <Grid item xs={8} className={`${classes.textLeft} ${classes.whiteText}`}>
-        <Typography variant="body1" className={classes.whiteText}>
+      <Grid item xs={8} className={`${classes.textLeft}`}>
+        <Typography variant="body1">
           <p>
             <b>
               Our goal is to become your online destination for quick, easy and hyper-targeted
