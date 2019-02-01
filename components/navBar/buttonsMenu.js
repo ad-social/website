@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import Router from 'next/router';
 import Divider from '@material-ui/core/Divider';
 import { Typography, withStyles } from '@material-ui/core';
+import SwitchComponent from '../switchComponent';
 
 const styles = {
   button: {
@@ -14,7 +15,7 @@ const styles = {
   }
 };
 
-const ButtonsMenu = ({ classes }) => (
+const ButtonsMenu = ({ classes, isSignedIn }) => (
   <div style={{ display: 'inline-block' }}>
     <div className={`${classes.button} ${classes.buttonStart}`}>
       <Button
@@ -70,17 +71,18 @@ const ButtonsMenu = ({ classes }) => (
         Contact Us
       </Button>
     </div>
-
-    <div className={classes.button}>
-      <Button
-        onClick={() => {
-          Router.push('/myCampaigns');
-        }}
-        color="inherit"
-      >
-        My Campaigns
-      </Button>
-    </div>
+    <SwitchComponent show={isSignedIn}>
+      <div className={classes.button}>
+        <Button
+          onClick={() => {
+            Router.push('/myCampaigns');
+          }}
+          color="inherit"
+        >
+          My Campaigns
+        </Button>
+      </div>
+    </SwitchComponent>
   </div>
 );
 

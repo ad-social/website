@@ -10,6 +10,9 @@ import { connect } from 'react-redux';
 const styles = theme => ({
   root: {
     display: 'flex'
+  },
+  secondaryColor: {
+    color: theme.palette.secondary.main
   }
 });
 
@@ -57,10 +60,10 @@ class AuthMenu extends React.Component {
     if (isEmpty(auth)) {
       return (
         <div>
-          <Button href="/auth?action=login" color="inherit">
+          <Button href="/auth?action=login" color="secondary">
             Login
           </Button>
-          <Button href="/auth?action=signup" color="inherit">
+          <Button href="/auth?action=signup" color="secondary">
             Sign Up
           </Button>
         </div>
