@@ -44,7 +44,7 @@ const styles = theme => ({
 class DrawerContent extends React.Component {
   render() {
     const { classes, page, campaign, changePage, handleDrawerClose } = this.props;
-    const isIncomplete = campaign && campaign.status !== 'ready';
+    const isIncomplete = campaign && campaign.status === 'incomplete';
 
     return (
       <div>

@@ -14,6 +14,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
     "react-dom": "^16.6.3",
+    "react-dropzone": "^8.0.4",
     "react-jss": "^8.6.1",
     "react-redux": "^5.0.1",
     "react-redux-firebase": "^2.1.9",

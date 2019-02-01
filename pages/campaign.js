@@ -102,6 +102,20 @@ export default compose(
         { collection: 'campaigns', doc: props.router.query.campaignId },
         updates
       ),
+    updateAdset: props => id => updates => {
+      console.log('--Update Adset--');
+      console.log('ID: ', id);
+      console.log('UPDATES: ', updates);
+      props.firestore.update(
+        {
+          collection: 'campaigns',
+          doc: props.router.query.campaignId,
+          subcollections: [{ collection: 'adsets', doc: id }]
+        },
+        updates
+      );
+    },
+
     createNewAdset: props => adset => {
       props.firestore.add(
         {

@@ -34,6 +34,7 @@ class CampaignDashboard extends React.Component {
       campaign,
       adsets,
       updateCampaign,
+      updateAdset,
       profile,
       router: {
         query: { id }
@@ -63,7 +64,12 @@ class CampaignDashboard extends React.Component {
 
               <SwitchComponent show={!isEmpty(adsets)}>
                 {/* FOR MVP ONLY SHOW 1 (FIRST) ADSET */}
-                <AdSet adset={adsets[Object.keys(adsets)[0]]} />
+                <AdSet
+                  adset={adsets[Object.keys(adsets)[0]]}
+                  id={Object.keys(adsets)[0]}
+                  profile={profile}
+                  updateAdset={updateAdset(Object.keys(adsets)[0])}
+                />
               </SwitchComponent>
             </Grid>
           </Grid>
