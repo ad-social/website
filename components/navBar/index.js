@@ -47,7 +47,8 @@ class NavBar extends React.Component {
 
   render() {
     // Styles are passed as props.classes when we export using 'withStyles'
-    const { classes } = this.props;
+    const { classes, auth } = this.props;
+    const isSignedIn = isLoaded(auth) && !isEmpty(auth);
 
     return (
       <AppBar position="fixed">
@@ -61,7 +62,7 @@ class NavBar extends React.Component {
           >
             <div className={classes.logo}>ad social</div>
           </Typography>
-          {this.renderOnlyWhenAuthenticated(<ButtonsMenu />)}
+          <ButtonsMenu isSignedIn={isSignedIn} />
           {<AuthMenu />}
         </Toolbar>
       </AppBar>

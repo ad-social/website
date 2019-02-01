@@ -6,10 +6,11 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { compose } from 'redux';
 import withNavBar from '../src/withNavBar';
+import SpecialButton from '../components/specialButton';
 
 // import dashboardImg from '/static/dashboard.png';
 
-const styles = ({ palette }) => ({
+const styles = ({ palette, spacing }) => ({
   root: {
     flexGrow: 1
   },
@@ -52,6 +53,14 @@ const styles = ({ palette }) => ({
   },
   notAllowed: {
     fontSize: 10
+  },
+
+  callToAction: {
+    fontSize: '1.5em',
+    float: 'left'
+  },
+  leftGutter: {
+    marginLeft: spacing.unit * 5
   }
 });
 
@@ -71,6 +80,12 @@ const Index = ({ classes }) => (
           <b>Advertising</b> <br />
           <b>Simplified</b>
         </Typography>
+      </Grid>
+      <Grid container alignItems="center" justify="center" direction="row">
+        <SpecialButton className={classes.callToAction}>Get Started Now</SpecialButton>
+        <SpecialButton className={classNames(classes.callToAction, classes.leftGutter)}>
+          Free Consultation
+        </SpecialButton>
       </Grid>
     </Grid>
 
