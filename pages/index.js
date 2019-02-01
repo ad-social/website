@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { compose } from 'redux';
+import Router from 'next/router';
 import withNavBar from '../src/withNavBar';
 import SpecialButton from '../components/specialButton';
 
@@ -64,6 +65,14 @@ const styles = ({ palette, spacing }) => ({
   }
 });
 
+const goToSignup = () => {
+  Router.push(`/auth?action=signup`, `/auth?action=signup`);
+};
+
+const goToConsultation = () => {
+  Router.push('https://calendly.com/samlambert');
+};
+
 const Index = ({ classes }) => (
   <div>
     <Grid
@@ -82,8 +91,13 @@ const Index = ({ classes }) => (
         </Typography>
       </Grid>
       <Grid container alignItems="center" justify="center" direction="row">
-        <SpecialButton className={classes.callToAction}>Get Started Now</SpecialButton>
-        <SpecialButton className={classNames(classes.callToAction, classes.leftGutter)}>
+        <SpecialButton onClick={goToSignup} className={classes.callToAction}>
+          Get Started Now
+        </SpecialButton>
+        <SpecialButton
+          onClick={goToConsultation}
+          className={classNames(classes.callToAction, classes.leftGutter)}
+        >
           Free Consultation
         </SpecialButton>
       </Grid>
