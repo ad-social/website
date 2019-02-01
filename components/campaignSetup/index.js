@@ -173,7 +173,11 @@ class CampaignSetup extends React.Component {
             </Grid>
 
             {/* Only non-admins can submit for review */}
-            <SwitchComponent show={profile.isAdmin === false && campaign.status === 'incomplete'}>
+            <SwitchComponent
+              show={
+                (!profile.isAdmin || profile.isAdmin === false) && campaign.status === 'incomplete'
+              }
+            >
               <SpecialButton onClick={this.submitForReview}>Submit For Review</SpecialButton>
             </SwitchComponent>
 
