@@ -89,7 +89,7 @@ class MyCampaigns extends React.Component {
         createdAt: new Date()
       },
       doc => {
-        Router.push(`/campaign?id=${doc.id}`, `campaign/${doc.id}`);
+        Router.push(`/campaign?campaignId=${doc.id}`, `campaign/${doc.id}`);
       }
     );
   };

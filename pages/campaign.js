@@ -6,24 +6,8 @@ import { compose, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 
 import { firestoreConnect, isLoaded } from 'react-redux-firebase';
-import {
-  CircularProgress,
-  Typography,
-  Grid,
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
-  Button
-} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
-import { parseStatus } from '../src/utils';
-import withNavBar from '../src/withNavBar';
+import { CircularProgress } from '@material-ui/core';
 import withResponsiveDrawerNavbar from '../src/withResponsiveDrawerNavbar';
-import CampaignHeader from '../components/campaignHeader';
-import CampaignSummary from '../components/campaignSummary';
-import SwitchComponent from '../components/switchComponent';
-import SpecialButton from '../components/specialButton';
 import CampaignSetup from '../components/campaignSetup';
 import CampaignDashboard from '../components/campaignDashboard';
 import CampaignAnalytics from '../components/campaignAnalytics';
@@ -69,19 +53,22 @@ Campaign.propTypes = {
 
 export default compose(
   withRouter,
-  firestoreConnect(props => [
-    {
-      collection: 'campaigns',
-      doc: props.router.query.campaignId,
-      storeAs: 'campaign'
-    },
-    {
-      collection: 'campaigns',
-      doc: props.router.query.campaignId,
-      subcollections: [{ collection: 'adsets' }],
-      storeAs: 'adsets'
-    }
-  ]),
+  firestoreConnect(props => {
+    console.log('CAMPAIGN ID: ', props.router.query.campaignId);
+    return [
+      {
+        collection: 'campaigns',
+        doc: props.router.query.campaignId,
+        storeAs: 'campaign'
+      },
+      {
+        collection: 'campaigns',
+        doc: props.router.query.campaignId,
+        subcollections: [{ collection: 'adsets' }],
+        storeAs: 'adsets'
+      }
+    ];
+  }),
   connect(
     (
       { firestore: { data }, firebase: { profile } },
