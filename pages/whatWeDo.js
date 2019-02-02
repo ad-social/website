@@ -92,7 +92,7 @@ class WhatWeDo extends React.Component {
         <Grid item xs={10}>
           <Typography gutterBottom variant="h4">
             <Collections className={classes.icon} />
-            <b>Craft the ad (image + copy)</b>
+            <b>Select the ad (image + copy)</b>
           </Typography>
           <Typography variant="body1">
             We will craft and send you 3 variations of images and copy for you to pick from
@@ -125,7 +125,7 @@ class WhatWeDo extends React.Component {
         <Grid item xs={10}>
           <Typography gutterBottom variant="h4">
             <BarChart className={classes.icon} />
-            <b>Launch & relax</b>
+            <b>Relax & Track</b>
           </Typography>
           <Typography variant="body1">
             Upon launching your campaign, we will give you full access to an analytics dashboard
