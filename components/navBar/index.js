@@ -2,8 +2,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Router from 'next/router';
-
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -13,13 +11,11 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withFirebase, isLoaded, isEmpty } from 'react-redux-firebase';
 
+import Logo from '../logo';
 import ButtonsMenu from './buttonsMenu';
 import AuthMenu from './authMenu';
 
 const styles = {
-  grow: {
-    flexGrow: 1
-  },
   menuButton: {
     marginLeft: -12,
     marginRight: 20
@@ -54,14 +50,7 @@ class NavBar extends React.Component {
       <AppBar position="fixed">
         <Toolbar>
           {/* Display a logo text element that takes us to the root page on click */}
-          <Typography
-            onClick={() => Router.push('/')}
-            variant="h6"
-            color="inherit"
-            className={classes.grow}
-          >
-            <div className={classes.logo}>ad social</div>
-          </Typography>
+          <Logo shouldGrow />
           <ButtonsMenu isSignedIn={isSignedIn} />
           {<AuthMenu />}
         </Toolbar>
