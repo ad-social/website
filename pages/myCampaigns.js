@@ -145,10 +145,10 @@ class MyCampaigns extends React.Component {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleNewCampaignDialogClose} color="primary">
+            <Button onClick={this.handleNewCampaignDialogClose} color="secondary">
               Cancel
             </Button>
-            <Button onClick={this.createNewCampaign} color="primary">
+            <Button onClick={this.createNewCampaign} color="secondary">
               Continue
             </Button>
           </DialogActions>
