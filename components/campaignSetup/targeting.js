@@ -11,6 +11,7 @@ import {
   TextField
 } from '@material-ui/core';
 import AgeSelect from './ageSelect';
+import ChipInput from './chipInput';
 
 const styles = theme => ({
   root: {
@@ -33,7 +34,7 @@ const ageInputFilter = (prop, callback) => event => {
   }
 };
 
-const TargetingForm = ({ classes, disabled, handleTextChange, campaign }) => (
+const TargetingForm = ({ classes, campaign, updateCampaign, disabled, handleTextChange }) => (
   <div className={classes.root}>
     <Grid container direction="row" justify="flex-start" spacing={16}>
       <Grid item xs={12}>
@@ -53,26 +54,6 @@ const TargetingForm = ({ classes, disabled, handleTextChange, campaign }) => (
               onChange={handleTextChange('ageMax')}
               disabled={disabled}
             />
-            {/* <FormControl className={classes.ageFormControl}>
-              <InputLabel htmlFor="component-simple">Age Minimum</InputLabel>
-              <Input
-                id="component-simple"
-                type="number"
-                value={campaign.ageMin}
-                onChange={ageInputFilter('ageMin', handleTextChange)}
-                disabled={disabled}
-              />
-            </FormControl>
-            <FormControl className={classes.ageFormControl}>
-              <InputLabel htmlFor="component-simple">Age Maximum</InputLabel>
-              <Input
-                id="component-simple"
-                type="number"
-                value={campaign.ageMax}
-                onChange={ageInputFilter('ageMax', handleTextChange)}
-                disabled={disabled}
-              />
-            </FormControl> */}
           </Grid>
         </Grid>
       </Grid>
@@ -102,14 +83,23 @@ const TargetingForm = ({ classes, disabled, handleTextChange, campaign }) => (
       </Grid>
 
       <Grid item xs={12}>
+        <ChipInput
+          campaign={campaign}
+          updateCampaign={updateCampaign}
+          prop="audienceInterests"
+          label="Add Audience Interests"
+        />
+      </Grid>
+
+      <Grid item xs={12}>
         <TextField
           id="outlined-multiline-flexible"
-          label="Describe your target audience (Be specific!)"
+          label="Extra Info About Your Audience"
           multiline
           fullWidth
           rowsMax="4"
           value={campaign.targetingDescription}
-          onChange={handleTextChange('targetingDescription')}
+          onChange={handleTextChange('targetMarketExtraInfo')}
           className={classes.textField}
           margin="normal"
           variant="outlined"

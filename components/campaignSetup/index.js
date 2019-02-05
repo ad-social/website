@@ -160,6 +160,7 @@ class CampaignSetup extends React.Component {
 
                 <Targeting
                   campaign={campaign}
+                  updateCampaign={updateCampaign}
                   handleTextChange={this.handleTextChange}
                   handleCheckboxChange={this.handleCheckboxChange}
                   disabled={!(status === 'incomplete')}
