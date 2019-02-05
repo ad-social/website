@@ -22,6 +22,9 @@ const styles = ({ palette, spacing }) => ({
     width: '100%',
     textAlign: 'center'
   },
+  textPrimaryLight: {
+    color: palette.primary.light
+  },
   secondaryMain: {
     backgroundColor: palette.secondary.main
   },
@@ -93,8 +96,8 @@ const Index = ({ classes }) => (
       className={classNames(classes.section, classes.fillViewHeight, classes.coverImage)}
       spacing={0}
     >
-      <Grid item xs={12} className={classes.coverTitle}>
-        <Typography component="h2" variant="h1" color="primary">
+      <Grid item xs={12} className={classNames(classes.coverTitle)}>
+        <Typography component="h2" variant="h1" className={classes.textPrimaryLight}>
           <b style={{}}>Social </b> <br />
           <b>Advertising </b> <br />
           <b>Simplified </b>
