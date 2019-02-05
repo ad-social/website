@@ -102,7 +102,7 @@ const SetupForm = ({
               <em>None</em>
             </MenuItem>
             {objectiveOptions.map(objectiveOption => (
-              <MenuItem value={objectiveOption}>{objectiveOption}</MenuItem>
+              <MenuItem key={objectiveOption} value={objectiveOption}>{objectiveOption}</MenuItem>
             ))}
           </Select>
         </FormControl>
