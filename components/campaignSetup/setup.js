@@ -30,6 +30,9 @@ const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit
+  },
+  datePicker: {
+    paddingRight: 20
   }
 });
 
@@ -107,34 +110,26 @@ const SetupForm = ({
       <Grid item xs={7}>
         <FormControl component="fieldset" className={classes.formControl}>
           <FormLabel component="legend">Ad Scheduling</FormLabel>
-          <RadioGroup
-            aria-label="position"
-            name="position"
-            value={campaign.scheduling}
-            onChange={handleTextChange('scheduling')}
-            row
-            disabled={disabled}
-          >
-            <DatePicker
-              margin="normal"
-              label="Date picker"
-              value={campaign.endDate || new Date()}
-              onChange={handleDateChange}
-            />
-            {/* <DatePicker
-              margin="normal"
-              label="Date picker"
-              value={campaign.endDate}
-              onChange={handleDateChange}
-            />
-            <FormControlLabel
-              value="continuous"
-              control={<Radio color="secondary" />}
-              label="Start Date"
-              labelPlacement="end"
-              disabled={disabled}
-            /> */}
-          </RadioGroup>
+          <Grid container direction="row">
+            <Grid item xs={6}>
+              <DatePicker
+                margin="normal"
+                className={classes.datePicker}
+                label="Start Date"
+                value={(campaign.endDate && new Date(campaign.startDate.toDate())) || new Date()}
+                onChange={handleDateChange('startDate')}
+              />
+              </Grid>
+            <Grid item xs={6}>
+              <DatePicker
+                margin="normal"
+                label="End Date"
+                className={classes.datePicker}
+                value={(campaign.endDate && new Date(campaign.endDate.toDate())) || new Date()}
+                onChange={handleDateChange('endDate')}
+              />
+            </Grid>
+          </Grid>
         </FormControl>
       </Grid>
     </Grid>
