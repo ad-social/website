@@ -46,6 +46,16 @@ const styles = ({ palette, spacing }) => ({
     paddingBottom: 50
   },
 
+  coverTitle: {
+    marginLeft: 30,
+    marginRight: 30,
+    paddingBottom: 100
+  },
+  coverImage: {
+    backgroundImage: `url(/static/cover.jpg)`,
+    backgroundPosition: 'center',
+    backgroundSize: 'cover'
+  },
   blue: {
     backgroundColor: '#45aaf2'
   },
@@ -77,20 +87,20 @@ const Index = ({ classes }) => (
   <div>
     <Grid
       container
-      direction="column"
+      direction="row"
       alignItems="center"
       justify="center"
-      className={classNames(classes.section, classes.fillViewHeight, classes.secondaryMain)}
+      className={classNames(classes.section, classes.fillViewHeight, classes.coverImage)}
       spacing={0}
     >
-      <Grid item xs={6} className={classes.textLeft}>
+      <Grid item xs={12} className={classes.coverTitle}>
         <Typography component="h2" variant="h1" color="primary">
-          <b>Social</b> <br />
-          <b>Advertising</b> <br />
-          <b>Simplified</b>
+          <b style={{}}>Social </b> <br />
+          <b>Advertising </b> <br />
+          <b>Simplified </b>
         </Typography>
       </Grid>
-      <Grid container alignItems="center" justify="center" direction="row">
+      {/* <Grid container alignItems="center" justify="center" direction="row">
         <SpecialButton onClick={goToSignup} className={classes.callToAction}>
           Get Started Now
         </SpecialButton>
@@ -100,7 +110,7 @@ const Index = ({ classes }) => (
         >
           Free Consultation
         </SpecialButton>
-      </Grid>
+      </Grid> */}
     </Grid>
 
     <Grid
