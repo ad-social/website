@@ -92,6 +92,16 @@ class CampaignSetup extends React.Component {
     });
   };
 
+  // /**
+  //  * Handles any changes to state from a text value
+  //  */
+  // handleDateChange = prop => date => {
+  //   const { updateCampaign } = this.props;
+  //   updateCampaign({
+  //     [prop]: date
+  //   });
+  // };
+
   /**
    * Handles changes from a checkbox
    */
@@ -136,6 +146,7 @@ class CampaignSetup extends React.Component {
                   campaign={campaign}
                   handleTextChange={this.handleTextChange}
                   handleCheckboxChange={this.handleCheckboxChange}
+                  handleDateChange={this.handleDateChange}
                   disabled={!(status === 'incomplete')}
                 />
               </Paper>

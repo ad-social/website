@@ -16,6 +16,7 @@ import {
   RadioGroup,
   Radio
 } from '@material-ui/core';
+import { DatePicker } from 'material-ui-pickers';
 
 const styles = theme => ({
   root: {
@@ -43,21 +44,27 @@ const objectiveOptions = [
   'Store visits'
 ];
 
-const SetupForm = ({ classes, disabled, handleTextChange, handleCheckboxChange, campaign }) => (
+const SetupForm = ({
+  classes,
+  disabled,
+  handleTextChange,
+  handleCheckboxChange,
+  handleDateChange,
+  campaign
+}) => (
   <div className={classes.root}>
     <Grid container direction="row" spacing={16}>
       <Grid item xs={7}>
-
         <FormControl component="fieldset" className={classes.formControl}>
           <FormLabel component="legend">Platform(s)</FormLabel>
           <FormGroup row>
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={campaign.facebook}
-                  onChange={handleCheckboxChange('facebook')}
-                  value="facebook"
-                />
+  checked={campaign.facebook}
+  onChange={handleCheckboxChange('facebook')}
+  value="facebook"
+/>
               }
               label="Facebook"
               disabled={disabled}
@@ -65,10 +72,10 @@ const SetupForm = ({ classes, disabled, handleTextChange, handleCheckboxChange, 
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={campaign.instagram}
-                  onChange={handleCheckboxChange('instagram')}
-                  value="instagram"
-                />
+  checked={campaign.instagram}
+  onChange={handleCheckboxChange('instagram')}
+  value="instagram"
+/>
               }
               label="Instagram"
               disabled={disabled}
@@ -108,20 +115,25 @@ const SetupForm = ({ classes, disabled, handleTextChange, handleCheckboxChange, 
             row
             disabled={disabled}
           >
+            <DatePicker
+              margin="normal"
+              label="Date picker"
+              value={campaign.endDate || new Date()}
+              onChange={handleDateChange}
+            />
+            {/* <DatePicker
+              margin="normal"
+              label="Date picker"
+              value={campaign.endDate}
+              onChange={handleDateChange}
+            />
             <FormControlLabel
               value="continuous"
               control={<Radio color="secondary" />}
-              label="Continuous"
+              label="Start Date"
               labelPlacement="end"
               disabled={disabled}
-            />
-            <FormControlLabel
-              value="specificSchedule"
-              control={<Radio color="secondary" />}
-              label="Specific Schedule"
-              labelPlacement="end"
-              disabled={disabled}
-            />
+            /> */}
           </RadioGroup>
         </FormControl>
       </Grid>
