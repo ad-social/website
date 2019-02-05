@@ -10,6 +10,7 @@ import {
   MenuItem,
   TextField
 } from '@material-ui/core';
+import AgeSelect from './ageSelect';
 
 const styles = theme => ({
   root: {
@@ -38,7 +39,21 @@ const TargetingForm = ({ classes, disabled, handleTextChange, campaign }) => (
       <Grid item xs={12}>
         <Grid container direction="row">
           <Grid item xs={12}>
-            <FormControl className={classes.ageFormControl}>
+            <AgeSelect
+              className={classes.ageFormControl}
+              label="Age Min"
+              value={campaign.ageMin}
+              onChange={handleTextChange('ageMin')}
+              disabled={disabled}
+            />
+            <AgeSelect
+              className={classes.ageFormControl}
+              label="Age Max"
+              value={campaign.ageMax}
+              onChange={handleTextChange('ageMax')}
+              disabled={disabled}
+            />
+            {/* <FormControl className={classes.ageFormControl}>
               <InputLabel htmlFor="component-simple">Age Minimum</InputLabel>
               <Input
                 id="component-simple"
@@ -57,7 +72,7 @@ const TargetingForm = ({ classes, disabled, handleTextChange, campaign }) => (
                 onChange={ageInputFilter('ageMax', handleTextChange)}
                 disabled={disabled}
               />
-            </FormControl>
+            </FormControl> */}
           </Grid>
         </Grid>
       </Grid>

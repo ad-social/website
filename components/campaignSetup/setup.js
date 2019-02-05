@@ -119,7 +119,7 @@ const SetupForm = ({
                 value={(campaign.endDate && new Date(campaign.startDate.toDate())) || new Date()}
                 onChange={handleDateChange('startDate')}
               />
-              </Grid>
+            </Grid>
             <Grid item xs={6}>
               <DatePicker
                 margin="normal"
