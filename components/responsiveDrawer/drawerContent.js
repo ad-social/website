@@ -13,11 +13,12 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import Divider from '@material-ui/core/Divider';
 import { withStyles } from '@material-ui/core/styles';
-import { Collapse, IconButton } from '@material-ui/core';
+import { Collapse, IconButton, Grid } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { compose } from 'redux';
 import Router from 'next/router';
 import { isLoaded } from 'react-redux-firebase';
+import Logo from '../logo';
 
 const listItemHeight = 60;
 
@@ -38,64 +39,75 @@ const styles = theme => ({
   listItem: {
     height: listItemHeight
   },
+  grow: {
+    flexGrow: 1
+  },
   toolbar: theme.mixins.toolbar
 });
 
-class DrawerContent extends React.Component {
-  render() {
-    const { classes, page, campaign, changePage, handleDrawerClose } = this.props;
-    const isIncomplete = campaign && campaign.status === 'incomplete';
+const DrawerContent = props => {
+  const { classes, page, campaign, changePage, handleDrawerClose } = props;
+  const isIncomplete = campaign && campaign.status === 'incomplete';
 
-    return (
-      <div>
+  return (
+    <div>
+      <Grid container direction="row" justify="space-between" wrap="nowrap">
+        <Grid container justify="center" alignItems="center" className={classes.grow}>
+          <Grid item>
+            <Logo />
+          </Grid>
+        </Grid>
+
         <div className={classes.toolbarIcon}>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
           </IconButton>
         </div>
-        <List>
-          <ListItem
-            onClick={() => changePage('setup')}
-            selected={page === 'setup'}
-            button
-            key="Setup"
-            className={classes.listItem}
-          >
-            <ListItemIcon>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Setup" />
-          </ListItem>
+      </Grid>
 
-          <ListItem
-            onClick={() => changePage('dashboard')}
-            selected={page === 'dashboard'}
-            button
-            key="Dashboard"
-            className={classes.listItem}
-            disabled={isIncomplete}
-          >
-            <ListItemIcon>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-          </ListItem>
+      <List>
+        <ListItem
+          onClick={() => changePage('setup')}
+          selected={page === 'setup'}
+          button
+          key="Setup"
+          className={classes.listItem}
+        >
+          <ListItemIcon>
+            <SettingsIcon />
+          </ListItemIcon>
+          <ListItemText primary="Setup" />
+        </ListItem>
 
-          <ListItem
-            onClick={() => changePage('analytics')}
-            selected={page === 'analytics'}
-            button
-            key="Analytics"
-            className={classes.listItem}
-            disabled={isIncomplete}
-          >
-            <ListItemIcon>
-              <BarChartIcon />
-            </ListItemIcon>
-            <ListItemText primary="Analytics" />
-          </ListItem>
+        <ListItem
+          onClick={() => changePage('dashboard')}
+          selected={page === 'dashboard'}
+          button
+          key="Dashboard"
+          className={classes.listItem}
+          disabled={isIncomplete}
+        >
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Dashboard" />
+        </ListItem>
 
-          {/* <ListItem button onClick={this.handleClick}>
+        <ListItem
+          onClick={() => changePage('analytics')}
+          selected={page === 'analytics'}
+          button
+          key="Analytics"
+          className={classes.listItem}
+          disabled={isIncomplete}
+        >
+          <ListItemIcon>
+            <BarChartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Analytics" />
+        </ListItem>
+
+        {/* <ListItem button onClick={this.handleClick}>
             <ListItemIcon>
               <CollectionsIcon />
             </ListItemIcon>
@@ -109,8 +121,8 @@ class DrawerContent extends React.Component {
               </ListItem>
             </List>
           </Collapse> */}
-        </List>
-        {/* <Divider />
+      </List>
+      {/* <Divider />
     <List>
       {['All mail', 'Trash', 'Spam'].map((text, index) => (
         <ListItem button key={text}>
@@ -119,10 +131,9 @@ class DrawerContent extends React.Component {
         </ListItem>
       ))}
     </List> */}
-      </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 DrawerContent.propTypes = {
   classes: PropTypes.object.isRequired

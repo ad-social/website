@@ -19,39 +19,42 @@ const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit,
     width: '100%'
+  },
+  ageFormControl: {
+    margin: theme.spacing.unit,
+    width: 200
   }
 });
+
+const ageInputFilter = (prop, callback) => event => {
+  if (event.target.value > 0) {
+    callback(prop)(event);
+  }
+};
 
 const TargetingForm = ({ classes, disabled, handleTextChange, campaign }) => (
   <div className={classes.root}>
     <Grid container direction="row" justify="flex-start" spacing={16}>
       <Grid item xs={12}>
-        <Grid container>
-          <Grid item xs={6}>
-            <FormControl className={classes.formControl}>
+        <Grid container direction="row">
+          <Grid item xs={12}>
+            <FormControl className={classes.ageFormControl}>
               <InputLabel htmlFor="component-simple">Age Minimum</InputLabel>
               <Input
                 id="component-simple"
                 type="number"
                 value={campaign.ageMin}
-                onChange={handleTextChange('ageMin')}
+                onChange={ageInputFilter('ageMin', handleTextChange)}
                 disabled={disabled}
               />
             </FormControl>
-          </Grid>
-        </Grid>
-      </Grid>
-
-      <Grid item xs={12}>
-        <Grid container>
-          <Grid item xs={6}>
-            <FormControl className={classes.formControl}>
+            <FormControl className={classes.ageFormControl}>
               <InputLabel htmlFor="component-simple">Age Maximum</InputLabel>
               <Input
                 id="component-simple"
                 type="number"
                 value={campaign.ageMax}
-                onChange={handleTextChange('ageMax')}
+                onChange={ageInputFilter('ageMax', handleTextChange)}
                 disabled={disabled}
               />
             </FormControl>
