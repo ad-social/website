@@ -6,6 +6,12 @@ import { Chip, FormControl, TextField, Grid } from '@material-ui/core';
 const styles = theme => ({
   root: {
     display: 'flex'
+  },
+  textField: {
+    width: '100%'
+  },
+  chip: {
+    margin: theme.spacing.unit
   }
 });
 
@@ -41,7 +47,6 @@ class ChipInput extends React.Component {
   // Detect key presses so we can listen for the enter button
   onKeyPress = ev => {
     const { newChipValue } = this.state;
-    console.log(`Pressed keyCode ${ev.key}`);
     if (ev.key === 'Enter') {
       // Prevent deafult
       ev.preventDefault();
@@ -74,14 +79,16 @@ class ChipInput extends React.Component {
               ? ''
               : chips.map(chip => (
                   <Chip
+                  key={chip}
                   label={chip}
                   onDelete={() => this.handleDelete(chip, updateCampaign)}
                   className={classes.chip}
                 />
                 ))}
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} sm={6}>
             <TextField
+              className={classes.textField}
               onKeyPress={this.onKeyPress}
               value={newChipValue}
               onChange={this.onChange}

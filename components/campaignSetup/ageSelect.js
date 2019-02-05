@@ -5,7 +5,11 @@ import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 
 const menuItems = [];
 for (let i = 13; i < 65; i++) {
-  menuItems.push(<MenuItem value={i}>{i}</MenuItem>);
+  menuItems.push(
+    <MenuItem key={i} value={i}>
+      {i}
+    </MenuItem>
+  );
 }
 menuItems.push(<MenuItem value="65+">65+</MenuItem>);
 

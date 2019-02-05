@@ -19,7 +19,7 @@ const styles = theme => ({
     flexWrap: 'wrap'
   },
   formControl: {
-    margin: theme.spacing.unit,
+    // margin: theme.spacing.unit,
     width: '100%'
   },
   ageFormControl: {
@@ -43,7 +43,7 @@ const TargetingForm = ({ classes, campaign, updateCampaign, disabled, handleText
             <AgeSelect
               className={classes.ageFormControl}
               label="Age Min"
-              value={campaign.ageMin}
+              value={campaign.ageMin || ''}
               onChange={handleTextChange('ageMin')}
               disabled={disabled}
             />
@@ -58,28 +58,24 @@ const TargetingForm = ({ classes, campaign, updateCampaign, disabled, handleText
         </Grid>
       </Grid>
 
-      <Grid item xs={12}>
-        <Grid container>
-          <Grid item xs={6}>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="component-simple">Gender</InputLabel>
+      <Grid item xs={6}>
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="component-simple">Gender</InputLabel>
 
-              <Select
-                value={campaign.gender}
-                onChange={handleTextChange('gender')}
-                inputProps={{
-                  name: 'objective',
-                  id: 'objective-simple'
-                }}
-                disabled={disabled}
-              >
-                <MenuItem value="any">Any</MenuItem>
-                <MenuItem value="male">Male</MenuItem>
-                <MenuItem value="female">Female</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
+          <Select
+            value={campaign.gender}
+            onChange={handleTextChange('gender')}
+            inputProps={{
+              name: 'objective',
+              id: 'objective-simple'
+            }}
+            disabled={disabled}
+          >
+            <MenuItem value="any">Any</MenuItem>
+            <MenuItem value="male">Male</MenuItem>
+            <MenuItem value="female">Female</MenuItem>
+          </Select>
+        </FormControl>
       </Grid>
 
       <Grid item xs={12}>
