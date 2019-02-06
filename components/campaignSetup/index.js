@@ -33,6 +33,7 @@ import SpecialButton from '../specialButton';
 import Setup from './setup';
 import Targeting from './targeting';
 import Pricing from './pricing';
+import ChipInput from './chipInput';
 
 const styles = theme => ({
   root: {
@@ -164,6 +165,21 @@ class CampaignSetup extends React.Component {
                   handleTextChange={this.handleTextChange}
                   handleCheckboxChange={this.handleCheckboxChange}
                   disabled={!(status === 'incomplete')}
+                />
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Typography variant="h5" component="h3">
+                  Target Audience Interests
+                </Typography>
+
+                <ChipInput
+                  campaign={campaign}
+                  updateCampaign={updateCampaign}
+                  prop="audienceInterests"
+                  label="Add Audience Interests"
                 />
               </Paper>
             </Grid>

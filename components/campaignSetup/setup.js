@@ -86,15 +86,17 @@ const SetupForm = ({
           </FormGroup>
         </FormControl>
       </Grid>
+
       <Grid item xs={7}>
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="component-simple">Objective</InputLabel>
+        <FormControl component="fieldset" className={classes.formControl}>
+          <FormLabel component="legend">Objective</FormLabel>
+          {/* <InputLabel htmlFor="component">What do you want out of this campaign?</InputLabel> */}
           <Select
             value={campaign.objective}
             onChange={handleTextChange('objective')}
             inputProps={{
               name: 'objective',
-              id: 'objective-simple'
+              id: 'objective'
             }}
             disabled={disabled}
           >
@@ -107,6 +109,7 @@ const SetupForm = ({
           </Select>
         </FormControl>
       </Grid>
+
       <Grid item xs={7}>
         <FormControl component="fieldset" className={classes.formControl}>
           <FormLabel component="legend">Ad Scheduling</FormLabel>

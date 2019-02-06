@@ -11,7 +11,6 @@ import {
   TextField
 } from '@material-ui/core';
 import AgeSelect from './ageSelect';
-import ChipInput from './chipInput';
 
 const styles = theme => ({
   root: {
@@ -19,7 +18,7 @@ const styles = theme => ({
     flexWrap: 'wrap'
   },
   formControl: {
-    // margin: theme.spacing.unit,
+    margin: theme.spacing.unit,
     width: '100%'
   },
   ageFormControl: {
@@ -78,14 +77,14 @@ const TargetingForm = ({ classes, campaign, updateCampaign, disabled, handleText
         </FormControl>
       </Grid>
 
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <ChipInput
           campaign={campaign}
           updateCampaign={updateCampaign}
           prop="audienceInterests"
           label="Add Audience Interests"
         />
-      </Grid>
+      </Grid> */}
 
       <Grid item xs={12}>
         <TextField
