@@ -216,6 +216,21 @@ class CampaignSetup extends React.Component {
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <Typography variant="h5" component="h3">
+                  Location(s)
+                </Typography>
+
+                <ChipInput
+                  campaign={campaign}
+                  updateCampaign={updateCampaign}
+                  prop="locations"
+                  label="Add Locations"
+                />
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Typography variant="h5" component="h3">
                   Pricing
                 </Typography>
 

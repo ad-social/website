@@ -77,15 +77,6 @@ const TargetingForm = ({ classes, campaign, updateCampaign, disabled, handleText
         </FormControl>
       </Grid>
 
-      {/* <Grid item xs={12}>
-        <ChipInput
-          campaign={campaign}
-          updateCampaign={updateCampaign}
-          prop="audienceInterests"
-          label="Add Audience Interests"
-        />
-      </Grid> */}
-
       <Grid item xs={12}>
         <TextField
           id="outlined-multiline-flexible"

@@ -95,7 +95,7 @@ class ChipInput extends React.Component {
               label={label}
               id="margin-none"
               className={classes.textField}
-              helperText="Some important text"
+              helperText="Press return to add"
             />
           </Grid>
         </Grid>
