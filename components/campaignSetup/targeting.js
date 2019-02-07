@@ -49,7 +49,7 @@ const TargetingForm = ({ classes, campaign, updateCampaign, disabled, handleText
             <AgeSelect
               className={classes.ageFormControl}
               label="Age Max"
-              value={campaign.ageMax}
+              value={campaign.ageMax || ''}
               onChange={handleTextChange('ageMax')}
               disabled={disabled}
             />

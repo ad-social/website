@@ -65,8 +65,8 @@ class MyCampaigns extends React.Component {
     this.setState({ [prop]: event.target.value });
   };
 
-  createNewCampaign = () => {
-    const { onNewCampaignSubmit, auth, profile } = this.props;
+  onCreateNewCampaignClick = () => {
+    const { createNewCampaign, auth, profile } = this.props;
     const { newCampaignName } = this.state;
 
     // // get all data needed to create new campaign
@@ -82,12 +82,9 @@ class MyCampaigns extends React.Component {
     this.handleNewCampaignDialogClose();
 
     // Create the new campaign, and callback goes to the page for that campaign
-    onNewCampaignSubmit(
+    createNewCampaign(
       {
-        owner: { id: ownerId, profile: { name: profile.name, email: profile.email } },
-        business: profile.activeBusiness,
-        name,
-        createdAt: new Date()
+        name
       },
       doc => {
         Router.push(`/campaign?campaignId=${doc.id}`, `campaign/${doc.id}`);
@@ -149,7 +146,7 @@ class MyCampaigns extends React.Component {
             <Button onClick={this.handleNewCampaignDialogClose} color="secondary">
               Cancel
             </Button>
-            <Button onClick={this.createNewCampaign} color="secondary">
+            <Button onClick={this.onCreateNewCampaignClick} color="secondary">
               Continue
             </Button>
           </DialogActions>
@@ -174,8 +171,8 @@ export default compose(
     { collection: 'campaigns', where: ['owner.id', '==', auth.uid || ''] }
   ]),
   withHandlers({
-    onNewCampaignSubmit: props => (newCampaign, callback) =>
-      props.firestore.add('campaigns', { ...newCampaign, status: 'incomplete' }).then(doc => {
+    createNewCampaign: props => (campaign, callback) =>
+      props.firestore.add('campaigns', { ...campaign }).then(doc => {
         if (callback) {
           callback(doc);
         }
