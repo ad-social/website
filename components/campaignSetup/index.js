@@ -178,6 +178,7 @@ class CampaignSetup extends React.Component {
                     InputProps={{
                       startAdornment: <InputAdornment position="start">$</InputAdornment>
                     }}
+                    disabled={!(status === 'incomplete')}
                   />
                 </FormControl>
               </Paper>
@@ -210,6 +211,7 @@ class CampaignSetup extends React.Component {
                   updateCampaign={updateCampaign}
                   prop="audienceInterests"
                   label="Add Audience Interests"
+                  disabled={!(status === 'incomplete')}
                 />
               </Paper>
             </Grid>
@@ -225,6 +227,7 @@ class CampaignSetup extends React.Component {
                   updateCampaign={updateCampaign}
                   prop="locations"
                   label="Add Locations"
+                  disabled={!(status === 'incomplete')}
                 />
               </Paper>
             </Grid>

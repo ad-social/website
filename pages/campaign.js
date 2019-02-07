@@ -79,7 +79,7 @@ export default compose(
       }
     ) => ({
       campaign: data.campaign,
-      adsets: data.adsets,
+      adsets: data.adsets || [],
       profile
     })
   ),

@@ -121,6 +121,7 @@ const SetupForm = ({
                 label="Start Date"
                 value={(campaign.endDate && new Date(campaign.startDate.toDate())) || new Date()}
                 onChange={handleDateChange('startDate')}
+                disabled={disabled}
               />
             </Grid>
             <Grid item xs={6}>
@@ -130,6 +131,7 @@ const SetupForm = ({
                 className={classes.datePicker}
                 value={(campaign.endDate && new Date(campaign.endDate.toDate())) || new Date()}
                 onChange={handleDateChange('endDate')}
+                disabled={disabled}
               />
             </Grid>
           </Grid>

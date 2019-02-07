@@ -67,7 +67,7 @@ class ChipInput extends React.Component {
   };
 
   render() {
-    const { classes, campaign, updateCampaign, prop, label } = this.props;
+    const { classes, campaign, updateCampaign, prop, label, disabled } = this.props;
     const { newChipValue } = this.state;
     const chips = campaign[prop] || [];
 
@@ -81,7 +81,7 @@ class ChipInput extends React.Component {
                   <Chip
                   key={chip}
                   label={chip}
-                  onDelete={() => this.handleDelete(chip, updateCampaign)}
+                  onDelete={disabled ? null : () => this.handleDelete(chip, updateCampaign)}
                   className={classes.chip}
                 />
                 ))}
@@ -96,6 +96,7 @@ class ChipInput extends React.Component {
               id="margin-none"
               className={classes.textField}
               helperText="Press return to add"
+              disabled={disabled}
             />
           </Grid>
         </Grid>
