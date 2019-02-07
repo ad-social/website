@@ -85,7 +85,7 @@ class CampaignSetup extends React.Component {
 
   submitForReview = () => {
     const { updateCampaign } = this.props;
-    updateCampaign({ name: 'Adset 1', status: 'inReview' });
+    updateCampaign({ status: 'inReview' });
   };
 
   /**

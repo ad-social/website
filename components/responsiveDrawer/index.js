@@ -30,7 +30,8 @@ const styles = theme => ({
   // Class specific to just the drawer
   drawerPaper: {
     position: 'fixed',
-    whiteSpace: 'nowrap'
+    whiteSpace: 'nowrap',
+    overflow: 'hidden'
   },
 
   // Drawer width transitions between closed and open
