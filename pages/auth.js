@@ -73,7 +73,7 @@ class Auth extends React.Component {
     const { businessAddress, businessName } = this.state;
     // Add business info to their profile
     const { uid } = firebase.auth().currentUser;
-    firestore
+    return firestore
       .collection('users')
       .doc(uid)
       .collection('businesses')
@@ -130,7 +130,10 @@ class Auth extends React.Component {
       // Create user
       firebase.createUser({ email, password }, { email, name }).then(ref => {
         // Add business info to their profile
-        this.addBusinessInfoToUserProfile();
+        this.addBusinessInfoToUserProfile().then(ref => {
+          // Set this business as the user's current active business
+          firebase.updateProfile({ activeBusiness: ref.id });
+        });
       });
 
       // Succesful login go back to home screen

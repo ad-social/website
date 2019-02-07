@@ -172,6 +172,7 @@ class CampaignSetup extends React.Component {
                   <TextField
                     label="Campaign Budget"
                     type="number"
+                    value={campaign.budget}
                     className={classes.textField}
                     onChange={this.handleTextChange('budget')}
                     InputProps={{
