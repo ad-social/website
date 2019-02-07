@@ -85,6 +85,7 @@ class MyCampaigns extends React.Component {
     onNewCampaignSubmit(
       {
         owner: { id: ownerId, profile: { name: profile.name, email: profile.email } },
+        business: profile.activeBusiness,
         name,
         createdAt: new Date()
       },

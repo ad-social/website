@@ -15,7 +15,10 @@ import Logo from '../logo';
 import ButtonsMenu from './buttonsMenu';
 import AuthMenu from './authMenu';
 
-const styles = {
+const styles = ({ palette }) => ({
+  appBar: {
+    backgroundColor: palette.primary.light
+  },
   menuButton: {
     marginLeft: -12,
     marginRight: 20
@@ -25,7 +28,7 @@ const styles = {
     width: 100,
     fontFamily: 'Comfortaa'
   }
-};
+});
 
 class NavBar extends React.Component {
   /**
@@ -47,7 +50,7 @@ class NavBar extends React.Component {
     const isSignedIn = isLoaded(auth) && !isEmpty(auth);
 
     return (
-      <AppBar position="fixed">
+      <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           {/* Display a logo text element that takes us to the root page on click */}
           <Logo shouldGrow />

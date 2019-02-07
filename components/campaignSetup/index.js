@@ -19,7 +19,9 @@ import {
   FormLabel,
   FormGroup,
   FormControlLabel,
-  Checkbox
+  Checkbox,
+  TextField,
+  InputAdornment
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
@@ -33,6 +35,7 @@ import SpecialButton from '../specialButton';
 import Setup from './setup';
 import Targeting from './targeting';
 import Pricing from './pricing';
+import ChipInput from './chipInput';
 
 const styles = theme => ({
   root: {
@@ -46,6 +49,9 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
     marginBottom: theme.spacing.unit * 4
+  },
+  textField: {
+    width: '100%'
   }
 });
 
@@ -93,6 +99,16 @@ class CampaignSetup extends React.Component {
   };
 
   /**
+   * Handles any changes to state from a text value
+   */
+  handleDateChange = prop => date => {
+    const { updateCampaign } = this.props;
+    updateCampaign({
+      [prop]: date
+    });
+  };
+
+  /**
    * Handles changes from a checkbox
    */
   handleCheckboxChange = prop => event => {
@@ -136,8 +152,34 @@ class CampaignSetup extends React.Component {
                   campaign={campaign}
                   handleTextChange={this.handleTextChange}
                   handleCheckboxChange={this.handleCheckboxChange}
+                  handleDateChange={this.handleDateChange}
                   disabled={!(status === 'incomplete')}
                 />
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Typography variant="h5" component="h3">
+                  Budget
+                </Typography>
+                <br />
+                <FormControl component="fieldset" className={classes.formControl}>
+                  <FormLabel component="legend">
+                    How much would you like to spend over the course of your campaign?
+                  </FormLabel>
+                  <br />
+                  <TextField
+                    label="Campaign Budget"
+                    type="number"
+                    value={campaign.budget}
+                    className={classes.textField}
+                    onChange={this.handleTextChange('budget')}
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start">$</InputAdornment>
+                    }}
+                  />
+                </FormControl>
               </Paper>
             </Grid>
 
@@ -149,9 +191,40 @@ class CampaignSetup extends React.Component {
 
                 <Targeting
                   campaign={campaign}
+                  updateCampaign={updateCampaign}
                   handleTextChange={this.handleTextChange}
                   handleCheckboxChange={this.handleCheckboxChange}
                   disabled={!(status === 'incomplete')}
+                />
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Typography variant="h5" component="h3">
+                  Target Audience Interests
+                </Typography>
+
+                <ChipInput
+                  campaign={campaign}
+                  updateCampaign={updateCampaign}
+                  prop="audienceInterests"
+                  label="Add Audience Interests"
+                />
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Typography variant="h5" component="h3">
+                  Location(s)
+                </Typography>
+
+                <ChipInput
+                  campaign={campaign}
+                  updateCampaign={updateCampaign}
+                  prop="locations"
+                  label="Add Locations"
                 />
               </Paper>
             </Grid>

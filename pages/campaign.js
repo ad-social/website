@@ -90,9 +90,6 @@ export default compose(
         updates
       ),
     updateAdset: props => id => updates => {
-      console.log('--Update Adset--');
-      console.log('ID: ', id);
-      console.log('UPDATES: ', updates);
       props.firestore.update(
         {
           collection: 'campaigns',

@@ -16,6 +16,7 @@ import {
   RadioGroup,
   Radio
 } from '@material-ui/core';
+import { DatePicker } from 'material-ui-pickers';
 
 const styles = theme => ({
   root: {
@@ -29,6 +30,9 @@ const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit
+  },
+  datePicker: {
+    paddingRight: 20
   }
 });
 
@@ -43,21 +47,27 @@ const objectiveOptions = [
   'Store visits'
 ];
 
-const SetupForm = ({ classes, disabled, handleTextChange, handleCheckboxChange, campaign }) => (
+const SetupForm = ({
+  classes,
+  disabled,
+  handleTextChange,
+  handleCheckboxChange,
+  handleDateChange,
+  campaign
+}) => (
   <div className={classes.root}>
     <Grid container direction="row" spacing={16}>
       <Grid item xs={7}>
-
         <FormControl component="fieldset" className={classes.formControl}>
           <FormLabel component="legend">Platform(s)</FormLabel>
           <FormGroup row>
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={campaign.facebook}
-                  onChange={handleCheckboxChange('facebook')}
-                  value="facebook"
-                />
+  checked={campaign.facebook}
+  onChange={handleCheckboxChange('facebook')}
+  value="facebook"
+/>
               }
               label="Facebook"
               disabled={disabled}
@@ -65,10 +75,10 @@ const SetupForm = ({ classes, disabled, handleTextChange, handleCheckboxChange, 
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={campaign.instagram}
-                  onChange={handleCheckboxChange('instagram')}
-                  value="instagram"
-                />
+  checked={campaign.instagram}
+  onChange={handleCheckboxChange('instagram')}
+  value="instagram"
+/>
               }
               label="Instagram"
               disabled={disabled}
@@ -76,15 +86,17 @@ const SetupForm = ({ classes, disabled, handleTextChange, handleCheckboxChange, 
           </FormGroup>
         </FormControl>
       </Grid>
+
       <Grid item xs={7}>
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="component-simple">Objective</InputLabel>
+        <FormControl component="fieldset" className={classes.formControl}>
+          <FormLabel component="legend">Objective</FormLabel>
+          {/* <InputLabel htmlFor="component">What do you want out of this campaign?</InputLabel> */}
           <Select
             value={campaign.objective}
             onChange={handleTextChange('objective')}
             inputProps={{
               name: 'objective',
-              id: 'objective-simple'
+              id: 'objective'
             }}
             disabled={disabled}
           >
@@ -92,37 +104,35 @@ const SetupForm = ({ classes, disabled, handleTextChange, handleCheckboxChange, 
               <em>None</em>
             </MenuItem>
             {objectiveOptions.map(objectiveOption => (
-              <MenuItem value={objectiveOption}>{objectiveOption}</MenuItem>
+              <MenuItem key={objectiveOption} value={objectiveOption}>{objectiveOption}</MenuItem>
             ))}
           </Select>
         </FormControl>
       </Grid>
+
       <Grid item xs={7}>
         <FormControl component="fieldset" className={classes.formControl}>
           <FormLabel component="legend">Ad Scheduling</FormLabel>
-          <RadioGroup
-            aria-label="position"
-            name="position"
-            value={campaign.scheduling}
-            onChange={handleTextChange('scheduling')}
-            row
-            disabled={disabled}
-          >
-            <FormControlLabel
-              value="continuous"
-              control={<Radio color="secondary" />}
-              label="Continuous"
-              labelPlacement="end"
-              disabled={disabled}
-            />
-            <FormControlLabel
-              value="specificSchedule"
-              control={<Radio color="secondary" />}
-              label="Specific Schedule"
-              labelPlacement="end"
-              disabled={disabled}
-            />
-          </RadioGroup>
+          <Grid container direction="row">
+            <Grid item xs={6}>
+              <DatePicker
+                margin="normal"
+                className={classes.datePicker}
+                label="Start Date"
+                value={(campaign.endDate && new Date(campaign.startDate.toDate())) || new Date()}
+                onChange={handleDateChange('startDate')}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DatePicker
+                margin="normal"
+                label="End Date"
+                className={classes.datePicker}
+                value={(campaign.endDate && new Date(campaign.endDate.toDate())) || new Date()}
+                onChange={handleDateChange('endDate')}
+              />
+            </Grid>
+          </Grid>
         </FormControl>
       </Grid>
     </Grid>

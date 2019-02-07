@@ -1,13 +1,15 @@
-import React from "react";
-import App, { Container } from "next/app";
-import Head from "next/head";
-import { MuiThemeProvider } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import JssProvider from "react-jss/lib/JssProvider";
-import getPageContext from "../src/getPageContext";
+import React from 'react';
+import App, { Container } from 'next/app';
+import Head from 'next/head';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import { MuiPickersUtilsProvider } from 'material-ui-pickers';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import JssProvider from 'react-jss/lib/JssProvider';
+import { Provider } from 'react-redux';
+import DateFnsUtils from '@date-io/date-fns';
+import getPageContext from '../src/getPageContext';
 
-import { Provider } from "react-redux";
-import withReduxStore from "../src/withReduxStore";
+import withReduxStore from '../src/withReduxStore';
 
 class MyApp extends App {
   constructor(props) {
@@ -17,7 +19,7 @@ class MyApp extends App {
 
   componentDidMount() {
     // Remove the server-side injected CSS.
-    const jssStyles = document.querySelector("#jss-server-side");
+    const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles && jssStyles.parentNode) {
       jssStyles.parentNode.removeChild(jssStyles);
     }
@@ -41,13 +43,15 @@ class MyApp extends App {
             theme={this.pageContext.theme}
             sheetsManager={this.pageContext.sheetsManager}
           >
-            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-            <CssBaseline />
-            {/* Pass pageContext to the _document though the renderPage enhancer
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+              <CssBaseline />
+              {/* Pass pageContext to the _document though the renderPage enhancer
                 to render collected styles on server side. */}
-            <Provider store={reduxStore}>
-              <Component pageContext={this.pageContext} {...pageProps} />
-            </Provider>
+              <Provider store={reduxStore}>
+                <Component pageContext={this.pageContext} {...pageProps} />
+              </Provider>
+            </MuiPickersUtilsProvider>
           </MuiThemeProvider>
         </JssProvider>
       </Container>

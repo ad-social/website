@@ -144,6 +144,7 @@ class ResponsiveDrawer extends React.Component {
             >
               <MenuIcon />
             </IconButton>
+
             <Typography variant="h6" color="inherit" noWrap>
               {campaign && campaign.name}
             </Typography>
