@@ -19,7 +19,9 @@ import {
   FormLabel,
   FormGroup,
   FormControlLabel,
-  Checkbox
+  Checkbox,
+  TextField,
+  InputAdornment
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
@@ -47,6 +49,9 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
     marginBottom: theme.spacing.unit * 4
+  },
+  textField: {
+    width: '100%'
   }
 });
 
@@ -150,6 +155,30 @@ class CampaignSetup extends React.Component {
                   handleDateChange={this.handleDateChange}
                   disabled={!(status === 'incomplete')}
                 />
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <Typography variant="h5" component="h3">
+                  Budget
+                </Typography>
+                <br />
+                <FormControl component="fieldset" className={classes.formControl}>
+                  <FormLabel component="legend">
+                    How much would you like to spend over the course of your campaign?
+                  </FormLabel>
+                  <br />
+                  <TextField
+                    label="Campaign Budget"
+                    type="number"
+                    className={classes.textField}
+                    onChange={this.handleTextChange('budget')}
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start">$</InputAdornment>
+                    }}
+                  />
+                </FormControl>
               </Paper>
             </Grid>
 
