@@ -76,7 +76,7 @@ class CampaignSetup extends React.Component {
    */
   passCampaignReview = () => {
     const { updateCampaign, createNewAdset } = this.props;
-    updateCampaign({ passedReview: true, status: 'ready' });
+    updateCampaign({ passedReview: true, status: 'complete' });
     // TODO - do this server side
     createNewAdset({ name: 'Adset 1' });
   };
@@ -87,7 +87,7 @@ class CampaignSetup extends React.Component {
 
   submitForReview = () => {
     const { updateCampaign } = this.props;
-    updateCampaign({ status: 'inReview' });
+    updateCampaign({ status: 'complete' });
   };
 
   /**

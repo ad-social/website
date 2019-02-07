@@ -52,3 +52,22 @@ exports.onCreateCampaign = functions.firestore
     // Merge in the changes
     return snap.ref.set(campaign, { merge: true });
   });
+
+exports.submitCampaignForReview = functions.https.onCall((data, context) => {
+  const { campaignId } = data;
+  if (!campaignId || campaignId === '') {
+    return { error: `Campaign id not valid: ${campaignId}` };
+  }
+
+  return admin
+    .database()
+    .ref(`/campaigns/${campaignId}`)
+    .update({ status: 'complete' })
+    .then(() => {
+      return { error: null };
+    })
+    .catch(error => {
+      // The document probably doesn't exist.
+      return { error: `Campaign doesn't exist with id: ${campaignId}` };
+    });
+});

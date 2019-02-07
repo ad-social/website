@@ -23,6 +23,8 @@ import { validate, canUserCreateCampaigns } from '../src/utils';
 import SwitchComponent from '../components/switchComponent';
 import withNavBar from '../src/withNavBar';
 
+import FirestoreFunctions from '../src/firestoreFunctions';
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -66,13 +68,12 @@ class MyCampaigns extends React.Component {
   };
 
   onCreateNewCampaignClick = () => {
-    const { createNewCampaign, auth, profile } = this.props;
+    const { CreateNewCampaign, auth, profile } = this.props;
     const { newCampaignName } = this.state;
 
-    // // get all data needed to create new campaign
-    const ownerId = auth.uid;
+    // get all data needed to create new campaign
     const name = newCampaignName;
-    if (!validate('dashboard.createNewCampaign', { ownerId, profile, name })) {
+    if (!validate('dashboard.createNewCampaign', { name })) {
       console.error('COULD NOT CREATE NEW CAMPAIGN');
       // TODO - CREATE VISUAL ERROR IN UI
       return;
@@ -82,7 +83,7 @@ class MyCampaigns extends React.Component {
     this.handleNewCampaignDialogClose();
 
     // Create the new campaign, and callback goes to the page for that campaign
-    createNewCampaign(
+    CreateNewCampaign(
       {
         name
       },
@@ -171,12 +172,7 @@ export default compose(
     { collection: 'campaigns', where: ['owner.id', '==', auth.uid || ''] }
   ]),
   withHandlers({
-    createNewCampaign: props => (campaign, callback) =>
-      props.firestore.add('campaigns', { ...campaign }).then(doc => {
-        if (callback) {
-          callback(doc);
-        }
-      })
+    CreateNewCampaign: FirestoreFunctions.CreateNewCampaign
   }),
   withNavBar,
   withStyles(styles)

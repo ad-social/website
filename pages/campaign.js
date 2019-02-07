@@ -99,7 +99,6 @@ export default compose(
         updates
       );
     },
-
     createNewAdset: props => adset => {
       props.firestore.add(
         {
