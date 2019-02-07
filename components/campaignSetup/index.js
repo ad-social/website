@@ -75,8 +75,10 @@ class CampaignSetup extends React.Component {
    * Puts campaign past the review stage
    */
   passCampaignReview = () => {
-    const { updateCampaign } = this.props;
+    const { updateCampaign, createNewAdset } = this.props;
     updateCampaign({ passedReview: true, status: 'ready' });
+    // TODO - do this server side
+    createNewAdset({ name: 'Adset 1' });
   };
 
   /**

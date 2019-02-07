@@ -50,7 +50,7 @@ class AdSet extends React.Component {
         </Grid>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            {status === 'incomplete' ? (
+            {status !== 'ready' ? (
               <Typography variant="subtitle1">
                 You're adset isn't ready yet! We're working on it right now and it will be ready
                 within 3 business days.
