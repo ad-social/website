@@ -106,7 +106,36 @@ export default compose(
           doc: props.router.query.campaignId,
           subcollections: [{ collection: 'adsets' }]
         },
-        adset
+        {
+          ...adset,
+          status: 'incomplete',
+          denied: false
+        }
+      );
+    },
+    acceptAdset: props => id => {
+      props.firestore.update(
+        {
+          collection: 'campaigns',
+          doc: props.router.query.campaignId,
+          subcollections: [{ collection: 'adsets', doc: id }]
+        },
+        {
+          ready: true
+        }
+      );
+    },
+    denyAdset: props => ({ id, denialReason }) => {
+      props.firestore.update(
+        {
+          collection: 'campaigns',
+          doc: props.router.query.campaignId,
+          subcollections: [{ collection: 'adsets', doc: id }]
+        },
+        {
+          denied: true,
+          denialReason
+        }
       );
     }
   }),

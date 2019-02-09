@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Typography, Grid, Paper } from '@material-ui/core';
+import { Typography, Grid, Paper, Button } from '@material-ui/core';
 import { compose } from 'recompose';
 import { withFirebase } from 'react-redux-firebase';
 import AdminAdsetControls from './adminAdsetControls';
@@ -21,24 +21,11 @@ const styles = theme => ({
 });
 
 class AdSet extends React.Component {
-  state = {
-    adImageURL: ''
-  };
+  state = {};
 
   render() {
-    const { adImageURL } = this.state;
     const { classes, firebase, profile, adset, id, updateAdset } = this.props;
-    const { status, copy, moreInfo } = adset;
-
-    if (status === 'ready') {
-      const adImagesStorageRef = firebase.storage().ref();
-      adImagesStorageRef
-        .child(`${adImagesPathV1}/ad-${id}`)
-        .getDownloadURL()
-        .then(url => {
-          this.setState({ adImageURL: url });
-        });
-    }
+    const { status, copy, moreInfo, ready, adImageURL } = adset;
 
     return (
       <Grid container>
@@ -50,7 +37,7 @@ class AdSet extends React.Component {
         </Grid>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            {status !== 'ready' ? (
+            {status === 'incomplete' ? (
               <Typography variant="subtitle1">
                 You're adset isn't ready yet! We're working on it right now and it will be ready
                 within 3 business days.
@@ -72,10 +59,21 @@ class AdSet extends React.Component {
                 <Typography variant="subtitle2">{moreInfo}</Typography>
               </div>
             )}
-            <SwitchComponent show={profile.isAdmin === true}>
+
+            <SwitchComponent show={profile.isAdmin === true && status !== 'ready'}>
               <AdminAdsetControls {...this.props} />
             </SwitchComponent>
           </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <SwitchComponent show={status === 'incomplete'}>
+            <Button color="primary" variant="contained" className={classes.button}>
+              Accept
+            </Button>
+            <Button color="primary" variant="contained" className={classes.button}>
+              Deny
+            </Button>
+          </SwitchComponent>
         </Grid>
       </Grid>
     );

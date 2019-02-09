@@ -95,14 +95,9 @@ class AdminAdsetControls extends React.Component {
   onSubmit = async () => {
     const { adset, id, firebase, updateAdset } = this.props;
     const { status, copy, moreInfo, files } = this.state;
+    let adImageURL = '';
     // If there is a file to upload
     if (files.length === 1) {
-      // Remove the image that's already there
-      if (adset.adImage && adset.adImage !== '') {
-        console.log('TODO - DELETE THIS FILE: ', adset.adImage);
-        // firebase.deleteFile(adset.adImage.fullPath, `${filesPath}/${key}`);
-      }
-
       // Upload the new image
       const adImagesStorageRef = await firebase
         .storage()
@@ -112,13 +107,16 @@ class AdminAdsetControls extends React.Component {
       const snapshot = await adImagesStorageRef.put(files[0]);
       console.log('Uploaded a blob or file!');
       console.log(snapshot);
+      adImageURL = await snapshot.ref.getDownloadURL();
     }
 
     console.log('updating adset');
+    console.log('Ad image url: ', adImageURL);
     updateAdset({
       status,
       copy,
-      moreInfo
+      moreInfo,
+      adImageURL: adImageURL || ''
     });
   };
 
@@ -150,7 +148,7 @@ class AdminAdsetControls extends React.Component {
             <InputLabel htmlFor="name-disabled">Status</InputLabel>
             <Select value={status} onChange={this.handleChange('status')}>
               <MenuItem value="incomplete">Incomplete</MenuItem>
-              <MenuItem value="ready">Ready</MenuItem>
+              <MenuItem value="waitingForUser">Waiting For User </MenuItem>
             </Select>
           </FormControl>
         </Grid>

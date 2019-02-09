@@ -63,7 +63,7 @@ class CampaignDashboard extends React.Component {
               </SwitchComponent>
 
               <SwitchComponent show={!isEmpty(adsets)}>
-                {/* FOR MVP ONLY SHOW 1 (FIRST) ADSET */}
+                {/* SHOW 1 (FIRST) FOR MVP ONLY ADSET */}
                 <AdSet
                   adset={adsets[Object.keys(adsets)[0]]}
                   id={Object.keys(adsets)[0]}
