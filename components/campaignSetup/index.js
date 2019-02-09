@@ -72,7 +72,7 @@ class CampaignSetup extends React.Component {
    */
   passCampaignReview = () => {
     const { updateCampaign, createNewAdset } = this.props;
-    updateCampaign({ passedReview: true, status: 'complete' });
+    updateCampaign({ reviewPassed: true, status: 'complete' });
     // TODO - do this server side
     createNewAdset('Adset 1');
   };
@@ -265,7 +265,7 @@ class CampaignSetup extends React.Component {
             <SwitchComponent
               show={
                 profile.isAdmin === true &&
-                (!campaign.passedReview || campaign.passedReview === false)
+                (!campaign.reviewPassed || campaign.reviewPassed === false)
               }
             >
               <TextField

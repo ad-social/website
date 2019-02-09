@@ -18,7 +18,7 @@ exports.onCreateCampaign = functions.firestore
     // Default values for the campaign
     const campaign = {
       createdAt: new Date(),
-      passedReview: false,
+      reviewPassed: false,
       status: 'incomplete',
       facebook: false,
       instagram: false,

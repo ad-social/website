@@ -66,7 +66,7 @@ const CreateNewCampaign = ({ profile, auth, firestore }) => (campaign, callback)
  * CreateNewAdset
  * Must be used in a location where router query has campaignId
  */
-const CreateNewAdset = props => adset => {
+const CreateNewAdset = props => name => {
   props.firestore.add(
     {
       collection: 'campaigns',
@@ -74,8 +74,8 @@ const CreateNewAdset = props => adset => {
       subcollections: [{ collection: 'adsets' }]
     },
     {
-      ...defaultAdset,
-      ...adset
+      name,
+      ...defaultAdset
     }
   );
 };
