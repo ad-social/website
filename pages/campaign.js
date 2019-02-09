@@ -7,8 +7,10 @@ import { connect } from 'react-redux';
 
 import { firestoreConnect, isLoaded } from 'react-redux-firebase';
 import { CircularProgress } from '@material-ui/core';
-import withNavBar from '../src/withNavBar';
-import EditCampaignStepper from '../components/editCampaignStepper';
+import withResponsiveDrawerNavbar from '../src/withResponsiveDrawerNavbar';
+import CampaignSetup from '../components/campaignSetup';
+import CampaignDashboard from '../components/campaignDashboard';
+import CampaignAnalytics from '../components/campaignAnalytics';
 
 const styles = theme => ({
   root: {
@@ -19,25 +21,29 @@ const styles = theme => ({
 class Campaign extends React.Component {
   state = {};
 
-  render() {
-    const {
-      classes,
-      campaign,
-      router: {
-        query: { id }
-      }
-    } = this.props;
+  renderContent = () => {
+    const { page } = this.props;
+    switch (page) {
+      case 'setup':
+        return <CampaignSetup {...this.props} />;
+      case 'dashboard':
+        return <CampaignDashboard {...this.props} />;
+      case 'analytics':
+        return <CampaignAnalytics {...this.props} />;
+      default:
+        return null;
+    }
+  };
 
+  render() {
+    const { classes, campaign, updateCampaign, profile, page } = this.props;
+
+    // Make sure the campaign is loaded
     if (!isLoaded(campaign)) {
       return <CircularProgress className={classes.progress} />;
     }
 
-    if (campaign.status == 'incomplete') {
-      return <EditCampaignStepper />
-    }
-
-    return <div className={classes.root}>
-Hello World:{id}</div>;
+    return <div className={classes.root}>{this.renderContent()}</div>;
   }
 }
 
@@ -47,14 +53,63 @@ Campaign.propTypes = {
 
 export default compose(
   withRouter,
-  withNavBar,
-  firestoreConnect(props => [{ collection: 'campaigns', doc: props.router.query.id }]),
-  connect(({ firestore: { data } }, { router: { query: { id } } }) => ({
-    campaign: data.campaigns && data.campaigns[id]
-  })),
+  firestoreConnect(props => {
+    console.log('CAMPAIGN ID: ', props.router.query.campaignId);
+    return [
+      {
+        collection: 'campaigns',
+        doc: props.router.query.campaignId,
+        storeAs: 'campaign'
+      },
+      {
+        collection: 'campaigns',
+        doc: props.router.query.campaignId,
+        subcollections: [{ collection: 'adsets' }],
+        storeAs: 'adsets'
+      }
+    ];
+  }),
+  connect(
+    (
+      { firestore: { data }, firebase: { profile } },
+      {
+        router: {
+          query: { campaignId }
+        }
+      }
+    ) => ({
+      campaign: data.campaign,
+      adsets: data.adsets || [],
+      profile
+    })
+  ),
   withHandlers({
     updateCampaign: props => updates =>
-      props.firestore.update({ collection: 'campaigns', doc: props.router.query.id }, updates)
+      props.firestore.update(
+        { collection: 'campaigns', doc: props.router.query.campaignId },
+        updates
+      ),
+    updateAdset: props => id => updates => {
+      props.firestore.update(
+        {
+          collection: 'campaigns',
+          doc: props.router.query.campaignId,
+          subcollections: [{ collection: 'adsets', doc: id }]
+        },
+        updates
+      );
+    },
+    createNewAdset: props => adset => {
+      props.firestore.add(
+        {
+          collection: 'campaigns',
+          doc: props.router.query.campaignId,
+          subcollections: [{ collection: 'adsets' }]
+        },
+        adset
+      );
+    }
   }),
-  withStyles(styles)
+  withStyles(styles),
+  withResponsiveDrawerNavbar
 )(Campaign);

@@ -5,7 +5,6 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { Grid } from '@material-ui/core';
 import withNavBar from '../src/withNavBar';
-import EditCampaignStepper from '../components/editCampaignStepper';
 
 const styles = theme => ({
   root: {
@@ -22,9 +21,7 @@ const styles = theme => ({
 
 const NewCampaign = ({ classes }) => (
   <Grid container>
-    <Grid item xs={12}>
-      <EditCampaignStepper />
-    </Grid>
+    <Grid item xs={12} />
   </Grid>
 );
 

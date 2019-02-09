@@ -7,7 +7,8 @@ import {
   DialogContent,
   DialogContentText,
   TextField,
-  DialogActions
+  DialogActions,
+  Typography
 } from '@material-ui/core';
 import { connect } from 'react-redux';
 import Router from 'next/router';
@@ -15,20 +16,32 @@ import { compose, withHandlers } from 'recompose';
 
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-
-import { withFirestore, firestoreConnect, isLoaded } from 'react-redux-firebase';
+import Error from '@material-ui/icons/ErrorOutline';
+import { withFirestore, firestoreConnect } from 'react-redux-firebase';
+import CampaignsList from '../components/campaignsList';
+import { validate, canUserCreateCampaigns } from '../src/utils';
+import SwitchComponent from '../components/switchComponent';
 import withNavBar from '../src/withNavBar';
-import CampaignsTable from '../components/campaignsTable';
-import { validate } from '../src/utils';
 
-const styles = {
+import FirestoreFunctions from '../src/firestoreFunctions';
+
+const styles = theme => ({
   root: {
     flexGrow: 1,
     paddingTop: 30
+  },
+  button: {
+    marginBottom: 30
+  },
+  error: {
+    color: theme.palette.error.main
+  },
+  icon: {
+    marginBottom: '-0.18em'
   }
-};
+});
 
-class Dashboard extends React.Component {
+class MyCampaigns extends React.Component {
   state = {
     newCampaignDialogOpen: false
   };
@@ -54,25 +67,34 @@ class Dashboard extends React.Component {
     this.setState({ [prop]: event.target.value });
   };
 
-  createNewCampaign = () => {
-    const { onNewCampaignSubmit, auth } = this.props;
+  onCreateNewCampaignClick = () => {
+    const { CreateNewCampaign, auth, profile } = this.props;
     const { newCampaignName } = this.state;
 
-    // // get all data needed to create new campaign
-    const owner = auth.uid;
+    // get all data needed to create new campaign
     const name = newCampaignName;
-    if (!validate('dashboard.createNewCampaign', { owner, name })) {
+    if (!validate('dashboard.createNewCampaign', { name })) {
       console.error('COULD NOT CREATE NEW CAMPAIGN');
       // TODO - CREATE VISUAL ERROR IN UI
       return;
     }
 
+    // Close the dialog menu
     this.handleNewCampaignDialogClose();
-    onNewCampaignSubmit({ name, owner, createdAt: new Date() });
+
+    // Create the new campaign, and callback goes to the page for that campaign
+    CreateNewCampaign(
+      {
+        name
+      },
+      doc => {
+        Router.push(`/campaign?campaignId=${doc.id}`, `campaign/${doc.id}`);
+      }
+    );
   };
 
   render() {
-    const { classes, campaigns } = this.props;
+    const { classes, campaigns, profile } = this.props;
     const { newCampaignDialogOpen } = this.state;
     return (
       <div>
@@ -84,16 +106,20 @@ class Dashboard extends React.Component {
           className={classes.root}
           spacing={16}
         >
+          <SwitchComponent show={!canUserCreateCampaigns(profile)}>
+            <Grid item xs={10}>
+              <Typography variant="subtitle1" className={classes.error}>
+                <Error className={classes.icon} />
+                Only users in our Founders Club can create campaigns right now
+              </Typography>
+            </Grid>
+          </SwitchComponent>
+
           <Grid item xs={10}>
-            <Button
-              variant="contained"
-              color="secondary"
-              className={classes.button}
-              onClick={this.handleNewCampaignDialogOpen}
-            >
-              Start A New Campaign
-            </Button>
-            <CampaignsTable campaigns={campaigns} />
+            <CampaignsList
+              campaigns={campaigns}
+              handleNewCampaignDialogOpen={this.handleNewCampaignDialogOpen}
+            />
           </Grid>
         </Grid>
 
@@ -118,10 +144,10 @@ class Dashboard extends React.Component {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleNewCampaignDialogClose} color="primary">
+            <Button onClick={this.handleNewCampaignDialogClose} color="secondary">
               Cancel
             </Button>
-            <Button onClick={this.createNewCampaign} color="primary">
+            <Button onClick={this.onCreateNewCampaignClick} color="secondary">
               Continue
             </Button>
           </DialogActions>
@@ -131,23 +157,23 @@ class Dashboard extends React.Component {
   }
 }
 
-Dashboard.propTypes = {
+MyCampaigns.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
 export default compose(
-  withNavBar,
   withFirestore,
-  connect(({ firestore: { ordered }, firebase: { auth } }) => ({
+  connect(({ firestore: { ordered }, firebase: { auth, profile } }) => ({
     campaigns: ordered.campaigns,
-    auth
+    auth,
+    profile
   })),
-  withHandlers({
-    onNewCampaignSubmit: props => newTodo =>
-      props.firestore.add('campaigns', { ...newTodo, status: 'incomplete' })
-  }),
   firestoreConnect(({ auth }) => [
-    { collection: 'campaigns', owner: auth.uid } // or `todos/${props.todoId}`
+    { collection: 'campaigns', where: ['owner.id', '==', auth.uid || ''] }
   ]),
+  withHandlers({
+    CreateNewCampaign: FirestoreFunctions.CreateNewCampaign
+  }),
+  withNavBar,
   withStyles(styles)
-)(Dashboard);
+)(MyCampaigns);

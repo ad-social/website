@@ -14,11 +14,9 @@ const firebaseConfig = {
   authDomain: 'adsocial-d7ee0.firebaseapp.com',
   databaseURL: 'https://adsocial-d7ee0.firebaseio.com',
   projectId: 'adsocial-d7ee0',
-  storageBucket: '',
+  storageBucket: 'adsocial-d7ee0.appspot.com',
   messagingSenderId: '534262950806'
 };
-
-console.log('ENV VARS: ', firebaseConfig);
 
 // react-redux-firebase config
 const rrfConfig = {

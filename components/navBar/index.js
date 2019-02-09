@@ -2,8 +2,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Router from 'next/router';
-
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -13,12 +11,13 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withFirebase, isLoaded, isEmpty } from 'react-redux-firebase';
 
+import Logo from '../logo';
 import ButtonsMenu from './buttonsMenu';
 import AuthMenu from './authMenu';
 
-const styles = {
-  grow: {
-    flexGrow: 1
+const styles = ({ palette }) => ({
+  appBar: {
+    backgroundColor: palette.primary.light
   },
   menuButton: {
     marginLeft: -12,
@@ -26,9 +25,10 @@ const styles = {
   },
   logo: {
     cursor: 'pointer',
-    width: 100
+    width: 100,
+    fontFamily: 'Comfortaa'
   }
-};
+});
 
 class NavBar extends React.Component {
   /**
@@ -46,21 +46,15 @@ class NavBar extends React.Component {
 
   render() {
     // Styles are passed as props.classes when we export using 'withStyles'
-    const { classes } = this.props;
+    const { classes, auth } = this.props;
+    const isSignedIn = isLoaded(auth) && !isEmpty(auth);
 
     return (
-      <AppBar position="fixed">
+      <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           {/* Display a logo text element that takes us to the root page on click */}
-          <Typography
-            onClick={() => Router.push('/')}
-            variant="h6"
-            color="inherit"
-            className={classes.grow}
-          >
-            <div className={classes.logo}>adsocial</div>
-          </Typography>
-          {this.renderOnlyWhenAuthenticated(<ButtonsMenu />)}
+          <Logo shouldGrow />
+          <ButtonsMenu isSignedIn={isSignedIn} />
           {<AuthMenu />}
         </Toolbar>
       </AppBar>

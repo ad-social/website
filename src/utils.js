@@ -1,3 +1,5 @@
+export const adImagesPathV1 = '/adImages';
+
 export function validate(location, params) {
   const keys = Object.keys(params);
   for (let i = 0; i < keys.length; i += 1) {
@@ -17,4 +19,21 @@ export function validate(location, params) {
   return true;
 }
 
-export default { validate };
+export function canUserCreateCampaigns(profile) {
+  return profile.isFounder !== null && profile.isFounder === true;
+}
+
+export function parseStatus(status) {
+  switch (status) {
+    case 0:
+      return 'incomplete';
+    case 1:
+      return 'review';
+    case 2:
+      return 'pickAd';
+    default:
+      return 'incomplete';
+  }
+}
+
+export default { validate, canUserCreateCampaigns, adImagesPathV1 };
