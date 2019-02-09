@@ -121,7 +121,7 @@ export default compose(
           subcollections: [{ collection: 'adsets', doc: id }]
         },
         {
-          ready: true
+          status: 'ready'
         }
       );
     },

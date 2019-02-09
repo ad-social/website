@@ -33,7 +33,7 @@ class CampaignDashboard extends React.Component {
       classes,
       campaign,
       adsets,
-      updateCampaign,
+      acceptAdset,
       updateAdset,
       profile,
       router: {
@@ -69,6 +69,7 @@ class CampaignDashboard extends React.Component {
                   id={Object.keys(adsets)[0]}
                   profile={profile}
                   updateAdset={updateAdset(Object.keys(adsets)[0])}
+                  acceptAdset={acceptAdset}
                 />
               </SwitchComponent>
             </Grid>

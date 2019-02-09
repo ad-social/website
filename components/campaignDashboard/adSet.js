@@ -24,7 +24,7 @@ class AdSet extends React.Component {
   state = {};
 
   render() {
-    const { classes, firebase, profile, adset, id, updateAdset } = this.props;
+    const { classes, firebase, profile, adset, id, updateAdset, acceptAdset } = this.props;
     const { status, copy, moreInfo, ready, adImageURL } = adset;
 
     return (
@@ -66,8 +66,13 @@ class AdSet extends React.Component {
           </Paper>
         </Grid>
         <Grid item xs={12}>
-          <SwitchComponent show={status === 'incomplete'}>
-            <Button color="primary" variant="contained" className={classes.button}>
+          <SwitchComponent show={status === 'waitingForUser'}>
+            <Button
+              color="primary"
+              variant="contained"
+              className={classes.button}
+              onClick={() => acceptAdset(id)}
+            >
               Accept
             </Button>
             <Button color="primary" variant="contained" className={classes.button}>
