@@ -108,6 +108,27 @@ export default compose(
         }
       );
     },
+    denyCampaignReview: props => reason => {
+      props.firestore.update(
+        { collection: 'campaigns', doc: props.router.query.campaignId },
+        {
+          submittedForReview: false,
+          reviewDenied: true,
+          reviewPassed: false,
+          reviewDenialReason: reason
+        }
+      );
+    },
+    passCampaignReview: props => {
+      props.firestore.update(
+        { collection: 'campaigns', doc: props.router.query.campaignId },
+        {
+          submittedForReview: true,
+          reviewDenied: false,
+          reviewPassed: true
+        }
+      );
+    },
     createNewAdset: CreateNewAdset,
     acceptAdset: props => id => {
       props.firestore.update(

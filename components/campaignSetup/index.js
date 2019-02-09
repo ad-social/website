@@ -1,34 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import { withRouter } from 'next/router';
 import { compose, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 
-import { firestoreConnect, isLoaded } from 'react-redux-firebase';
+import { isLoaded } from 'react-redux-firebase';
 import {
   CircularProgress,
   Typography,
   Grid,
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
-  Button,
   Paper,
   FormControl,
   FormLabel,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
   TextField,
   InputAdornment
 } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import classNames from 'classnames';
 
-import { parseStatus } from '../../src/utils';
-import withNavBar from '../../src/withNavBar';
-import withResponsiveDrawerNavbar from '../../src/withResponsiveDrawerNavbar';
-import CampaignHeader from '../campaignHeader';
 import CampaignSummary from '../campaignSummary';
 import SwitchComponent from '../switchComponent';
 import SpecialButton from '../specialButton';
@@ -49,6 +39,10 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
     marginBottom: theme.spacing.unit * 4
+  },
+  errorPaper: {
+    backgroundColor: theme.palette.error.light,
+    color: 'white'
   },
   textField: {
     width: '100%'
@@ -113,14 +107,15 @@ class CampaignSetup extends React.Component {
 
   render() {
     const { classes, campaign, updateCampaign, submitCampaignForReview, profile } = this.props;
-    const { submittedForReview } = campaign;
+    // Parse variables from campaign
+    const { submittedForReview, reviewDenied, reviewDenialReason } = campaign;
+    // Whether the fields should be disabled or not
     const disabled = submittedForReview;
+
     // Make sure the campaign is loaded
     if (!isLoaded(campaign)) {
       return <CircularProgress className={classes.progress} />;
     }
-
-    const { status } = campaign;
 
     return (
       <div className={classes.root}>
@@ -135,6 +130,18 @@ class CampaignSetup extends React.Component {
                 spend, etc. We'll review the information and make sure everything is good to go!
               </Typography>
             </Grid>
+            <SwitchComponent show={reviewDenied}>
+              <Grid item xs={12}>
+                <Paper className={classNames(classes.paper, classes.errorPaper)}>
+                  <Typography color="inherit" variant="h5">
+                    Campaign did not pass review
+                  </Typography>
+                  <Typography color="inherit" variant="subtitle1" gutterBottom>
+                    {reviewDenialReason}
+                  </Typography>
+                </Paper>
+              </Grid>
+            </SwitchComponent>
 
             <Grid item xs={12}>
               <Paper className={classes.paper}>
