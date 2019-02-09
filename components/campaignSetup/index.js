@@ -50,7 +50,9 @@ const styles = theme => ({
 });
 
 class CampaignSetup extends React.Component {
-  state = {};
+  state = {
+    reviewDenialReason: ''
+  };
 
   renderCampaignBody = () => {
     const { campaign, updateCampaign } = this.props;
@@ -106,7 +108,14 @@ class CampaignSetup extends React.Component {
   };
 
   render() {
-    const { classes, campaign, updateCampaign, submitCampaignForReview, profile } = this.props;
+    const {
+      classes,
+      campaign,
+      updateCampaign,
+      submitCampaignForReview,
+      denyCampaignReview,
+      profile
+    } = this.props;
     // Parse variables from campaign
     const { submittedForReview, reviewDenied, reviewDenialReason } = campaign;
     // Whether the fields should be disabled or not
@@ -250,6 +259,8 @@ class CampaignSetup extends React.Component {
             {/* Only non-admins can submit for review */}
             <SpecialButton onClick={submitCampaignForReview}>Submit For Review</SpecialButton>
 
+            <br />
+
             {/* Only admins can pass the review */}
             <SwitchComponent
               show={
@@ -257,6 +268,21 @@ class CampaignSetup extends React.Component {
                 (!campaign.passedReview || campaign.passedReview === false)
               }
             >
+              <TextField
+                id="outlined-textarea"
+                label="Review Denial Reason"
+                placeholder="Why is this review getting denied?"
+                multiline
+                className={classes.textField}
+                margin="normal"
+                variant="outlined"
+                onChange={event => this.setState({ reviewDenialReason: event.target.value })}
+              />
+              <SpecialButton onClick={() => denyCampaignReview(this.state.reviewDenialReason)}>
+                Deny Review
+              </SpecialButton>
+              <br />
+              <br />
               <SpecialButton onClick={this.passCampaignReview}>Pass Review</SpecialButton>
             </SwitchComponent>
           </Grid>
