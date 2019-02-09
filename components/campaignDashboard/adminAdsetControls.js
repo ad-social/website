@@ -20,7 +20,7 @@ import { adImagesPathV1 } from '../../src/utils';
 
 const styles = theme => ({
   root: {
-    display: 'flex'
+    backgroundColor: 'red'
   },
   paper: {
     ...theme.mixins.gutters(),
@@ -137,7 +137,7 @@ class AdminAdsetControls extends React.Component {
     ));
 
     return (
-      <div>
+      <div style={{ backgroundColor: '#eee' }}>
         <Grid item xs={12}>
           <Typography variant="h5">
             <b>
