@@ -49,12 +49,14 @@ const objectiveOptions = [
 
 const SetupForm = ({
   classes,
-  disabled,
   handleTextChange,
   handleCheckboxChange,
   handleDateChange,
   campaign
-}) => (
+}) => {
+  const {reviewPassed, reviewDenied, reviewDenialReason, submittedForReview} = campaign;
+  const disabled = submittedForReview;
+  return (
   <div className={classes.root}>
     <Grid container direction="row" spacing={16}>
       <Grid item xs={7}>
@@ -139,7 +141,8 @@ const SetupForm = ({
       </Grid>
     </Grid>
   </div>
-);
+)
+            }
 
 SetupForm.propTypes = {
   classes: PropTypes.object.isRequired

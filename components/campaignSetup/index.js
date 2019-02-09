@@ -78,16 +78,7 @@ class CampaignSetup extends React.Component {
     const { updateCampaign, createNewAdset } = this.props;
     updateCampaign({ passedReview: true, status: 'complete' });
     // TODO - do this server side
-    createNewAdset({ name: 'Adset 1' });
-  };
-
-  /**
-   * Submit the campaign for review
-   */
-
-  submitForReview = () => {
-    const { updateCampaign } = this.props;
-    updateCampaign({ status: 'complete' });
+    createNewAdset('Adset 1');
   };
 
   /**
@@ -121,8 +112,9 @@ class CampaignSetup extends React.Component {
   };
 
   render() {
-    const { classes, campaign, updateCampaign, profile } = this.props;
-
+    const { classes, campaign, updateCampaign, submitCampaignForReview, profile } = this.props;
+    const { submittedForReview } = campaign;
+    const disabled = submittedForReview;
     // Make sure the campaign is loaded
     if (!isLoaded(campaign)) {
       return <CircularProgress className={classes.progress} />;
@@ -155,7 +147,6 @@ class CampaignSetup extends React.Component {
                   handleTextChange={this.handleTextChange}
                   handleCheckboxChange={this.handleCheckboxChange}
                   handleDateChange={this.handleDateChange}
-                  disabled={!(status === 'incomplete')}
                 />
               </Paper>
             </Grid>
@@ -180,7 +171,7 @@ class CampaignSetup extends React.Component {
                     InputProps={{
                       startAdornment: <InputAdornment position="start">$</InputAdornment>
                     }}
-                    disabled={!(status === 'incomplete')}
+                    disabled={disabled}
                   />
                 </FormControl>
               </Paper>
@@ -197,7 +188,7 @@ class CampaignSetup extends React.Component {
                   updateCampaign={updateCampaign}
                   handleTextChange={this.handleTextChange}
                   handleCheckboxChange={this.handleCheckboxChange}
-                  disabled={!(status === 'incomplete')}
+                  disabled={disabled}
                 />
               </Paper>
             </Grid>
@@ -213,7 +204,7 @@ class CampaignSetup extends React.Component {
                   updateCampaign={updateCampaign}
                   prop="audienceInterests"
                   label="Add Audience Interests"
-                  disabled={!(status === 'incomplete')}
+                  disabled={disabled}
                 />
               </Paper>
             </Grid>
@@ -229,7 +220,7 @@ class CampaignSetup extends React.Component {
                   updateCampaign={updateCampaign}
                   prop="locations"
                   label="Add Locations"
-                  disabled={!(status === 'incomplete')}
+                  disabled={disabled}
                 />
               </Paper>
             </Grid>
@@ -244,19 +235,13 @@ class CampaignSetup extends React.Component {
                   campaign={campaign}
                   handleTextChange={this.handleTextChange}
                   handleCheckboxChange={this.handleCheckboxChange}
-                  disabled={!(status === 'incomplete')}
+                  disabled={disabled}
                 />
               </Paper>
             </Grid>
 
             {/* Only non-admins can submit for review */}
-            <SwitchComponent
-              show={
-                (!profile.isAdmin || profile.isAdmin === false) && campaign.status === 'incomplete'
-              }
-            >
-              <SpecialButton onClick={this.submitForReview}>Submit For Review</SpecialButton>
-            </SwitchComponent>
+            <SpecialButton onClick={submitCampaignForReview}>Submit For Review</SpecialButton>
 
             {/* Only admins can pass the review */}
             <SwitchComponent
