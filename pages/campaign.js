@@ -108,57 +108,12 @@ export default compose(
         }
       );
     },
-    denyCampaignReview: props => reason => {
-      props.firestore.update(
-        { collection: 'campaigns', doc: props.router.query.campaignId },
-        {
-          submittedForReview: false,
-          reviewDenied: true,
-          reviewPassed: false,
-          reviewDenialReason: reason
-        }
-      );
-    },
-    passCampaignReview: props => {
-      props.firestore.update(
-        { collection: 'campaigns', doc: props.router.query.campaignId },
-        {
-          submittedForReview: true,
-          reviewDenied: false,
-          reviewPassed: true,
-          waitingForAdsetUpdate: true
-        }
-      );
-    },
+    passCampaignReview: FirestoreFunctions.PassCampaignReview,
+    denyCampaignReview: FirestoreFunctions.DenyCampaignReview,
     CreateNewAdset: FirestoreFunctions.CreateNewAdset,
     AddNewVersionToAdset: FirestoreFunctions.AddNewVersionToAdset,
-    acceptAdsetVersion: props => adsetId => {
-      props.firestore.update(
-        {
-          collection: 'campaigns',
-          doc: props.router.query.campaignId,
-          subcollections: [{ collection: 'adsets', doc: adsetId }]
-        },
-        {
-          acceptedVersion: true
-        }
-      );
-    },
-    denyAdsetVersion: props => (adsetId, adset, denialReason) => {
-      const { versions } = adset;
-      versions[versions.length - 1].denied = true;
-      versions[versions.length - 1].denialReason = denialReason;
-      props.firestore.update(
-        {
-          collection: 'campaigns',
-          doc: props.router.query.campaignId,
-          subcollections: [{ collection: 'adsets', doc: adsetId }]
-        },
-        {
-          versions
-        }
-      );
-    }
+    acceptAdsetVersion: FirestoreFunctions.AcceptAdsetVersion,
+    denyAdsetVersion: FirestoreFunctions.DenyAdsetVersion
   }),
   withStyles(styles),
   withResponsiveDrawerNavbar

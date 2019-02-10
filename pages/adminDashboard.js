@@ -34,7 +34,7 @@ class AdminDashboard extends React.Component {
    * Go to the campaign page
    */
   onCampaignRowClick = campaign => {
-    Router.push(`/campaign?id=${campaign.id}`, `campaign/${campaign.id}`);
+    Router.push(`/campaign?campaignId=${campaign.id}`, `campaign/${campaign.id}`);
   };
 
   /**
@@ -45,9 +45,15 @@ class AdminDashboard extends React.Component {
     const { campaigns } = this.props;
     Object.keys(campaigns).forEach(id => {
       const campaign = { id, ...campaigns[id] };
-      const { status } = campaign;
+      const { submittedForReview, reviewPassed, reviewDenied, waitingForAdsetUpdate } = campaign;
+      let status = '';
+      if (submittedForReview && !reviewPassed) {
+        status = 'Waiting for Review Response';
+      } else if (waitingForAdsetUpdate) {
+        status = 'Waiting for Adset Update';
+      }
       // make sure the array for this status exists
-      if (!sortedCampaigns[campaigns.status]) {
+      if (!sortedCampaigns[status]) {
         sortedCampaigns[status] = [];
       }
       // Add this campaign to it's cooresponding status array

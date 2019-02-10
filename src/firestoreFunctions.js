@@ -68,6 +68,37 @@ const CreateNewCampaign = ({ profile, auth, firestore }) => (campaign, callback)
     });
 };
 
+/**
+ * PassCampaignReview
+ * Pass this campaign review and open all sections for this campaign
+ */
+const PassCampaignReview = props => {
+  props.firestore.update(
+    { collection: 'campaigns', doc: props.router.query.campaignId },
+    {
+      submittedForReview: true,
+      reviewDenied: false,
+      reviewPassed: true
+    }
+  );
+};
+
+/**
+ * DenyCampaignReview
+ * @param reason reason for denying this campaign
+ */
+const DenyCampaignReview = props => reason => {
+  props.firestore.update(
+    { collection: 'campaigns', doc: props.router.query.campaignId },
+    {
+      submittedForReview: false,
+      reviewDenied: true,
+      reviewPassed: false,
+      reviewDenialReason: reason
+    }
+  );
+};
+
 // ----------------
 // ---- ADSETS ----
 // ----------------
@@ -78,6 +109,7 @@ const CreateNewCampaign = ({ profile, auth, firestore }) => (campaign, callback)
  * @param name Name of the new adset
  */
 const CreateNewAdset = props => name => {
+  // Add the adset
   props.firestore.add(
     {
       collection: 'campaigns',
@@ -89,9 +121,17 @@ const CreateNewAdset = props => name => {
       name
     }
   );
+  // Update the campaign to show it is waiting for an adset update
+  props.firestore.update(
+    { collection: 'campaigns', doc: props.router.query.campaignId },
+    {
+      waitingForAdsetUpdate: true
+    }
+  );
 };
 
 /**
+ * AddNewVersionToAdset
  * Adsets have multiple versions or "revisions" which can get accepted
  * or denied. This function adds a new version to the adset.
  * @param adsetId The id of the adset to add a version to
@@ -104,7 +144,7 @@ const AddNewVersionToAdset = props => (adsetId, adset, newAdsetVersion) => {
     ...defaultAdsetVersion,
     ...newAdsetVersion
   });
-
+  // Add the new version to the adset
   props.firestore.update(
     {
       collection: 'campaigns',
@@ -115,6 +155,75 @@ const AddNewVersionToAdset = props => (adsetId, adset, newAdsetVersion) => {
       versions
     }
   );
+  // Campaign is now NOT waiting for an adset update
+  props.firestore.update(
+    { collection: 'campaigns', doc: props.router.query.campaignId },
+    {
+      waitingForAdsetUpdate: false
+    }
+  );
 };
 
-export default { CreateNewCampaign, CreateNewAdset, AddNewVersionToAdset };
+/**
+ * AccepetAdsetVersion
+ * Accept the most recent adset version for this Adset
+ * @param adsetId Id for the adset
+ */
+const AcceptAdsetVersion = props => adsetId => {
+  props.firestore.update(
+    {
+      collection: 'campaigns',
+      doc: props.router.query.campaignId,
+      subcollections: [{ collection: 'adsets', doc: adsetId }]
+    },
+    {
+      acceptedVersion: true
+    }
+  );
+  // Campaign is now NOT waiting for an adset update
+  props.firestore.update(
+    { collection: 'campaigns', doc: props.router.query.campaignId },
+    {
+      waitingForAdsetUpdate: false
+    }
+  );
+};
+
+/**
+ * DenyAdsetVersion
+ * @param adsetId Id for the adset
+ * @param adset Adset object
+ * @param denialReason Reason for denying this adset
+ */
+const DenyAdsetVersion = props => (adsetId, adset, denialReason) => {
+  const { versions } = adset;
+  versions[versions.length - 1].denied = true;
+  versions[versions.length - 1].denialReason = denialReason;
+  props.firestore.update(
+    {
+      collection: 'campaigns',
+      doc: props.router.query.campaignId,
+      subcollections: [{ collection: 'adsets', doc: adsetId }]
+    },
+    {
+      versions
+    }
+  );
+  // Campaign IS now waiting for an adset update
+  props.firestore.update(
+    { collection: 'campaigns', doc: props.router.query.campaignId },
+    {
+      waitingForAdsetUpdate: true
+    }
+  );
+};
+
+export default {
+  CreateNewCampaign,
+  PassCampaignReview,
+  DenyCampaignReview,
+  CreateNewAdset,
+  AddNewVersionToAdset,
+  AcceptAdsetVersion,
+  DenyAdsetVersion
+};
