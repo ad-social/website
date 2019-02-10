@@ -1,34 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import { withRouter } from 'next/router';
 import { compose, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 
-import { firestoreConnect, isLoaded } from 'react-redux-firebase';
+import { isLoaded } from 'react-redux-firebase';
 import {
   CircularProgress,
   Typography,
   Grid,
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
-  Button,
   Paper,
   FormControl,
   FormLabel,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
   TextField,
   InputAdornment
 } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import classNames from 'classnames';
 
-import { parseStatus } from '../../src/utils';
-import withNavBar from '../../src/withNavBar';
-import withResponsiveDrawerNavbar from '../../src/withResponsiveDrawerNavbar';
-import CampaignHeader from '../campaignHeader';
 import CampaignSummary from '../campaignSummary';
 import SwitchComponent from '../switchComponent';
 import SpecialButton from '../specialButton';
@@ -50,13 +40,19 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit * 2,
     marginBottom: theme.spacing.unit * 4
   },
+  errorPaper: {
+    backgroundColor: theme.palette.error.light,
+    color: 'white'
+  },
   textField: {
     width: '100%'
   }
 });
 
 class CampaignSetup extends React.Component {
-  state = {};
+  state = {
+    reviewDenialReason: ''
+  };
 
   renderCampaignBody = () => {
     const { campaign, updateCampaign } = this.props;
@@ -75,19 +71,10 @@ class CampaignSetup extends React.Component {
    * Puts campaign past the review stage
    */
   passCampaignReview = () => {
-    const { updateCampaign, createNewAdset } = this.props;
-    updateCampaign({ passedReview: true, status: 'complete' });
+    const { updateCampaign, CreateNewAdset } = this.props;
+    updateCampaign({ reviewPassed: true, reviewDenied: false });
     // TODO - do this server side
-    createNewAdset({ name: 'Adset 1' });
-  };
-
-  /**
-   * Submit the campaign for review
-   */
-
-  submitForReview = () => {
-    const { updateCampaign } = this.props;
-    updateCampaign({ status: 'complete' });
+    CreateNewAdset('Adset 1');
   };
 
   /**
@@ -121,14 +108,23 @@ class CampaignSetup extends React.Component {
   };
 
   render() {
-    const { classes, campaign, updateCampaign, profile } = this.props;
+    const {
+      classes,
+      campaign,
+      updateCampaign,
+      submitCampaignForReview,
+      denyCampaignReview,
+      profile
+    } = this.props;
+    // Parse variables from campaign
+    const { submittedForReview, reviewDenied, reviewDenialReason } = campaign;
+    // Whether the fields should be disabled or not
+    const disabled = submittedForReview;
 
     // Make sure the campaign is loaded
     if (!isLoaded(campaign)) {
       return <CircularProgress className={classes.progress} />;
     }
-
-    const { status } = campaign;
 
     return (
       <div className={classes.root}>
@@ -143,6 +139,18 @@ class CampaignSetup extends React.Component {
                 spend, etc. We'll review the information and make sure everything is good to go!
               </Typography>
             </Grid>
+            <SwitchComponent show={reviewDenied}>
+              <Grid item xs={12}>
+                <Paper className={classNames(classes.paper, classes.errorPaper)}>
+                  <Typography color="inherit" variant="h5">
+                    Campaign did not pass review
+                  </Typography>
+                  <Typography color="inherit" variant="subtitle1" gutterBottom>
+                    {reviewDenialReason}
+                  </Typography>
+                </Paper>
+              </Grid>
+            </SwitchComponent>
 
             <Grid item xs={12}>
               <Paper className={classes.paper}>
@@ -155,7 +163,6 @@ class CampaignSetup extends React.Component {
                   handleTextChange={this.handleTextChange}
                   handleCheckboxChange={this.handleCheckboxChange}
                   handleDateChange={this.handleDateChange}
-                  disabled={!(status === 'incomplete')}
                 />
               </Paper>
             </Grid>
@@ -180,7 +187,7 @@ class CampaignSetup extends React.Component {
                     InputProps={{
                       startAdornment: <InputAdornment position="start">$</InputAdornment>
                     }}
-                    disabled={!(status === 'incomplete')}
+                    disabled={disabled}
                   />
                 </FormControl>
               </Paper>
@@ -197,7 +204,7 @@ class CampaignSetup extends React.Component {
                   updateCampaign={updateCampaign}
                   handleTextChange={this.handleTextChange}
                   handleCheckboxChange={this.handleCheckboxChange}
-                  disabled={!(status === 'incomplete')}
+                  disabled={disabled}
                 />
               </Paper>
             </Grid>
@@ -213,7 +220,7 @@ class CampaignSetup extends React.Component {
                   updateCampaign={updateCampaign}
                   prop="audienceInterests"
                   label="Add Audience Interests"
-                  disabled={!(status === 'incomplete')}
+                  disabled={disabled}
                 />
               </Paper>
             </Grid>
@@ -229,7 +236,7 @@ class CampaignSetup extends React.Component {
                   updateCampaign={updateCampaign}
                   prop="locations"
                   label="Add Locations"
-                  disabled={!(status === 'incomplete')}
+                  disabled={disabled}
                 />
               </Paper>
             </Grid>
@@ -244,27 +251,39 @@ class CampaignSetup extends React.Component {
                   campaign={campaign}
                   handleTextChange={this.handleTextChange}
                   handleCheckboxChange={this.handleCheckboxChange}
-                  disabled={!(status === 'incomplete')}
+                  disabled={disabled}
                 />
               </Paper>
             </Grid>
 
-            {/* Only non-admins can submit for review */}
-            <SwitchComponent
-              show={
-                (!profile.isAdmin || profile.isAdmin === false) && campaign.status === 'incomplete'
-              }
-            >
-              <SpecialButton onClick={this.submitForReview}>Submit For Review</SpecialButton>
+            <SwitchComponent show={!submittedForReview}>
+              <SpecialButton onClick={submitCampaignForReview}>Submit For Review</SpecialButton>
             </SwitchComponent>
+
+            <br />
 
             {/* Only admins can pass the review */}
             <SwitchComponent
               show={
                 profile.isAdmin === true &&
-                (!campaign.passedReview || campaign.passedReview === false)
+                (!campaign.reviewPassed || campaign.reviewPassed === false)
               }
             >
+              <TextField
+                id="outlined-textarea"
+                label="Review Denial Reason"
+                placeholder="Why is this review getting denied?"
+                multiline
+                className={classes.textField}
+                margin="normal"
+                variant="outlined"
+                onChange={event => this.setState({ reviewDenialReason: event.target.value })}
+              />
+              <SpecialButton onClick={() => denyCampaignReview(this.state.reviewDenialReason)}>
+                Deny Review
+              </SpecialButton>
+              <br />
+              <br />
               <SpecialButton onClick={this.passCampaignReview}>Pass Review</SpecialButton>
             </SwitchComponent>
           </Grid>

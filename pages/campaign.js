@@ -11,6 +11,7 @@ import withResponsiveDrawerNavbar from '../src/withResponsiveDrawerNavbar';
 import CampaignSetup from '../components/campaignSetup';
 import CampaignDashboard from '../components/campaignDashboard';
 import CampaignAnalytics from '../components/campaignAnalytics';
+import FirestoreFunctions from '../src/firestoreFunctions';
 
 const styles = theme => ({
   root: {
@@ -89,24 +90,73 @@ export default compose(
         { collection: 'campaigns', doc: props.router.query.campaignId },
         updates
       ),
-    updateAdset: props => id => updates => {
+    updateAdset: props => adsetId => updates => {
       props.firestore.update(
         {
           collection: 'campaigns',
           doc: props.router.query.campaignId,
-          subcollections: [{ collection: 'adsets', doc: id }]
+          subcollections: [{ collection: 'adsets', doc: adsetId }]
         },
         updates
       );
     },
-    createNewAdset: props => adset => {
-      props.firestore.add(
+    submitCampaignForReview: props => {
+      props.firestore.update(
+        { collection: 'campaigns', doc: props.router.query.campaignId },
+        {
+          submittedForReview: true
+        }
+      );
+    },
+    denyCampaignReview: props => reason => {
+      props.firestore.update(
+        { collection: 'campaigns', doc: props.router.query.campaignId },
+        {
+          submittedForReview: false,
+          reviewDenied: true,
+          reviewPassed: false,
+          reviewDenialReason: reason
+        }
+      );
+    },
+    passCampaignReview: props => {
+      props.firestore.update(
+        { collection: 'campaigns', doc: props.router.query.campaignId },
+        {
+          submittedForReview: true,
+          reviewDenied: false,
+          reviewPassed: true,
+          waitingForAdsetUpdate: true
+        }
+      );
+    },
+    CreateNewAdset: FirestoreFunctions.CreateNewAdset,
+    AddNewVersionToAdset: FirestoreFunctions.AddNewVersionToAdset,
+    acceptAdsetVersion: props => adsetId => {
+      props.firestore.update(
         {
           collection: 'campaigns',
           doc: props.router.query.campaignId,
-          subcollections: [{ collection: 'adsets' }]
+          subcollections: [{ collection: 'adsets', doc: adsetId }]
         },
-        adset
+        {
+          acceptedVersion: true
+        }
+      );
+    },
+    denyAdsetVersion: props => (adsetId, adset, denialReason) => {
+      const { versions } = adset;
+      versions[versions.length - 1].denied = true;
+      versions[versions.length - 1].denialReason = denialReason;
+      props.firestore.update(
+        {
+          collection: 'campaigns',
+          doc: props.router.query.campaignId,
+          subcollections: [{ collection: 'adsets', doc: adsetId }]
+        },
+        {
+          versions
+        }
       );
     }
   }),

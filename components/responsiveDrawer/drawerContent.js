@@ -47,7 +47,7 @@ const styles = theme => ({
 
 const DrawerContent = props => {
   const { classes, page, campaign, changePage, handleDrawerClose } = props;
-  const passedReview = campaign && campaign.passedReview && campaign.passedReview === true;
+  const reviewPassed = campaign && campaign.reviewPassed && campaign.reviewPassed === true;
 
   return (
     <div>
@@ -85,7 +85,7 @@ const DrawerContent = props => {
           button
           key="Dashboard"
           className={classes.listItem}
-          disabled={!passedReview}
+          disabled={!reviewPassed}
         >
           <ListItemIcon>
             <DashboardIcon />
@@ -99,7 +99,7 @@ const DrawerContent = props => {
           button
           key="Analytics"
           className={classes.listItem}
-          disabled={!passedReview}
+          disabled={!reviewPassed}
         >
           <ListItemIcon>
             <BarChartIcon />

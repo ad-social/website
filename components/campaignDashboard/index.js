@@ -16,7 +16,7 @@ import {
   Button
 } from '@material-ui/core';
 
-import AdSet from './adSet';
+import Adset from './adset';
 import SwitchComponent from '../switchComponent';
 
 const styles = theme => ({
@@ -33,7 +33,8 @@ class CampaignDashboard extends React.Component {
       classes,
       campaign,
       adsets,
-      updateCampaign,
+      addNewVersionToAdset,
+      acceptAdsetVersion,
       updateAdset,
       profile,
       router: {
@@ -63,13 +64,17 @@ class CampaignDashboard extends React.Component {
               </SwitchComponent>
 
               <SwitchComponent show={!isEmpty(adsets)}>
-                {/* FOR MVP ONLY SHOW 1 (FIRST) ADSET */}
-                <AdSet
-                  adset={adsets[Object.keys(adsets)[0]]}
-                  id={Object.keys(adsets)[0]}
-                  profile={profile}
-                  updateAdset={updateAdset(Object.keys(adsets)[0])}
-                />
+                {/* SHOW 1 (FIRST) FOR MVP ONLY ADSET */}
+                {Object.keys(adsets).map(adsetId => (
+                  <Adset
+                    // Give all props
+                    {...this.props}
+                    // Overrides
+                    adset={adsets[adsetId]}
+                    id={adsetId}
+                    updateAdset={updateAdset(adsetId)}
+                  />
+                ))}
               </SwitchComponent>
             </Grid>
           </Grid>

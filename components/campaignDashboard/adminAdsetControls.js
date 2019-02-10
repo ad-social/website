@@ -64,9 +64,8 @@ const styles = theme => ({
 
 class AdminAdsetControls extends React.Component {
   state = {
-    status: this.props.adset.status,
-    copy: this.props.adset.copy,
-    moreInfo: this.props.adset.moreInfo,
+    copy: '',
+    moreInfo: '',
     files: []
   };
 
@@ -93,32 +92,29 @@ class AdminAdsetControls extends React.Component {
   };
 
   onSubmit = async () => {
-    const { adset, id, firebase, updateAdset } = this.props;
+    const { adset, id, firebase, AddNewVersionToAdset } = this.props;
     const { status, copy, moreInfo, files } = this.state;
+    let adImageURL = '';
     // If there is a file to upload
     if (files.length === 1) {
-      // Remove the image that's already there
-      if (adset.adImage && adset.adImage !== '') {
-        console.log('TODO - DELETE THIS FILE: ', adset.adImage);
-        // firebase.deleteFile(adset.adImage.fullPath, `${filesPath}/${key}`);
-      }
-
       // Upload the new image
       const adImagesStorageRef = await firebase
         .storage()
         .ref()
-        .child(`${adImagesPathV1}/ad-${id}`);
+        .child(`${adImagesPathV1}/ad-${id}-version-${adset.versions.length}`);
 
       const snapshot = await adImagesStorageRef.put(files[0]);
       console.log('Uploaded a blob or file!');
       console.log(snapshot);
+      adImageURL = await snapshot.ref.getDownloadURL();
     }
 
     console.log('updating adset');
-    updateAdset({
-      status,
+    console.log('Ad image url: ', adImageURL);
+    AddNewVersionToAdset(id, adset, {
       copy,
-      moreInfo
+      moreInfo,
+      adImageURL: adImageURL || ''
     });
   };
 
@@ -144,15 +140,6 @@ class AdminAdsetControls extends React.Component {
               <u>Admin Controls</u>
             </b>
           </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <FormControl>
-            <InputLabel htmlFor="name-disabled">Status</InputLabel>
-            <Select value={status} onChange={this.handleChange('status')}>
-              <MenuItem value="incomplete">Incomplete</MenuItem>
-              <MenuItem value="ready">Ready</MenuItem>
-            </Select>
-          </FormControl>
         </Grid>
 
         <Grid item xs={12}>
@@ -202,7 +189,7 @@ class AdminAdsetControls extends React.Component {
 
         <Grid item xs={12}>
           <Button variant="contained" color="secondary" onClick={this.onSubmit}>
-            Submit
+            Add Version
           </Button>
         </Grid>
       </div>
