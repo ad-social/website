@@ -256,8 +256,9 @@ class CampaignSetup extends React.Component {
               </Paper>
             </Grid>
 
-            {/* Only non-admins can submit for review */}
-            <SpecialButton onClick={submitCampaignForReview}>Submit For Review</SpecialButton>
+            <SwitchComponent show={!submittedForReview}>
+              <SpecialButton onClick={submitCampaignForReview}>Submit For Review</SpecialButton>
+            </SwitchComponent>
 
             <br />
 

@@ -28,6 +28,10 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
     marginBottom: theme.spacing.unit * 4
+  },
+  adsetImg: {
+    width: 300,
+    height: 300
   }
 });
 
@@ -98,7 +102,16 @@ class Adset extends React.Component {
                 <br />
 
                 <Grid item xs={12}>
-                  <img alt="not found" src={selectedAdsetVersion.adImageURL} />
+                  <Grid container justify="center">
+                    <Grid item>
+                      <img
+                        alt="not found"
+                        className={classes.adsetImg}
+                        src={selectedAdsetVersion.adImageURL}
+                      />
+                    </Grid>
+                  </Grid>
+
                   <Typography variant="h6">
                     <b>
                       <u>Copy</u>
