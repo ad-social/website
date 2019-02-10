@@ -97,12 +97,15 @@ class Adset extends React.Component {
                 <br />
 
                 <SwitchComponent show={selectedAdsetVersion.denied === true}>
-                  NOTICE: This is an old adset version that was denied.
+                  REMINDER: This is an old adset version that was denied.
+                  <br />
+                  REASON:
+                  {selectedAdsetVersion.denialReason}
                 </SwitchComponent>
                 <br />
 
                 <Grid item xs={12}>
-                  <Grid container justify="center">
+                  <Grid container justify="center" spacing={0}>
                     <Grid item>
                       <img
                         alt="not found"
