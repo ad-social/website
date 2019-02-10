@@ -11,7 +11,7 @@ import withResponsiveDrawerNavbar from '../src/withResponsiveDrawerNavbar';
 import CampaignSetup from '../components/campaignSetup';
 import CampaignDashboard from '../components/campaignDashboard';
 import CampaignAnalytics from '../components/campaignAnalytics';
-import { CreateNewAdset } from '../src/firestoreFunctions';
+import FirestoreFunctions from '../src/firestoreFunctions';
 
 const styles = theme => ({
   root: {
@@ -125,33 +125,37 @@ export default compose(
         {
           submittedForReview: true,
           reviewDenied: false,
-          reviewPassed: true
+          reviewPassed: true,
+          waitingForAdsetUpdate: true
         }
       );
     },
-    createNewAdset: CreateNewAdset,
-    acceptAdset: props => id => {
+    CreateNewAdset: FirestoreFunctions.CreateNewAdset,
+    AddNewVersionToAdset: FirestoreFunctions.AddNewVersionToAdset,
+    acceptAdsetVersion: props => adsetId => {
       props.firestore.update(
         {
           collection: 'campaigns',
           doc: props.router.query.campaignId,
-          subcollections: [{ collection: 'adsets', doc: id }]
+          subcollections: [{ collection: 'adsets', doc: adsetId }]
         },
         {
-          status: 'ready'
+          acceptedVersion: true
         }
       );
     },
-    denyAdset: props => ({ id, denialReason }) => {
+    denyAdsetVersion: props => (adsetId, adset, denialReason) => {
+      const { versions } = adset;
+      versions[versions.length - 1].denied = true;
+      versions[versions.length - 1].denialReason = denialReason;
       props.firestore.update(
         {
           collection: 'campaigns',
           doc: props.router.query.campaignId,
-          subcollections: [{ collection: 'adsets', doc: id }]
+          subcollections: [{ collection: 'adsets', doc: adsetId }]
         },
         {
-          denied: true,
-          denialReason
+          versions
         }
       );
     }
