@@ -6,6 +6,7 @@ import { IconButton, Menu, MenuItem, Link, Button } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import Router from 'next/router';
 
 const styles = theme => ({
   root: {
@@ -96,7 +97,7 @@ class AuthMenu extends React.Component {
           open={open}
           onClose={this.handleClose()}
         >
-          <MenuItem onClick={this.handleClose()}>Profile</MenuItem>
+          <MenuItem onClick={this.handleClose(() => Router.push('/account'))}>Account</MenuItem>
           <MenuItem onClick={this.handleClose(firebase.logout)}>Logout</MenuItem>
         </Menu>
       </div>
