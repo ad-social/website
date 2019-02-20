@@ -31,11 +31,11 @@ const ButtonsMenu = ({ classes, isSignedIn }) => (
     <div className={classes.button}>
       <Button
         onClick={() => {
-          Router.push('/whatWeDo');
+          Router.push('/howItWorks');
         }}
         color="inherit"
       >
-        What We Do
+        How It Works
       </Button>
     </div>
 
