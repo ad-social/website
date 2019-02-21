@@ -16,9 +16,9 @@ import ButtonsMenu from './buttonsMenu';
 import AuthMenu from './authMenu';
 
 const styles = ({ palette }) => ({
-  appBar: {
-    backgroundColor: palette.primary.light
-  },
+  // appBar: {
+  //   backgroundColor: palette.primary.main
+  // },
   menuButton: {
     marginLeft: -12,
     marginRight: 20

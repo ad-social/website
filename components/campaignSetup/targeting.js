@@ -84,7 +84,7 @@ const TargetingForm = ({ classes, campaign, updateCampaign, disabled, handleText
           multiline
           fullWidth
           rowsMax="4"
-          value={campaign.targetingDescription}
+          value={campaign.targetMarketExtraInfo}
           onChange={handleTextChange('targetMarketExtraInfo')}
           className={classes.textField}
           margin="normal"

@@ -7,11 +7,11 @@ import SwitchComponent from '../switchComponent';
 
 const styles = {
   button: {
-    borderRight: '0.05em solid white',
+    // borderRight: '0.05em solid white',
     float: 'left'
   },
   buttonStart: {
-    borderLeft: '0.05em solid white'
+    // borderLeft: '0.05em solid white'
   }
 };
 

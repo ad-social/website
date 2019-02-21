@@ -23,7 +23,7 @@ const styles = ({ palette, spacing }) => ({
     textAlign: 'center'
   },
   textPrimaryLight: {
-    color: palette.primary.light
+    color: 'white'
   },
   secondaryMain: {
     backgroundColor: palette.secondary.main
