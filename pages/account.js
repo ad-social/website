@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { compose } from 'redux';
 import { firestoreConnect, isLoaded, isEmpty, withFirebase } from 'react-redux-firebase';
 import Firebase from 'firebase';
+import FacebookLogin from 'react-facebook-login';
 import { connect } from 'react-redux';
 import Router from 'next/router';
 import {
@@ -46,30 +47,45 @@ class Account extends React.Component {
     const { firebase } = this.props;
     const provider = new Firebase.auth.FacebookAuthProvider();
     console.log('SignInWithfacebook()');
-    firebase
-      .auth()
-      .currentUser.linkWithPopup(provider)
-      .then(result => {
-        // Accounts successfully linked.
-        const credential = result.credential;
-        const user = result.user;
-        firebase.updateProfile({
-          facebookCredentials: {
-            accessToken: credential.accessToken,
-            email: credential.emails || result.email || ''
-          }
-        });
-        console.log('CREDENTIAL: ', credential);
-        console.log('USER: ', user);
-        // ...
-      })
-      .catch(error => {
-        // Handle Errors here.
-        // ...
-        console.log('ERROR: ', error);
-      });
+    // firebase
+    //   .auth()
+    //   .currentUser.linkWithPopup(provider)
+    //   .then(result => {
+    //     // Accounts successfully linked.
+    //     const credential = result.credential;
+    //     const user = result.user;
+    //     firebase.updateProfile({
+    //       facebookCredentials: {
+    //         accessToken: credential.accessToken,
+    //         email: credential.emails || result.email || ''
+    //       }
+    //     });
+    //     console.log('CREDENTIAL: ', credential);
+    //     console.log('USER: ', user);
+    //     // ...
+    //   })
+    //   .catch(error => {
+    //     // Handle Errors here.
+    //     // ...
+    //     console.log('ERROR: ', error);
+    //   });
+
     // const provider = new firebase.auth.FacebookAuthProvider();
     console.log(provider);
+  };
+
+  responseFacebook = response => {
+    const { firebase, profile } = this.props;
+    // Construct new credentials object
+    const newFacebookCredentials = {
+      ...profile.facebookCredentials,
+      APIAppAccessToken: response.accessToken
+    };
+    // update profile
+    firebase.updateProfile({
+      facebookCredentials: newFacebookCredentials
+    });
+    console.log('Creds response: ', response);
   };
 
   render() {
@@ -89,7 +105,13 @@ class Account extends React.Component {
               Facebook:
               {profile.email}
             </Typography>
-            <Button onClick={this.signinWithFacebook}>Link Facebook Account</Button>
+            {/* <Button onClick={this.signinWithFacebook}>Link Facebook Account</Button> */}
+            <FacebookLogin
+              appId="604130970011271"
+              autoLoad
+              scope="ads_read"
+              callback={this.responseFacebook}
+            />
           </Grid>
         </Grid>
       </div>
