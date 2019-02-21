@@ -53,7 +53,12 @@ class Account extends React.Component {
         // Accounts successfully linked.
         const credential = result.credential;
         const user = result.user;
-        firebase.updateProfile({ facebookCredential: credential });
+        firebase.updateProfile({
+          facebookCredentials: {
+            accessToken: credential.accessToken,
+            email: credential.emails || result.email || ''
+          }
+        });
         console.log('CREDENTIAL: ', credential);
         console.log('USER: ', user);
         // ...
