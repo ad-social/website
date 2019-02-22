@@ -1,17 +1,17 @@
 // withNavBar.js - HOC
 import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import NavBar from '../components/navBar';
 
-const styles = {
+const styles = theme => ({
   root: {
     flexGrow: 1
   },
-  buffer: {
-    height: 65
-  }
-};
+  buffer: theme.mixins.toolbar
+});
 
-export default Page =>
+export default Page => {
   class PageWithNavBar extends React.Component {
     render() {
       return (
@@ -22,4 +22,9 @@ export default Page =>
         </div>
       );
     }
-  };
+  }
+
+  return withStyles(styles)(PageWithNavBar);
+};
+
+// export default withStyles(styles)(WithNavbarHOC);

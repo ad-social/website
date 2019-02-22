@@ -17,60 +17,41 @@ const styles = {
 
 const ButtonsMenu = ({ classes, isSignedIn }) => (
   <div style={{ display: 'inline-block' }}>
-    <div className={`${classes.button} ${classes.buttonStart}`}>
-      <Button
-        onClick={() => {
-          Router.push('/');
-        }}
-        color="inherit"
-      >
-        Home
-      </Button>
-    </div>
+    <Button
+      onClick={() => {
+        Router.push('/');
+      }}
+      color="inherit"
+    >
+      Home
+    </Button>
 
-    <div className={classes.button}>
-      <Button
-        onClick={() => {
-          Router.push('/howItWorks');
-        }}
-        color="inherit"
-      >
-        How It Works
-      </Button>
-    </div>
+    <Button
+      onClick={() => {
+        Router.push('/howItWorks');
+      }}
+      color="inherit"
+    >
+      How It Works
+    </Button>
 
-    <div className={classes.button}>
-      <Button
-        onClick={() => {
-          Router.push('/work');
-        }}
-        color="inherit"
-      >
-        Work
-      </Button>
-    </div>
+    <Button
+      onClick={() => {
+        Router.push('/information');
+      }}
+      color="inherit"
+    >
+      Information
+    </Button>
 
-    <div className={classes.button}>
-      <Button
-        onClick={() => {
-          Router.push('/information');
-        }}
-        color="inherit"
-      >
-        Information
-      </Button>
-    </div>
-
-    <div className={classes.button}>
-      <Button
-        onClick={() => {
-          Router.push('/contact');
-        }}
-        color="inherit"
-      >
-        Contact Us
-      </Button>
-    </div>
+    <Button
+      onClick={() => {
+        Router.push('/contact');
+      }}
+      color="inherit"
+    >
+      Contact Us
+    </Button>
     <SwitchComponent show={isSignedIn}>
       <div className={classes.button}>
         <Button
