@@ -14,10 +14,11 @@ const styles = theme => ({
 export default Page => {
   class PageWithNavBar extends React.Component {
     render() {
+      const { classes } = this.props;
       return (
-        <div style={styles.root}>
+        <div className={classes.root}>
           <NavBar />
-          <div style={styles.buffer} />
+          <div className={classes.buffer} />
           <Page {...this.props} />
         </div>
       );
