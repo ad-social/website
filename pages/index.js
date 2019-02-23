@@ -1,6 +1,6 @@
 // index.js Page
 import React from 'react';
-import { withStyles, createStyles, Paper } from '@material-ui/core';
+import { withStyles, createStyles, Paper, Hidden } from '@material-ui/core';
 import classNames from 'classnames';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -11,18 +11,25 @@ import SpecialButton from '../components/specialButton';
 
 // import dashboardImg from '/static/dashboard.png';
 
-const styles = ({ palette, spacing }) => ({
+const styles = ({ palette, spacing, breakpoints }) => ({
   root: {
     flexGrow: 1
   },
   fillViewHeight: {
     height: '100vh'
   },
-  section: {
+
+  landing: {
     paddingTop: 25,
     width: '100%',
-    textAlign: 'center'
+    textAlign: 'center',
+    backgroundImage: "url('/static/landingPageBG.png')",
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundColor: 'red'
   },
+
   textPrimaryLight: {
     color: 'white'
   },
@@ -40,8 +47,11 @@ const styles = ({ palette, spacing }) => ({
   whiteText: {
     color: 'white'
   },
-  logoColorText: {
-    color: palette.custom.adsocialPlue
+  titleText: {
+    color: palette.custom.adsocialPlue,
+    letterSpacing: 5,
+    backgroundColor: 'rgba(255,255,255,0.9)',
+    padding: 10
   },
   mainTitleText: {
     paddingTop: 75,
@@ -96,41 +106,60 @@ const Index = ({ classes }) => (
       container
       justify="center"
       alignItems="center"
-      className={classNames(classes.section, classes.fillViewHeight)}
+      direction="column"
+      className={classNames(classes.landing, classes.fillViewHeight)}
       spacing={0}
     >
-      <Grid item xs={12} sm={5}>
-        <Typography variant="h4" className={classNames(classes.logoColorText)}>
-          We deliver social media ad campaigns in 3 days
-        </Typography>
-
-        <br />
-        <br />
-      </Grid>
-      <Grid item xs={12} sm={6} className={classNames(classes.coverTitle)}>
-        {/* <Typography component="h2" variant="h1" className={classes.textPrimaryLight}>
-          <b style={{}}>Social </b> <br />
-          <b>Advertising </b> <br />
-          <b>Simplified </b>
-        </Typography> */}
-        <img className={classes.landingPageImg} src="/static/LandingPageGraphic.png" />
-      </Grid>
-      {/* <Grid container alignItems="center" justify="center" direction="row">
-        <SpecialButton onClick={goToSignup} className={classes.callToAction}>
-          Get Started Now
-        </SpecialButton>
-        <SpecialButton
-          onClick={goToConsultation}
-          className={classNames(classes.callToAction, classes.leftGutter)}
+      {/* Desktop */}
+      <Hidden smDown>
+        <Typography
+          variant="h1"
+          className={classNames(classes.titleText, classes.landingTextDesktop)}
         >
-          Free Consultation
-        </SpecialButton>
-      </Grid> */}
+          <b>social advertising</b>
+        </Typography>
+        <br />
+        <Typography
+          variant="h1"
+          className={classNames(classes.titleText, classes.landingTextDesktop)}
+        >
+          <b>simplified</b>
+        </Typography>
+      </Hidden>
+
+      {/* Mobile */}
+      <Hidden mdUp>
+        <Typography
+          variant="h1"
+          className={classNames(classes.titleText, classes.landingTextMobile)}
+        >
+          <b>social</b>
+        </Typography>
+        <br />
+        <Typography
+          variant="h1"
+          className={classNames(classes.titleText, classes.landingTextMobile)}
+        >
+          <b>advertising</b>
+        </Typography>
+        <br />
+        <Typography
+          variant="h1"
+          className={classNames(classes.titleText, classes.landingTextMobile)}
+        >
+          <b>simplified</b>
+        </Typography>
+      </Hidden>
     </Grid>
+    {/* <Grid container>
+      <Grid item xs={12}>
+        asdf
+      </Grid>
+    </Grid> */}
   </div>
 );
 
 export default compose(
-  withNavBar,
+  withNavBar({ useBuffer: false }),
   withStyles(styles)
 )(Index);

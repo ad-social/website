@@ -11,14 +11,16 @@ const styles = theme => ({
   buffer: theme.mixins.toolbar
 });
 
-export default Page => {
+export default options => Page => {
   class PageWithNavBar extends React.Component {
     render() {
       const { classes } = this.props;
       return (
         <div className={classes.root}>
           <NavBar />
-          <div className={classes.buffer} />
+          {options.useBuffer === null || options.useBuffer === true ? (
+            <div className={classes.buffer} />
+          ) : null}
           <Page {...this.props} />
         </div>
       );
