@@ -53,7 +53,7 @@ class HowItWorks extends React.Component {
           </Typography>
         </Grid>
 
-        <Grid item xs={10} lg={8} className={classes.centerText}>
+        <Grid item xs={8} lg={8} className={classes.centerText}>
           <Typography variant="body1">
             <b>
               We create social media advertising campaigns for you. Ready in 3 business days. FREE
@@ -62,7 +62,7 @@ class HowItWorks extends React.Component {
           </Typography>
         </Grid>
 
-        <Grid item xs={10} lg={7}>
+        <Grid item xs={8} lg={7}>
           <Typography className={classes.centerText} variant="body1" gutterBottom>
             <Grid container justify="center">
               <Grid item xs={3} sm={2}>
@@ -82,7 +82,7 @@ class HowItWorks extends React.Component {
           </Typography>
         </Grid>
 
-        <Grid item xs={10} lg={7}>
+        <Grid item xs={8} lg={7}>
           <Typography className={classes.centerText} variant="body1" gutterBottom>
             <Grid container justify="center">
               <Grid item xs={3} sm={2}>
@@ -98,18 +98,26 @@ class HowItWorks extends React.Component {
             <br />
             As soon as the campaign is submitted, we take 3 business days to create both your…
             <br />
-            <b> <SupervisedUserCircle className={classes.icon} /> Targeting strategy</b>
+            <b>
+              {' '}
+              <SupervisedUserCircle className={classes.icon} /> Targeting strategy
+            </b>
             <br />
             <b>&</b>
             <br />
-            <b> <Wallpaper className={classes.icon} /> Ad set</b>
+            <b>
+              {' '}
+              <Wallpaper className={classes.icon} /> Ad set
+            </b>
             <Typography variant="body1" gutterBottom>
-            When the ad set is ready, we will deliver it to your dashboard on our website. Here, you can request to make revisions and write comments about the ad set to give us feedback.
+              When the ad set is ready, we will deliver it to your dashboard on our website. Here,
+              you can request to make revisions and write comments about the ad set to give us
+              feedback.
             </Typography>
           </Typography>
         </Grid>
 
-        <Grid item xs={10} lg={7}>
+        <Grid item xs={8} lg={7}>
           <Typography className={classes.centerText} variant="body1" gutterBottom>
             <Grid container justify="center">
               <Grid item xs={3} sm={2}>
@@ -123,7 +131,9 @@ class HowItWorks extends React.Component {
               </Grid>
             </Grid>
             <br />
-            Once both of us see eye to eye on your entire campaign, we launch the ad for you! At this point, you can relax! All you do now is track the campaign’s performance whenever and wherever you want!
+            Once both of us see eye to eye on your entire campaign, we launch the ad for you! At
+            this point, you can relax! All you do now is track the campaign’s performance whenever
+            and wherever you want!
             <br />
             <br />
             Sound like something you could benefit from?
@@ -133,8 +143,7 @@ class HowItWorks extends React.Component {
           </Typography>
         </Grid>
 
-
-        <Grid item xs={10} className={classes.centerText}>
+        <Grid item xs={8} className={classes.centerText}>
           <SpecialButton
             onClick={() => {
               this.pushPage('/dashboard');
