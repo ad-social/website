@@ -13,7 +13,6 @@ import { withStyles } from '@material-ui/core/styles';
 import { Collapse, IconButton, Grid } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { compose } from 'redux';
-import Router from 'next/router';
 import { isLoaded } from 'react-redux-firebase';
 import Logo from '../logo';
 
@@ -49,17 +48,17 @@ const DrawerContent = props => {
     <div>
       <List>
         <ListItem
-          onClick={() => changePage('home')}
+          onClick={() => changePage('/')}
           selected={page === 'setup'}
           button
-          key="hhome"
+          key="home"
           className={classes.listItem}
         >
           <ListItemText primary="Home" />
         </ListItem>
 
         <ListItem
-          onClick={() => changePage('howItWorks')}
+          onClick={() => changePage('/howItWorks')}
           selected={page === 'howItWorks'}
           button
           key="howItWorks"
@@ -69,7 +68,7 @@ const DrawerContent = props => {
         </ListItem>
 
         <ListItem
-          onClick={() => changePage('information')}
+          onClick={() => changePage('/information')}
           selected={page === 'information'}
           button
           key="information"
@@ -79,7 +78,7 @@ const DrawerContent = props => {
         </ListItem>
 
         <ListItem
-          onClick={() => changePage('contact')}
+          onClick={() => changePage('/contact')}
           selected={page === 'contact'}
           button
           key="contact"

@@ -12,6 +12,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { withFirebase, isLoaded, isEmpty } from 'react-redux-firebase';
+import Router from 'next/router';
 
 import Logo from '../logo';
 import ButtonsMenu from './buttonsMenu';
@@ -30,24 +31,6 @@ const styles = theme => ({
   menuButton: {
     marginLeft: -12,
     marginRight: 20
-  },
-
-  // Drawer width transitions between closed and open
-  // Note: this only affects width and can be (is) used as compensation for other
-  // elements to move with the drawer as it opens and closes.
-  drawerWidthOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
-  },
-  drawerWidthClosed: {
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    }),
-    width: 0
   }
 });
 
@@ -69,18 +52,17 @@ class NavBar extends React.Component {
     return component;
   }
 
+  changePage = page => {
+    this.handleDrawerClose();
+    Router.push(page);
+  };
+
   handleDrawerOpen = () => {
     this.setState(() => ({ isDrawerOpen: true }));
   };
 
   handleDrawerClose = () => {
     this.setState(() => ({ isDrawerOpen: false }));
-  };
-
-  changePage = () => {
-    this.setState({
-      isDrawerOpen: false
-    });
   };
 
   render() {
@@ -116,9 +98,8 @@ class NavBar extends React.Component {
             <Hidden implementation="css">
               <Drawer
                 container={this.props.container}
-                variant="permanent"
                 anchor="left"
-                open={false}
+                open={isDrawerOpen}
                 onClose={this.handleDrawerClose}
                 classes={{
                   paper: classNames(

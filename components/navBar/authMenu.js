@@ -61,8 +61,12 @@ class AuthMenu extends React.Component {
     if (isEmpty(auth)) {
       return (
         <div>
-          <Button href="/auth?action=login">Login</Button>
-          <Button href="/auth?action=signup">Sign Up</Button>
+          <Button color="inherit" href="/auth?action=login">
+            Login
+          </Button>
+          <Button color="inherit" href="/auth?action=signup">
+            Sign Up
+          </Button>
         </div>
       );
     }
