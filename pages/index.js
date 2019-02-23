@@ -1,6 +1,6 @@
 // index.js Page
 import React from 'react';
-import { withStyles, createStyles } from '@material-ui/core';
+import { withStyles, createStyles, Paper } from '@material-ui/core';
 import classNames from 'classnames';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -19,7 +19,7 @@ const styles = ({ palette, spacing }) => ({
     height: '100vh'
   },
   section: {
-    paddingTop: 50,
+    paddingTop: 25,
     width: '100%',
     textAlign: 'center'
   },
@@ -41,7 +41,7 @@ const styles = ({ palette, spacing }) => ({
     color: 'white'
   },
   logoColorText: {
-    color: palette.custom.logo
+    color: palette.custom.adsocialPlue
   },
   mainTitleText: {
     paddingTop: 75,
@@ -95,15 +95,19 @@ const Index = ({ classes }) => (
     <Grid
       container
       justify="center"
+      alignItems="center"
       className={classNames(classes.section, classes.fillViewHeight)}
       spacing={0}
     >
-      <Grid item xs={5}>
+      <Grid item xs={12} sm={5}>
         <Typography variant="h4" className={classNames(classes.logoColorText)}>
-          We deliver social media campaigns in 3 days
+          We deliver social media ad campaigns in 3 days
         </Typography>
+
+        <br />
+        <br />
       </Grid>
-      <Grid item xs={6} className={classNames(classes.coverTitle)}>
+      <Grid item xs={12} sm={6} className={classNames(classes.coverTitle)}>
         {/* <Typography component="h2" variant="h1" className={classes.textPrimaryLight}>
           <b style={{}}>Social </b> <br />
           <b>Advertising </b> <br />

@@ -16,7 +16,7 @@ const theme = createMuiTheme({
     // },
     primary: {
       light: '#2195f2',
-      main: '#6ec5ff',
+      main: '#6829fb',
       dark: '#0068bf',
       contrastText: '#fafafa'
     },
@@ -30,7 +30,7 @@ const theme = createMuiTheme({
       contrastText: '#000'
     },
     custom: {
-      logo: '#6829fb'
+      adsocialPlue: '#6829fb'
     }
   },
   overrides: {
