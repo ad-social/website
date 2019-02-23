@@ -106,18 +106,6 @@ class HowItWorks extends React.Component {
             <Typography variant="body1" gutterBottom>
             When the ad set is ready, we will deliver it to your dashboard on our website. Here, you can request to make revisions and write comments about the ad set to give us feedback.
             </Typography>
-            
-            {/* <Grid container justify="center">
-              <Grid item xs={3}>
-                <b> <SupervisedUserCircle className={classes.icon} /> Targeting strategy</b>
-              </Grid>
-            </Grid>
-            <b>&</b>
-            <Grid container justify="center">
-              <Grid item xs={3}>
-              <b> <Wallpaper className={classes.icon} /> Ad set</b>
-              </Grid>
-            </Grid> */}
           </Typography>
         </Grid>
 

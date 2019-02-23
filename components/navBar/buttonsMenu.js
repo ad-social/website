@@ -5,15 +5,14 @@ import Divider from '@material-ui/core/Divider';
 import { Typography, withStyles } from '@material-ui/core';
 import SwitchComponent from '../switchComponent';
 
-const styles = {
-  button: {
-    // borderRight: '0.05em solid white',
-    float: 'left'
-  },
+const styles = theme => ({
   buttonStart: {
     // borderLeft: '0.05em solid white'
+  },
+  myCampaignsButton: {
+    color: theme.palette.secondary.light
   }
-};
+});
 
 const ButtonsMenu = ({ classes, isSignedIn }) => (
   <div style={{ display: 'inline-block' }}>
@@ -53,16 +52,15 @@ const ButtonsMenu = ({ classes, isSignedIn }) => (
       Contact Us
     </Button>
     <SwitchComponent show={isSignedIn}>
-      <div className={classes.button}>
-        <Button
-          onClick={() => {
-            Router.push('/myCampaigns');
-          }}
-          color="inherit"
-        >
-          My Campaigns
-        </Button>
-      </div>
+      <Button
+        onClick={() => {
+          Router.push('/myCampaigns');
+        }}
+        color="inherit"
+        className={classes.myCampaignsButton}
+      >
+        My Campaigns
+      </Button>
     </SwitchComponent>
   </div>
 );
