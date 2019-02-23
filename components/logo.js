@@ -11,7 +11,8 @@ const styles = theme => ({
   logo: {
     cursor: 'pointer',
     width: 100,
-    fontFamily: 'Comfortaa'
+    fontFamily: 'Comfortaa',
+    color: theme.palette.custom.logo
   },
   grow: {
     flexGrow: 1

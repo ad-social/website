@@ -19,6 +19,7 @@ const styles = ({ palette, spacing }) => ({
     height: '100vh'
   },
   section: {
+    paddingTop: 50,
     width: '100%',
     textAlign: 'center'
   },
@@ -39,9 +40,17 @@ const styles = ({ palette, spacing }) => ({
   whiteText: {
     color: 'white'
   },
+  logoColorText: {
+    color: palette.custom.logo
+  },
   mainTitleText: {
     paddingTop: 75,
     paddingBottom: 75
+  },
+
+  landingPageImg: {
+    width: '100%',
+    maxWidth: 600
   },
 
   howItWorksSection: {
@@ -53,11 +62,6 @@ const styles = ({ palette, spacing }) => ({
     marginLeft: 30,
     marginRight: 30,
     paddingBottom: 100
-  },
-  coverImage: {
-    backgroundImage: `url(/static/cover.jpg)`,
-    backgroundPosition: 'center',
-    backgroundSize: 'cover'
   },
   blue: {
     backgroundColor: '#45aaf2'
@@ -90,18 +94,22 @@ const Index = ({ classes }) => (
   <div>
     <Grid
       container
-      direction="row"
-      alignItems="center"
       justify="center"
-      className={classNames(classes.section, classes.fillViewHeight, classes.coverImage)}
+      className={classNames(classes.section, classes.fillViewHeight)}
       spacing={0}
     >
-      <Grid item xs={12} className={classNames(classes.coverTitle)}>
-        <Typography component="h2" variant="h1" className={classes.textPrimaryLight}>
+      <Grid item xs={5}>
+        <Typography variant="h4" className={classNames(classes.logoColorText)}>
+          We deliver social media campaigns in 3 days
+        </Typography>
+      </Grid>
+      <Grid item xs={6} className={classNames(classes.coverTitle)}>
+        {/* <Typography component="h2" variant="h1" className={classes.textPrimaryLight}>
           <b style={{}}>Social </b> <br />
           <b>Advertising </b> <br />
           <b>Simplified </b>
-        </Typography>
+        </Typography> */}
+        <img className={classes.landingPageImg} src="/static/LandingPageGraphic.png" />
       </Grid>
       {/* <Grid container alignItems="center" justify="center" direction="row">
         <SpecialButton onClick={goToSignup} className={classes.callToAction}>

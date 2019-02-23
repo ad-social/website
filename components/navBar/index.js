@@ -21,9 +21,6 @@ import DrawerContent from './drawerContent';
 const drawerWidth = 240;
 
 const styles = theme => ({
-  // appBar: {
-  //   backgroundColor: palette.primary.main
-  // },
   // Class specific to just the drawer
   drawerPaper: {
     position: 'fixed',
@@ -33,11 +30,6 @@ const styles = theme => ({
   menuButton: {
     marginLeft: -12,
     marginRight: 20
-  },
-  logo: {
-    cursor: 'pointer',
-    width: 100,
-    fontFamily: 'Comfortaa'
   },
 
   // Drawer width transitions between closed and open

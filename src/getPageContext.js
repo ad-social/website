@@ -15,19 +15,22 @@ const theme = createMuiTheme({
     //   contrastText: '#333'
     // },
     primary: {
-      light: '#8bf6ff',
-      main: '#4fc3f7',
-      dark: '#0093c4',
+      light: '#2195f2',
+      main: '#6ec5ff',
+      dark: '#0068bf',
       contrastText: '#fafafa'
     },
     // secondary: {
     //   main: '#6f23fe'
     // }
     secondary: {
-      light: '#98ee99',
-      main: '#66bb6a',
+      light: '#66bb6a',
+      main: '#98ee99',
       dark: '#338a3e',
       contrastText: '#000'
+    },
+    custom: {
+      logo: '#6829fb'
     }
   },
   overrides: {

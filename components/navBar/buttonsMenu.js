@@ -10,7 +10,7 @@ const styles = theme => ({
     // borderLeft: '0.05em solid white'
   },
   myCampaignsButton: {
-    color: theme.palette.secondary.light
+    // color: theme.palette.secondary.light
   }
 });
 
