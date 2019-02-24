@@ -29,6 +29,9 @@ const styles = ({ palette, spacing, breakpoints }) => ({
     backgroundSize: 'cover',
     backgroundColor: 'red'
   },
+  landingTextMobile: {
+    fontSize: '3em'
+  },
 
   titleText: {
     color: palette.custom.adsocialPlue,
@@ -157,7 +160,7 @@ const Index = ({ classes }) => (
       <Grid container justify="center" className={classes.howItWorksContainer}>
         {howItWorksColumns.map(column => (
           <Grid item xs={3} className={classes.howItWorksIconContainer}>
-            <Typography variant="h4">{column.title}</Typography>
+            <Typography variant="h5">{column.title}</Typography>
           </Grid>
         ))}
       </Grid>
