@@ -1,23 +1,26 @@
-const adsSdk = require('facebook-nodejs-business-sdk');
+const FB = require('fb');
 
-// Access token must be a user's token that is connected to their ad account
-const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
+const appId = '604130970011271';
+const appSecret = '06f55f6235b1ab9a9a60e8fe9404f35d';
+const shortLivedToken =
+  'EAAIldDPdhocBAAoma1ZACtzV5LsEWdNIJSRPZAa2llZChFZAegl1LXKEz6dCJlJCrXNRaXqID7EgAZAlkHeBXZBFWPVWSPOlA43TnQW6mpbmH4sZCr1nx3QPotHQnYXGnaRToD87r9owu7znnppO9WygwpOeQt3t7DKJzGjPttxXUpRN1dEWwCXdjJICieqorgy2ScMIdZCHGgZDZD';
 
-// Instantiate facebook variables
-const api = adsSdk.FacebookAdsApi.init(ACCESS_TOKEN);
-const AdAccount = adsSdk.AdAccount;
-const Campaign = adsSdk.Campaign;
-const account = new AdAccount('act_850527055283741');
+FB.api(
+  'oauth/access_token',
+  {
+    grant_type: 'fb_exchange_token',
+    client_id: appId,
+    client_secret: appSecret,
+    fb_exchange_token: shortLivedToken
+  },
+  res => {
+    if (!res || res.error) {
+      console.log(!res ? 'error occurred' : res.error);
+      return;
+    }
 
-console.log(account.id); // fields can be accessed as properties
-
-account
-  .createCampaign([Campaign.Fields.Id], {
-    [Campaign.Fields.name]: 'Page likes campaign', // Each object contains a fields map with a list of fields supported on that object.
-    [Campaign.Fields.status]: Campaign.Status.paused,
-    [Campaign.Fields.objective]: Campaign.Objective.page_likes
-  })
-  .then(result => {})
-  .catch(error => {
-    console.log(error);
-  });
+    const accessToken = res.access_token;
+    console.log('NewToken: ', accessToken);
+    console.log('Result: ', res);
+  }
+);

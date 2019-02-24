@@ -1,6 +1,6 @@
 // index.js Page
 import React from 'react';
-import { withStyles, createStyles } from '@material-ui/core';
+import { withStyles, createStyles, Paper, Hidden } from '@material-ui/core';
 import classNames from 'classnames';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -11,62 +11,54 @@ import SpecialButton from '../components/specialButton';
 
 // import dashboardImg from '/static/dashboard.png';
 
-const styles = ({ palette, spacing }) => ({
+const styles = ({ palette, spacing, breakpoints }) => ({
   root: {
     flexGrow: 1
   },
   fillViewHeight: {
     height: '100vh'
   },
-  section: {
+
+  landing: {
+    paddingTop: 25,
     width: '100%',
-    textAlign: 'center'
+    textAlign: 'center',
+    backgroundImage: "url('/static/landingPageBG.png')",
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundColor: 'red'
   },
-  textPrimaryLight: {
-    color: palette.primary.light
-  },
-  secondaryMain: {
-    backgroundColor: palette.secondary.main
-  },
-  textLeft: {
-    textAlign: 'left',
-    marginLeft: 30,
-    marginRight: 30
-  },
-  textCenter: {
-    textAlign: 'center'
-  },
-  whiteText: {
-    color: 'white'
-  },
-  mainTitleText: {
-    paddingTop: 75,
-    paddingBottom: 75
+  landingTextMobile: {
+    fontSize: '3em'
   },
 
-  howItWorksSection: {
-    paddingTop: 50,
-    paddingBottom: 50
+  titleText: {
+    color: palette.custom.adsocialPlue,
+    letterSpacing: 5,
+    backgroundColor: 'rgba(255,255,255,0.96)',
+    padding: 10
   },
 
-  coverTitle: {
-    marginLeft: 30,
-    marginRight: 30,
+  landingPageImg: {
+    width: '100%',
+    maxWidth: 600
+  },
+
+  howItWorksContainer: {
+    paddingTop: 50
+  },
+  howItWorksCol: {
+    textAlign: 'center',
+    padding: 50,
     paddingBottom: 100
   },
-  coverImage: {
-    backgroundImage: `url(/static/cover.jpg)`,
-    backgroundPosition: 'center',
-    backgroundSize: 'cover'
+  howItWorksIconContainer: {
+    textAlign: 'center'
   },
-  blue: {
-    backgroundColor: '#45aaf2'
-  },
-  orange: {
-    backgroundColor: '#fa8231'
-  },
-  notAllowed: {
-    fontSize: 10
+  staticIcon: {
+    width: '50%',
+    maxWidth: 250
   },
 
   callToAction: {
@@ -77,6 +69,25 @@ const styles = ({ palette, spacing }) => ({
     marginLeft: spacing.unit * 5
   }
 });
+
+const howItWorksColumns = [
+  {
+    image: '/static/TargetIcon.png',
+    title: 'We build your custom targeting strategy'
+  },
+  {
+    image: '/static/LandscapeIcon.png',
+    title: 'We create and deliver your adset with an image and copy'
+  },
+  {
+    image: '/static/RocketIcon.png',
+    title: 'We launch the campaign for you'
+  },
+  {
+    image: '/static/BarChartIcon.png',
+    title: 'We provide an intuitive analytics dashboard'
+  }
+];
 
 const goToSignup = () => {
   Router.push(`/auth?action=signup`, `/auth?action=signup`);
@@ -90,35 +101,84 @@ const Index = ({ classes }) => (
   <div>
     <Grid
       container
-      direction="row"
-      alignItems="center"
       justify="center"
-      className={classNames(classes.section, classes.fillViewHeight, classes.coverImage)}
+      alignItems="center"
+      direction="column"
+      className={classNames(classes.landing, classes.fillViewHeight)}
       spacing={0}
     >
-      <Grid item xs={12} className={classNames(classes.coverTitle)}>
-        <Typography component="h2" variant="h1" className={classes.textPrimaryLight}>
-          <b style={{}}>Social </b> <br />
-          <b>Advertising </b> <br />
-          <b>Simplified </b>
-        </Typography>
-      </Grid>
-      {/* <Grid container alignItems="center" justify="center" direction="row">
-        <SpecialButton onClick={goToSignup} className={classes.callToAction}>
-          Get Started Now
-        </SpecialButton>
-        <SpecialButton
-          onClick={goToConsultation}
-          className={classNames(classes.callToAction, classes.leftGutter)}
+      {/* Desktop */}
+      <Hidden smDown>
+        <Typography
+          variant="h1"
+          className={classNames(classes.titleText, classes.landingTextDesktop)}
         >
-          Free Consultation
-        </SpecialButton>
-      </Grid> */}
+          <b>social advertising</b>
+        </Typography>
+        <br />
+        <Typography
+          variant="h1"
+          className={classNames(classes.titleText, classes.landingTextDesktop)}
+        >
+          <b>simplified</b>
+        </Typography>
+      </Hidden>
+
+      {/* Mobile */}
+      <Hidden mdUp>
+        <Typography
+          variant="h1"
+          className={classNames(classes.titleText, classes.landingTextMobile)}
+        >
+          <b>social</b>
+        </Typography>
+        <br />
+        <Typography
+          variant="h1"
+          className={classNames(classes.titleText, classes.landingTextMobile)}
+        >
+          <b>advertising</b>
+        </Typography>
+        <br />
+        <Typography
+          variant="h1"
+          className={classNames(classes.titleText, classes.landingTextMobile)}
+        >
+          <b>simplified</b>
+        </Typography>
+      </Hidden>
     </Grid>
+
+    <Hidden xsDown>
+      <Grid container justify="center" alignItems="center" className={classes.howItWorksContainer}>
+        {howItWorksColumns.map(column => (
+          <Grid item xs={3} className={classes.howItWorksIconContainer}>
+            <img className={classes.staticIcon} src={column.image} />
+          </Grid>
+        ))}
+      </Grid>
+      <Grid container justify="center" className={classes.howItWorksContainer}>
+        {howItWorksColumns.map(column => (
+          <Grid item xs={3} className={classes.howItWorksIconContainer}>
+            <Typography variant="h5">{column.title}</Typography>
+          </Grid>
+        ))}
+      </Grid>
+    </Hidden>
+    <Hidden smUp>
+      <Grid container justify="center" alignItems="center" className={classes.howItWorksContainer}>
+        {howItWorksColumns.map(column => (
+          <Grid item xs={12} className={classes.howItWorksCol}>
+            <img className={classes.staticIcon} src={column.image} />
+            <Typography variant="h4">{column.title}</Typography>
+          </Grid>
+        ))}
+      </Grid>
+    </Hidden>
   </div>
 );
 
 export default compose(
-  withNavBar,
+  withNavBar({ useBuffer: false }),
   withStyles(styles)
 )(Index);

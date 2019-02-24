@@ -1,25 +1,33 @@
 // withNavBar.js - HOC
 import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import NavBar from '../components/navBar';
 
-const styles = {
+const styles = theme => ({
   root: {
     flexGrow: 1
   },
-  buffer: {
-    height: 65
-  }
-};
+  buffer: theme.mixins.toolbar
+});
 
-export default Page =>
+export default options => Page => {
   class PageWithNavBar extends React.Component {
     render() {
+      const { classes } = this.props;
       return (
-        <div style={styles.root}>
+        <div className={classes.root}>
           <NavBar />
-          <div style={styles.buffer} />
+          {options.useBuffer === null || options.useBuffer === true ? (
+            <div className={classes.buffer} />
+          ) : null}
           <Page {...this.props} />
         </div>
       );
     }
-  };
+  }
+
+  return withStyles(styles)(PageWithNavBar);
+};
+
+// export default withStyles(styles)(WithNavbarHOC);

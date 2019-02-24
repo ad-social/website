@@ -45,7 +45,6 @@ class Account extends React.Component {
    */
   signinWithFacebook = () => {
     const { firebase } = this.props;
-    const provider = new Firebase.auth.FacebookAuthProvider();
     console.log('SignInWithfacebook()');
     // firebase
     //   .auth()
@@ -76,14 +75,11 @@ class Account extends React.Component {
 
   responseFacebook = response => {
     const { firebase, profile } = this.props;
-    // Construct new credentials object
-    const newFacebookCredentials = {
-      ...profile.facebookCredentials,
-      APIAppAccessToken: response.accessToken
-    };
     // update profile
     firebase.updateProfile({
-      facebookCredentials: newFacebookCredentials
+      facebookCredentials: {
+        accessToken: response.accessToken
+      }
     });
     console.log('Creds response: ', response);
   };

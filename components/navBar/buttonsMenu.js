@@ -5,83 +5,62 @@ import Divider from '@material-ui/core/Divider';
 import { Typography, withStyles } from '@material-ui/core';
 import SwitchComponent from '../switchComponent';
 
-const styles = {
-  button: {
-    borderRight: '0.05em solid white',
-    float: 'left'
-  },
+const styles = theme => ({
   buttonStart: {
-    borderLeft: '0.05em solid white'
+    // borderLeft: '0.05em solid white'
+  },
+  myCampaignsButton: {
+    // color: theme.palette.secondary.light
   }
-};
+});
 
 const ButtonsMenu = ({ classes, isSignedIn }) => (
   <div style={{ display: 'inline-block' }}>
-    <div className={`${classes.button} ${classes.buttonStart}`}>
-      <Button
-        onClick={() => {
-          Router.push('/');
-        }}
-        color="inherit"
-      >
-        Home
-      </Button>
-    </div>
+    <Button
+      onClick={() => {
+        Router.push('/');
+      }}
+      color="inherit"
+    >
+      Home
+    </Button>
 
-    <div className={classes.button}>
-      <Button
-        onClick={() => {
-          Router.push('/howItWorks');
-        }}
-        color="inherit"
-      >
-        How It Works
-      </Button>
-    </div>
+    <Button
+      onClick={() => {
+        Router.push('/howItWorks');
+      }}
+      color="inherit"
+    >
+      How It Works
+    </Button>
 
-    <div className={classes.button}>
-      <Button
-        onClick={() => {
-          Router.push('/work');
-        }}
-        color="inherit"
-      >
-        Work
-      </Button>
-    </div>
+    <Button
+      onClick={() => {
+        Router.push('/information');
+      }}
+      color="inherit"
+    >
+      Information
+    </Button>
 
-    <div className={classes.button}>
-      <Button
-        onClick={() => {
-          Router.push('/information');
-        }}
-        color="inherit"
-      >
-        Information
-      </Button>
-    </div>
-
-    <div className={classes.button}>
-      <Button
-        onClick={() => {
-          Router.push('/contact');
-        }}
-        color="inherit"
-      >
-        Contact Us
-      </Button>
-    </div>
+    <Button
+      onClick={() => {
+        Router.push('/contact');
+      }}
+      color="inherit"
+    >
+      Contact Us
+    </Button>
     <SwitchComponent show={isSignedIn}>
-      <div className={classes.button}>
-        <Button
-          onClick={() => {
-            Router.push('/myCampaigns');
-          }}
-          color="inherit"
-        >
-          My Campaigns
-        </Button>
-      </div>
+      <Button
+        onClick={() => {
+          Router.push('/myCampaigns');
+        }}
+        color="inherit"
+        className={classes.myCampaignsButton}
+      >
+        My Campaigns
+      </Button>
     </SwitchComponent>
   </div>
 );

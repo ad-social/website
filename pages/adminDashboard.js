@@ -112,8 +112,8 @@ AdminDashboard.propTypes = {
 };
 
 export default compose(
-  withStyles(styles),
   withNavBar,
+  withStyles(styles),
   firestoreConnect(props => [{ collection: 'campaigns' }]),
   connect(({ firestore: { data } }) => ({
     campaigns: data.campaigns
