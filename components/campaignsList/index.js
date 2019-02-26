@@ -15,7 +15,13 @@ const styles = theme => ({
   }
 });
 
-const CampaignsList = ({ classes, campaigns, handleNewCampaignDialogOpen, profile }) => {
+const CampaignsList = ({
+  classes,
+  campaigns,
+  onCampaignClick,
+  handleNewCampaignDialogOpen,
+  profile
+}) => {
   if (!isLoaded(campaigns)) {
     return null;
   }
@@ -30,7 +36,7 @@ const CampaignsList = ({ classes, campaigns, handleNewCampaignDialogOpen, profil
         disabled={!canUserCreateCampaigns(profile)}
       />
       {campaigns.map(campaign => (
-        <CampaignCard key={campaign.id} campaign={campaign} />
+        <CampaignCard onClick={onCampaignClick} key={campaign.id} campaign={campaign} />
       ))}
     </Grid>
   );

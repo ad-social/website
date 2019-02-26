@@ -54,7 +54,7 @@ const ButtonsMenu = ({ classes, isSignedIn }) => (
     <SwitchComponent show={isSignedIn}>
       <Button
         onClick={() => {
-          Router.push('/myCampaigns');
+          Router.push('/campaigns');
         }}
         color="inherit"
         className={classes.myCampaignsButton}

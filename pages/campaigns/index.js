@@ -18,12 +18,12 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Error from '@material-ui/icons/ErrorOutline';
 import { withFirestore, firestoreConnect } from 'react-redux-firebase';
-import CampaignsList from '../components/campaignsList';
-import { validate, canUserCreateCampaigns } from '../src/utils';
-import SwitchComponent from '../components/switchComponent';
-import withNavBar from '../src/withNavBar';
+import CampaignsList from '../../components/campaignsList';
+import { validate, canUserCreateCampaigns } from '../../src/utils';
+import SwitchComponent from '../../components/switchComponent';
+import withNavBar from '../../src/withNavBar';
 
-import FirestoreFunctions from '../src/firestoreFunctions';
+import FirestoreFunctions from '../../src/firestoreFunctions';
 
 const styles = theme => ({
   root: {
@@ -67,6 +67,12 @@ class MyCampaigns extends React.Component {
     this.setState({ [prop]: event.target.value });
   };
 
+  // Navigate to a specific campaign
+  navigateToCampaign = id => {
+    console.log('GOING TO: ', id);
+    Router.push(`/campaigns/?campaignId=${id}`, `campaigns/${id}`);
+  };
+
   onCreateNewCampaignClick = () => {
     const { CreateNewCampaign, auth, profile } = this.props;
     const { newCampaignName } = this.state;
@@ -88,7 +94,7 @@ class MyCampaigns extends React.Component {
         name
       },
       doc => {
-        Router.push(`/campaign?campaignId=${doc.id}`, `campaign/${doc.id}`);
+        this.navigateToCampaign(doc.id);
       }
     );
   };
@@ -96,6 +102,7 @@ class MyCampaigns extends React.Component {
   render() {
     const { classes, campaigns, profile } = this.props;
     const { newCampaignDialogOpen } = this.state;
+    console.log(campaigns);
     return (
       <div>
         <Grid
@@ -117,6 +124,7 @@ class MyCampaigns extends React.Component {
 
           <Grid item xs={10}>
             <CampaignsList
+              onCampaignClick={this.navigateToCampaign}
               campaigns={campaigns}
               handleNewCampaignDialogOpen={this.handleNewCampaignDialogOpen}
             />
@@ -169,7 +177,7 @@ export default compose(
     profile
   })),
   firestoreConnect(({ auth }) => [
-    { collection: 'campaigns', where: ['owner.id', '==', auth.uid || ''] }
+    { collection: 'campaigns', where: ['owner', '==', auth.uid || ''] }
   ]),
   withHandlers({
     CreateNewCampaign: FirestoreFunctions.CreateNewCampaign

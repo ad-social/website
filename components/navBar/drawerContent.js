@@ -50,10 +50,10 @@ const DrawerContent = props => {
       <List>
         <SwitchComponent show={isSignedIn}>
           <ListItem
-            onClick={() => changePage('/myCampaigns')}
+            onClick={() => changePage('/campaigns')}
             selected={page === 'setup'}
             button
-            key="myCampaigns"
+            key="campaigns"
             className={classes.listItem}
           >
             <ListItemText primary="My Campaigns" />

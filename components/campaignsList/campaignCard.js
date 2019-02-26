@@ -48,16 +48,12 @@ function formatStatus(status) {
   }
 }
 
-const onClick = campaign => {
-  Router.push(`/campaign?campaignId=${campaign.id}`, `campaign/${campaign.id}`);
-};
-
 function CampaignCard(props) {
-  const { classes, campaign } = props;
+  const { classes, campaign, onClick } = props;
   return (
     <Grid item xs={12} sm={4}>
       <Card className={classes.root}>
-        <CardActionArea className={classes.actionArea} onClick={() => onClick(campaign)}>
+        <CardActionArea className={classes.actionArea} onClick={() => onClick(campaign.id)}>
           <div className={classes.section1}>
             <Grid
               container
