@@ -111,6 +111,7 @@ class NavBar extends React.Component {
               >
                 <DrawerContent
                   changePage={this.changePage}
+                  isSignedIn={isSignedIn}
                   handleDrawerClose={this.handleDrawerClose}
                 />
               </Drawer>

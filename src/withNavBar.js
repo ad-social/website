@@ -18,7 +18,7 @@ export default options => Page => {
       return (
         <div className={classes.root}>
           <NavBar />
-          {options.useBuffer === null || options.useBuffer === true ? (
+          {!options || options.useBuffer === null || options.useBuffer === true ? (
             <div className={classes.buffer} />
           ) : null}
           <Page {...this.props} />

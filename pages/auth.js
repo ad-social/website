@@ -182,7 +182,7 @@ Auth.propTypes = {
 };
 // Composes functions from right to left
 export default compose(
-  withNavBar,
+  withNavBar(),
   withRouter,
   withFirebase,
   withFirestore,

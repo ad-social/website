@@ -15,6 +15,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { compose } from 'redux';
 import { isLoaded } from 'react-redux-firebase';
 import Logo from '../logo';
+import SwitchComponent from '../switchComponent';
 
 const listItemHeight = 60;
 
@@ -42,11 +43,23 @@ const styles = theme => ({
 });
 
 const DrawerContent = props => {
-  const { classes, page, changePage, handleDrawerClose } = props;
+  const { classes, page, changePage, isSignedIn } = props;
 
   return (
     <div>
       <List>
+        <SwitchComponent show={isSignedIn}>
+          <ListItem
+            onClick={() => changePage('/myCampaigns')}
+            selected={page === 'setup'}
+            button
+            key="myCampaigns"
+            className={classes.listItem}
+          >
+            <ListItemText primary="My Campaigns" />
+          </ListItem>
+        </SwitchComponent>
+
         <ListItem
           onClick={() => changePage('/')}
           selected={page === 'setup'}

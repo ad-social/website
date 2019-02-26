@@ -174,6 +174,6 @@ export default compose(
   withHandlers({
     CreateNewCampaign: FirestoreFunctions.CreateNewCampaign
   }),
-  withNavBar,
+  withNavBar(),
   withStyles(styles)
 )(MyCampaigns);

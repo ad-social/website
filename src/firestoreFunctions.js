@@ -22,19 +22,20 @@ const defaultCampaign = {
   budget: 100,
   gender: 'any',
   locations: [],
-  audienceInterests: []
+  audienceInterests: [],
+  ads: []
 };
 
-const defaultAdset = {
+const defaultAd = {
   // Name of the adset
-  name: 'Adset 1',
+  name: 'Ad 1',
   // All the versions (revisions)
   versions: [],
   acceptedVersion: false
 };
 
-const defaultAdsetVersion = {
-  adImage: '',
+const defaultAdVersion = {
+  image: '',
   copy: '',
   accepted: false,
   denied: false,
@@ -56,7 +57,7 @@ const CreateNewCampaign = ({ profile, auth, firestore }) => (campaign, callback)
     .add('campaigns', {
       ...defaultCampaign,
       ...campaign,
-      owner: { id: auth.uid, profile: { email: profile.email, name: profile.name } },
+      owner: auth.uid,
       business: {
         id: profile.activeBusiness
       }
@@ -108,16 +109,16 @@ const DenyCampaignReview = props => reason => {
  * Must be used in a location where router query has campaignId
  * @param name Name of the new adset
  */
-const CreateNewAdset = props => name => {
+const CreateNewAd = props => name => {
   // Add the adset
   props.firestore.add(
     {
       collection: 'campaigns',
       doc: props.router.query.campaignId,
-      subcollections: [{ collection: 'adsets' }]
+      subcollections: [{ collection: 'ads' }]
     },
     {
-      ...defaultAdset,
+      ...defaultAd,
       name
     }
   );
@@ -138,24 +139,23 @@ const CreateNewAdset = props => name => {
  * @param adset The object of the adset so we can append to the versions array
  * @param newAdsetVersion The adset version you would like to add
  */
-const AddNewVersionToAdset = props => (adsetId, adset, newAdsetVersion) => {
-  const { versions } = adset;
+const AddNewVersionToAd = props => (adId, ad, newAdVersion) => {
+  const { versions } = ad;
   versions.push({
-    ...defaultAdsetVersion,
-    ...newAdsetVersion
+    ...defaultAdVersion,
+    ...newAdVersion
   });
   // Add the new version to the adset
   props.firestore.update(
     {
-      collection: 'campaigns',
-      doc: props.router.query.campaignId,
-      subcollections: [{ collection: 'adsets', doc: adsetId }]
+      collection: 'ads',
+      doc: adId
     },
     {
       versions
     }
   );
-  // Campaign is now NOT waiting for an adset update
+  // Campaign is now NOT waiting for an ad update
   props.firestore.update(
     { collection: 'campaigns', doc: props.router.query.campaignId },
     {
@@ -165,45 +165,44 @@ const AddNewVersionToAdset = props => (adsetId, adset, newAdsetVersion) => {
 };
 
 /**
- * AccepetAdsetVersion
- * Accept the most recent adset version for this Adset
- * @param adsetId Id for the adset
+ * AccepetAdVersion
+ * Accept the most recent ad version for this ad
+ * @param adId Id for the ad
  */
-const AcceptAdsetVersion = props => adsetId => {
+const AcceptAdVersion = props => adId => {
   props.firestore.update(
     {
       collection: 'campaigns',
       doc: props.router.query.campaignId,
-      subcollections: [{ collection: 'adsets', doc: adsetId }]
+      subcollections: [{ collection: 'ads', doc: adId }]
     },
     {
       acceptedVersion: true
     }
   );
-  // Campaign is now NOT waiting for an adset update
+  // Campaign is now NOT waiting for an ad update
   props.firestore.update(
     { collection: 'campaigns', doc: props.router.query.campaignId },
     {
-      waitingForAdsetUpdate: false
+      waitingForAdUpdate: false
     }
   );
 };
 
 /**
- * DenyAdsetVersion
- * @param adsetId Id for the adset
- * @param adset Adset object
- * @param denialReason Reason for denying this adset
+ * DenyAdVersion
+ * @param adId Id for the ad
+ * @param ad Ad object
+ * @param denialReason Reason for denying this ad
  */
-const DenyAdsetVersion = props => (adsetId, adset, denialReason) => {
-  const { versions } = adset;
+const DenyAdVersion = props => (adId, ad, denialReason) => {
+  const { versions } = ad;
   versions[versions.length - 1].denied = true;
   versions[versions.length - 1].denialReason = denialReason;
   props.firestore.update(
     {
-      collection: 'campaigns',
-      doc: props.router.query.campaignId,
-      subcollections: [{ collection: 'adsets', doc: adsetId }]
+      collection: 'ads',
+      doc: adId
     },
     {
       versions
@@ -213,7 +212,7 @@ const DenyAdsetVersion = props => (adsetId, adset, denialReason) => {
   props.firestore.update(
     { collection: 'campaigns', doc: props.router.query.campaignId },
     {
-      waitingForAdsetUpdate: true
+      waitingForAdUpdate: true
     }
   );
 };
@@ -222,8 +221,8 @@ export default {
   CreateNewCampaign,
   PassCampaignReview,
   DenyCampaignReview,
-  CreateNewAdset,
-  AddNewVersionToAdset,
-  AcceptAdsetVersion,
-  DenyAdsetVersion
+  CreateNewAd,
+  AddNewVersionToAd,
+  AcceptAdVersion,
+  DenyAdVersion
 };
