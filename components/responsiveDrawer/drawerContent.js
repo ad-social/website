@@ -64,16 +64,16 @@ const DrawerContent = props => {
 
       <List>
         <ListItem
-          onClick={() => changePage('setup')}
-          selected={page === 'setup'}
+          onClick={() => changePage('strategy')}
+          selected={page === 'strategy'}
           button
-          key="Setup"
+          key="strategy"
           className={classes.listItem}
         >
           <ListItemIcon>
             <SettingsIcon />
           </ListItemIcon>
-          <ListItemText primary="Setup" />
+          <ListItemText primary="Strategy" />
         </ListItem>
 
         <ListItem

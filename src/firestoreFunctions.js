@@ -1,29 +1,58 @@
 import { validate } from './utils';
 
 const defaultCampaign = {
-  // --- Campaign Status Indicators ---
-  // Whether or not the user has submitted this campaign for review
-  submittedForReview: false,
-  // Whether or not the review passed & reason for denial if not
-  reviewPassed: false,
-  reviewDenied: false,
-  reviewDenialReason: '',
+  createdAt: new Date(),
+
   // Whether or not the user is waiting for an adset update
-  waitingForAdsetUpdate: false,
+  waitingForAdUpdate: false,
+  // List of ads this campaign uses
+  ads: [],
 
   // --- Campaign setup details ---
-  createdAt: new Date(),
-  startDate: new Date(),
-  endDate: new Date(),
-  facebook: false,
-  instagram: false,
-  ageMax: 18,
-  ageMin: 21,
-  budget: 100,
-  gender: 'any',
-  locations: [],
-  audienceInterests: [],
-  ads: []
+  strategyStatement: {
+    isReadyForUser: false,
+    isAcceptedByUser: false
+    // // Business details
+    // business: {
+    //   product: '',
+    //   supposition: '',
+    //   objective: '',
+    //   competition: '',
+    //   problem: '',
+    //   productFeatures: ''
+    // },
+    // // Targeting strategy
+    // targeting: {
+    //   audienceSummary: '',
+    //   targetingTags: [],
+    //   locations: []
+    // },
+
+    // // Positioning
+    // positioning: {
+    //   desiredMessage: '',
+    //   usp: '',
+    //   smp: '',
+    //   reasoning: '',
+    //   desiredReaction: '',
+    //   branding: ''
+    // },
+    // extra: {
+    //   toneOfVoice: '',
+    //   mandatories: [],
+    //   facebook: {
+    //     feed: false
+    //   },
+    //   instagram: {
+    //     feed: false
+    //   }
+    // },
+    // final: {
+    //   budget: 5,
+    //   startDate: new Date(),
+    //   endDate: new Date()
+    // }
+  }
 };
 
 const defaultAd = {
@@ -58,9 +87,7 @@ const CreateNewCampaign = ({ profile, auth, firestore }) => (campaign, callback)
       ...defaultCampaign,
       ...campaign,
       owner: auth.uid,
-      business: {
-        id: profile.activeBusiness
-      }
+      business: profile.activeBusiness
     })
     .then(doc => {
       if (callback) {
@@ -69,33 +96,11 @@ const CreateNewCampaign = ({ profile, auth, firestore }) => (campaign, callback)
     });
 };
 
-/**
- * PassCampaignReview
- * Pass this campaign review and open all sections for this campaign
- */
-const PassCampaignReview = props => {
+const UpdateCampaignStrategyStatement = props => (fieldName, value) => {
   props.firestore.update(
     { collection: 'campaigns', doc: props.router.query.campaignId },
     {
-      submittedForReview: true,
-      reviewDenied: false,
-      reviewPassed: true
-    }
-  );
-};
-
-/**
- * DenyCampaignReview
- * @param reason reason for denying this campaign
- */
-const DenyCampaignReview = props => reason => {
-  props.firestore.update(
-    { collection: 'campaigns', doc: props.router.query.campaignId },
-    {
-      submittedForReview: false,
-      reviewDenied: true,
-      reviewPassed: false,
-      reviewDenialReason: reason
+      [`strategyStatement.${fieldName}`]: value
     }
   );
 };
@@ -219,8 +224,7 @@ const DenyAdVersion = props => (adId, ad, denialReason) => {
 
 export default {
   CreateNewCampaign,
-  PassCampaignReview,
-  DenyCampaignReview,
+  UpdateCampaignStrategyStatement,
   CreateNewAd,
   AddNewVersionToAd,
   AcceptAdVersion,

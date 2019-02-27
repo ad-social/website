@@ -6,9 +6,9 @@ import { compose, withHandlers } from 'recompose';
 import { connect } from 'react-redux';
 
 import { firestoreConnect, isLoaded } from 'react-redux-firebase';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress, Grid } from '@material-ui/core';
 import withResponsiveDrawerNavbar from '../../src/withResponsiveDrawerNavbar';
-import CampaignSetup from '../../components/campaignSetup';
+import CampaignStrategyStatement from '../../components/campaignStrategyStatement';
 import CampaignDashboard from '../../components/campaignDashboard';
 import CampaignAnalytics from '../../components/campaignAnalytics';
 import FirestoreFunctions from '../../src/firestoreFunctions';
@@ -25,8 +25,8 @@ class Campaign extends React.Component {
   renderContent = () => {
     const { page } = this.props;
     switch (page) {
-      case 'setup':
-        return <CampaignSetup {...this.props} />;
+      case 'strategy':
+        return <CampaignStrategyStatement {...this.props} />;
       case 'dashboard':
         return <CampaignDashboard {...this.props} />;
       case 'analytics':
@@ -44,7 +44,11 @@ class Campaign extends React.Component {
       return <CircularProgress className={classes.progress} />;
     }
 
-    return <div className={classes.root}>{this.renderContent()}</div>;
+    return (
+      <Grid container className={classes.root}>
+        {this.renderContent()}
+      </Grid>
+    );
   }
 }
 

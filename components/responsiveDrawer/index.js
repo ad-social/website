@@ -101,7 +101,7 @@ const styles = theme => ({
 class ResponsiveDrawer extends React.Component {
   state = {
     isDrawerOpen: false,
-    page: 'setup'
+    page: 'strategy'
   };
 
   handleDrawerOpen = () => {
