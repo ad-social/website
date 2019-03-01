@@ -14,6 +14,7 @@ import {
   TextField
 } from '@material-ui/core';
 import classNames from 'classnames';
+import ChipInput from './chipInput';
 
 const styles = theme => ({
   card: {},
@@ -22,6 +23,9 @@ const styles = theme => ({
     color: 'white'
   },
   formControl: {
+    width: '100%'
+  },
+  chipInput: {
     width: '100%'
   }
 });
@@ -42,6 +46,27 @@ const Section = ({
     updateStrategyStatement(key, event.target.value);
   };
 
+  /**
+   * Add a chip to an array in the strategy statement
+   */
+  const handleNewChip = key => chipValue => {
+    const chips = strategyStatement[key] || [];
+    chips.push(chipValue);
+    console.log('NEW CHIP');
+    updateStrategyStatement(key, chips);
+  };
+
+  /**
+   * Delete a chip from an array in the strategy statement
+   */
+  const handleDeleteChip = key => chipValue => {
+    const chips = strategyStatement[key] || [];
+    // Filter out the one to delete
+    const filteredChips = chips.filter(c => c !== chipValue);
+    // Update the strat statement
+    updateStrategyStatement(key, filteredChips);
+  };
+
   const renderField = field => {
     switch (field.type) {
       case 'text':
@@ -60,8 +85,18 @@ const Section = ({
             />
           </FormControl>
         );
+      case 'chips':
+        return (
+          <ChipInput
+            chips={strategyStatement[field.key]}
+            label={field.title}
+            handleNewChip={handleNewChip(field.key)}
+            handleDeleteChip={handleDeleteChip(field.key)}
+            className={classes.chipInput}
+          />
+        );
       default:
-        return null;
+        return <Typography>Todo</Typography>;
     }
   };
 

@@ -5,7 +5,8 @@ import { Chip, FormControl, TextField, Grid } from '@material-ui/core';
 
 const styles = theme => ({
   root: {
-    display: 'flex'
+    display: 'flex',
+    width: '100%'
   },
   textField: {
     width: '100%'
@@ -20,38 +21,15 @@ class ChipInput extends React.Component {
     newChipValue: ''
   };
 
-  // Delete the chip
-  handleDelete = chipValue => {
-    const { campaign, updateCampaign, prop } = this.props;
-    const chips = campaign[prop] || [];
-    // Filter out the one to delete
-    const filteredChips = chips.filter(c => c !== chipValue);
-    // Update the campaign
-    updateCampaign({
-      [prop]: filteredChips
-    });
-  };
-
-  // Add a new chip
-  handleNew = chipValue => {
-    const { campaign, updateCampaign, prop } = this.props;
-    const chips = campaign[prop] || [];
-    console.log('ADDING TO : ', chips);
-
-    chips.push(chipValue);
-    updateCampaign({
-      [prop]: chips
-    });
-  };
-
   // Detect key presses so we can listen for the enter button
   onKeyPress = ev => {
+    const { handleNewChip } = this.props;
     const { newChipValue } = this.state;
     if (ev.key === 'Enter') {
       // Prevent deafult
       ev.preventDefault();
       // Create chip
-      this.handleNew(newChipValue);
+      handleNewChip(newChipValue);
       // Reset new chip value
       this.setState({
         newChipValue: ''
@@ -67,9 +45,8 @@ class ChipInput extends React.Component {
   };
 
   render() {
-    const { classes, campaign, updateCampaign, prop, label, disabled } = this.props;
+    const { classes, chips, label, disabled, handleDeleteChip } = this.props;
     const { newChipValue } = this.state;
-    const chips = campaign[prop] || [];
 
     return (
       <div className={classes.root}>
@@ -81,12 +58,12 @@ class ChipInput extends React.Component {
                   <Chip
                   key={chip}
                   label={chip}
-                  onDelete={disabled ? null : () => this.handleDelete(chip, updateCampaign)}
+                  onDelete={disabled ? null : () => handleDeleteChip(chip)}
                   className={classes.chip}
                 />
                 ))}
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12}>
             <TextField
               className={classes.textField}
               onKeyPress={this.onKeyPress}
@@ -95,7 +72,7 @@ class ChipInput extends React.Component {
               label={label}
               id="margin-none"
               className={classes.textField}
-              helperText="Press return to add"
+              helperText="Press return to add a new tag"
               disabled={disabled}
             />
           </Grid>

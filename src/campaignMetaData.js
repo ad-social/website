@@ -63,3 +63,39 @@ export const StrategyStatementPositioningFields = [
     type: 'text'
   }
 ];
+
+export const StrategyStatementTargetingFields = [
+  {
+    key: 'audienceSummary',
+    title: 'Audience Summary',
+    type: 'text'
+  },
+  {
+    key: 'targetingTags',
+    title: 'Targeting tags (demographics, interests, behaviors)',
+    type: 'chips'
+  },
+  {
+    key: 'locationTargeting',
+    title: 'Location targeting',
+    type: 'chips'
+  }
+];
+
+export const StrategyExtraInfoFields = [
+  {
+    key: 'toneOfVoice',
+    title: 'Tone of Voice',
+    type: 'text'
+  },
+  {
+    key: 'mandatories',
+    title: 'Mandatories',
+    type: 'files'
+  },
+  {
+    key: 'placement',
+    title: 'Location targeting',
+    type: 'chips'
+  }
+];

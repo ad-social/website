@@ -9,7 +9,9 @@ import Section from './section';
 import FirestoreFunctions from '../../src/firestoreFunctions';
 import {
   StrategyStatementBusinessFields,
-  StrategyStatementPositioningFields
+  StrategyStatementPositioningFields,
+  StrategyStatementTargetingFields,
+  StrategyExtraInfoFields
 } from '../../src/campaignMetaData';
 
 const styles = theme => ({});
@@ -26,8 +28,10 @@ class CampaignStrategyStatement extends React.Component {
             Strategy Statement
           </Typography>
           <Typography color="inherit" variant="subtitle1" gutterBottom>
-            Tell us about your campaign, what you'd like to acheive, how much you'd like to spend,
-            etc. We'll review the information and make sure everything is good to go!
+            We've curated a complete description of your campaign from the information you gave us
+            on our call. Please review the information, make any changes you feel are necessary and
+            enter the information at the buttom. Once you think it is complete hit submit and you
+            will be ready to work on your ads!
           </Typography>
         </Grid>
 
@@ -49,31 +53,24 @@ class CampaignStrategyStatement extends React.Component {
             updateStrategyStatement={updateCampaignStrategyStatement}
           />
         </Grid>
-        {/* <Grid item xs={12} md={6}>
-          <Section
-            title="Positioning"
-            subtitle="[put text here]?"
-            sectionDataPath="strategy.positioning"
-            sectionData={campaign.strategy.positioning}
-            style={{ width: '100%' }}
-          />
-        </Grid>
         <Grid item xs={12} md={6}>
           <Section
-            title="Targeting"
-            subtitle="[todo add text here]?"
-            sectionDataPath="strategy.targeting"
-            sectionData={campaign.strategy.targeting}
+            title="Targeting Strategy"
+            subtitle="[Todo helper text here]?"
+            fields={StrategyStatementTargetingFields}
+            strategyStatement={campaign.strategyStatement}
+            updateStrategyStatement={updateCampaignStrategyStatement}
           />
         </Grid>
         <Grid item xs={12} md={6}>
           <Section
             title="Extra Info"
-            subtitle="[todo add text here]?"
-            sectionDataPath="strategy.extra"
-            sectionData={campaign.strategy.extra}
+            subtitle="[Todo helper text here]?"
+            fields={StrategyExtraInfoFields}
+            strategyStatement={campaign.strategyStatement}
+            updateStrategyStatement={updateCampaignStrategyStatement}
           />
-        </Grid> */}
+        </Grid>
       </Grid>
     );
   }
