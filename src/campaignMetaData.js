@@ -95,7 +95,7 @@ export const StrategyExtraInfoFields = [
   },
   {
     key: 'placement',
-    title: 'Location targeting',
+    title: 'Placement',
     type: 'chips'
   }
 ];

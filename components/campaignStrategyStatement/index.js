@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, Switch, Paper } from '@material-ui/core';
 import { compose } from 'redux';
 import { withHandlers } from 'recompose';
 import Section from './section';
@@ -13,16 +13,28 @@ import {
   StrategyStatementTargetingFields,
   StrategyExtraInfoFields
 } from '../../src/campaignMetaData';
+import SwitchComponent from '../switchComponent';
 
-const styles = theme => ({});
+const styles = theme => ({
+  adminControlsSection: {
+    padding: '1em'
+  }
+});
 
 class CampaignStrategyStatement extends React.Component {
   state = {};
 
+  toggleIsReadyForUser = () => {
+    const { campaign, updateCampaignStrategyStatement } = this.props;
+    const { isReadyForUser } = campaign.strategyStatement;
+    updateCampaignStrategyStatement('isReadyForUser', !isReadyForUser);
+  };
+
   render() {
-    const { classes, campaign, updateCampaignStrategyStatement } = this.props;
+    const { classes, profile, campaign, updateCampaignStrategyStatement } = this.props;
     return (
       <Grid container spacing={24}>
+        {/* Title */}
         <Grid item xs={12} className={classes.titleContainer}>
           <Typography color="inherit" variant="h3">
             Strategy Statement
@@ -35,11 +47,28 @@ class CampaignStrategyStatement extends React.Component {
           </Typography>
         </Grid>
 
+        {/* Admin Controls */}
+        <SwitchComponent show={profile.isAdmin}>
+          <Grid item xs={12}>
+            <Paper className={classes.adminControlsSection}>
+              <Typography variant="h5">Admin Controls</Typography>
+              <Typography variant="subtitle1">Is Ready For User:</Typography>
+
+              <Switch
+                checked={campaign.strategyStatement.isReadyForUser}
+                onChange={this.toggleIsReadyForUser}
+                value="checkedA"
+              />
+            </Paper>
+          </Grid>
+        </SwitchComponent>
+
+        {/* Sections */}
         <Grid item xs={12} md={6}>
           <Section
             title="Business Info"
             subtitle="What do you want to express about your business in this campaign?"
-            fields={StrategyStatementBusinessFields}
+            fieldsMetaData={StrategyStatementBusinessFields}
             strategyStatement={campaign.strategyStatement}
             updateStrategyStatement={updateCampaignStrategyStatement}
           />
@@ -48,7 +77,7 @@ class CampaignStrategyStatement extends React.Component {
           <Section
             title="Positioning"
             subtitle="[Todo helper text here]?"
-            fields={StrategyStatementPositioningFields}
+            fieldsMetaData={StrategyStatementPositioningFields}
             strategyStatement={campaign.strategyStatement}
             updateStrategyStatement={updateCampaignStrategyStatement}
           />
@@ -57,7 +86,7 @@ class CampaignStrategyStatement extends React.Component {
           <Section
             title="Targeting Strategy"
             subtitle="[Todo helper text here]?"
-            fields={StrategyStatementTargetingFields}
+            fieldsMetaData={StrategyStatementTargetingFields}
             strategyStatement={campaign.strategyStatement}
             updateStrategyStatement={updateCampaignStrategyStatement}
           />
@@ -66,7 +95,7 @@ class CampaignStrategyStatement extends React.Component {
           <Section
             title="Extra Info"
             subtitle="[Todo helper text here]?"
-            fields={StrategyExtraInfoFields}
+            fieldsMetaData={StrategyExtraInfoFields}
             strategyStatement={campaign.strategyStatement}
             updateStrategyStatement={updateCampaignStrategyStatement}
           />

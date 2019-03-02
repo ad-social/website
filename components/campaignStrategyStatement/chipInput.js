@@ -45,7 +45,7 @@ class ChipInput extends React.Component {
   };
 
   render() {
-    const { classes, chips, label, disabled, handleDeleteChip } = this.props;
+    const { classes, chips, label, disabled, hideInput, handleDeleteChip } = this.props;
     const { newChipValue } = this.state;
 
     return (
@@ -63,19 +63,21 @@ class ChipInput extends React.Component {
                 />
                 ))}
           </Grid>
-          <Grid item xs={12}>
-            <TextField
-              className={classes.textField}
-              onKeyPress={this.onKeyPress}
-              value={newChipValue}
-              onChange={this.onChange}
-              label={label}
-              id="margin-none"
-              className={classes.textField}
-              helperText="Press return to add a new tag"
-              disabled={disabled}
-            />
-          </Grid>
+          {hideInput ? null : (
+            <Grid item xs={12}>
+              <TextField
+                className={classes.textField}
+                onKeyPress={this.onKeyPress}
+                value={newChipValue}
+                onChange={this.onChange}
+                label={label}
+                id="margin-none"
+                className={classes.textField}
+                helperText="Press return to add a new tag"
+                disabled={disabled}
+              />
+            </Grid>
+          )}
         </Grid>
       </div>
     );
